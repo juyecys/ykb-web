@@ -51,15 +51,26 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--解决跨域访问-->
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>cn.com.yikangbao.filter.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- Spring Session配置 指定哪些请求需要共享session -->
-    <!-- <filter>
-       <filter-name>springSessionRepositoryFilter</filter-name>
-       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-     </filter>
-     <filter-mapping>
-       <filter-name>springSessionRepositoryFilter</filter-name>
-       <url-pattern>/*</url-pattern>
-     </filter-mapping>-->
+    <!--<filter>
+      <filter-name>springSessionRepositoryFilter</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>springSessionRepositoryFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
 
     <!-- Log process filter -->
     <!--<filter>
@@ -86,62 +97,20 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>-->
 
-    <!-- Servlet Filter that binds a JPA EntityManager to the thread for the
-        entire processing of the request -->
-    <!--  <filter>
-        <filter-name>openEntityManagerFilter</filter-name>
-        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
-      </filter>
-      <filter-mapping>
-        <filter-name>openEntityManagerFilter</filter-name>
-        <url-pattern>/architecture/*</url-pattern>
-      </filter-mapping>-->
-
     <!-- Proxy for a standard Servlet Filter, delegating to a Spring-managed
         bean that implements the Filter interface（把普通的servlet filter让spring管理起来 ） -->
     <!-- SpringSecurity的权限拦截过滤器,这个必须放在所有身份认证的filter之前!!! -->
-    <!--<filter>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
-    <!-- 基于token获取用户身份的过滤器 -->
-    <!-- <filter>
-       <filter-name>tokenBasedAuthEndpointFilter</filter-name>
-       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-     </filter>
-     <filter-mapping>
-       <filter-name>tokenBasedAuthEndpointFilter</filter-name>
-       <url-pattern>/architecture/private/*</url-pattern>
-     </filter-mapping>-->
-    <!-- 基于session获取用户身份的过滤器 -->
-    <!-- <filter>
-       <filter-name>sessionBasedAuthEndpointFilter</filter-name>
-       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-     </filter>
-     <filter-mapping>
-       <filter-name>sessionBasedAuthEndpointFilter</filter-name>
-       <url-pattern>/architecture/private/*</url-pattern>
-     </filter-mapping>-->
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!-- ************************** filter 配置区域End ************************** -->
 
-    <!-- SpringMVC处理的请求 -->
-    <servlet>
-        <servlet-name>spring-mvc</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>spring-mvc</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+
     <!-- ************************** servlet 配置区域End ************************** -->
 
     <!-- druid监控 -->
@@ -202,4 +171,19 @@
         <filter-name>DruidWebStatFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!-- SpringMVC处理的请求 -->
+    <servlet>
+        <servlet-name>spring-mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring-mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>

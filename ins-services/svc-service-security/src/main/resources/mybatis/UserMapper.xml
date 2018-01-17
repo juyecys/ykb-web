@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.user.UserDAO">
+	<resultMap id="UserResultMap" type="cn.com.yikangbao.entity.user.UserDTO"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="is_active" jdbcType="BOOLEAN" property="isActive" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="expire_date" jdbcType="TIMESTAMP" property="expireDate" />
+		<result column="enabled" jdbcType="BOOLEAN" property="enabled" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+
+	</resultMap>
+
+	<insert id="create" parameterType="UserM">
+		INSERT INTO
+			ykb_user (id, name, password, is_active, type, description, expire_date, enabled, created_by, created_date, updated_date, updated_by)
+	  	VALUES
+	  		(#{id}, #{name}, #{password}, #{isActive}, #{type}, #{description}, #{expireDate}, #{enabled}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy})
+	</insert>
+
+	<update id="update" parameterType="UserM">
+		UPDATE ykb_user SET
+		id = #{id} , name = #{name}, password = #{password}, is_active = #{isActive}, type = #{type}, description = #{description}, expire_date = #{expireDate}
+		, enabled = #{enabled}, created_by = #{createdBy}, created_date = #{createdDate}, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and u.id = #{id}
+			</if>
+			<if test="name != null">
+				and u.name = #{name}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_user">
+		ykb_user u
+	</sql>
+
+	<select id="findByConditionPage" resultMap="UserResultMap">
+		SELECT
+			u.*
+		FROM
+		<include refid="from_user" />
+		<include refid="sql_where" />
+	    ORDER BY u.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="UserResultMap">
+		SELECT
+		u.*
+		FROM
+		<include refid="from_user" />
+		<include refid="sql_where" />
+	</select>
+</mapper>
+

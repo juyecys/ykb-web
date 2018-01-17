@@ -93,6 +93,7 @@
         <module>ins-admin</module>
         <module>ins-common</module>
         <module>ins-services</module>
+        <module>ins-wechat</module>
     </modules>
 
     <dependencyManagement>
@@ -116,24 +117,7 @@
                 <version>1.6.4</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>${spring.security.oauth.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.redis-embedded</groupId>
-                <artifactId>embedded-redis</artifactId>
-                <version>0.6</version>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+
             <dependency>
                 <groupId>cz.jirutka.spring</groupId>
                 <artifactId>embedmongo-spring</artifactId>
@@ -178,6 +162,8 @@
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
             </dependency>
+
+            <!-- common start-->
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
@@ -193,12 +179,8 @@
                 <artifactId>commons-pool</artifactId>
                 <version>1.6</version>
             </dependency>
-            <dependency>
-                <groupId>javax.servlet.jsp</groupId>
-                <artifactId>jsp-api</artifactId>
-                <version>2.0</version>
-                <scope>provided</scope>
-            </dependency>
+            <!-- common end -->
+
             <!-- ehcache的jar -->
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
@@ -277,6 +259,25 @@
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring.security.oauth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.redis-embedded</groupId>
+                <artifactId>embedded-redis</artifactId>
+                <version>0.6</version>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- spring sesion dependencies start-->
             <!-- 这里因为受到spring-boot-dependencies的影响 导致 spring-session、spring-data-redis等依赖
             都无法依照spring-session-data-redis的需要获得正确版本,所以显式指定版本-->
@@ -342,6 +343,17 @@
                 <artifactId>commons-codec</artifactId>
                 <version>1.10</version>
             </dependency>
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <!-- common end -->
 
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
@@ -434,12 +446,8 @@
                 <classifier>jdk15</classifier>
             </dependency>
 
-            <dependency>
-                <groupId>commons-httpclient</groupId>
-                <artifactId>commons-httpclient</artifactId>
-                <version>3.1</version>
-            </dependency>
 
+            <!-- poi start -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>
@@ -450,16 +458,14 @@
                 <artifactId>poi-excelant</artifactId>
                 <version>3.13</version>
             </dependency>
+            <!-- poi end -->
+
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
                 <version>3.1.0</version>
             </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.5</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
@@ -519,12 +525,53 @@
                 <artifactId>antlr4-runtime</artifactId>
                 <version>4.3</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>3.8.1</version>
+            </dependency>
+            <!-- alibaba -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                </exclusions>
+                <version>2.5.3</version>
+            </dependency>
+            <!-- alibaba end -->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.10</version>
+            </dependency>
 
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+            </dependency>
             <!-- project -->
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
@@ -547,6 +594,24 @@
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
                 <artifactId>svc-service-user</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-wechat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-aliyun</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

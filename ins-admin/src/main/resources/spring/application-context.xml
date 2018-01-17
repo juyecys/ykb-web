@@ -14,153 +14,79 @@
 	    http://www.springframework.org/schema/data/mongo
     http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 	    ">
-<!--	<import resource="application-context-sms.xml" />-->
-	<import resource="application-context-database.xml" />
-	<import resource="application-context-security.xml" />
-	<!--<import resource="application-context-doctor.xml" />
-	<import resource="application-context-cdn.xml" />
-	<import resource="application-context-inquiry-services.xml" />
-	<import resource="application-context-push.xml" />
-	<import resource="application-context-inbox.xml" />
-	<import resource="application-context-redis.xml" />
-	<import resource="application-context-dubbo.xml" />
-	<import resource="application-context-payment.xml" />-->
-
 	<task:annotation-driven />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-
-	<context:property-placeholder  ignore-resource-not-found="true"
-								   location="classpath:properties/*.properties" />
 
 	<context:component-scan base-package="cn.com.yikangbao">
 		<context:exclude-filter type="annotation"
 								expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-<!--	<beans>
-		<bean id="multipartResolver"
-			class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-		<bean id="org.dozer.Mapper" class="org.dozer.DozerBeanMapper" />
-		<bean class="cn.com.chengyisheng.common.util.ApplicationContextUtil"></bean>
-	</beans>-->
+
+	<import resource="application-context-database.xml" />
+	<import resource="application-context-redis.xml" />
+	<import resource="application-context-aliyun.xml" />
+	<import resource="application-context-security.xml" />
 
 
-	<!--<beans profile="prod,test,feat-dev">
-		<mongo:mongo id="mongo" replica-set="${mongodb.replica.set.servers}" />
-		<bean id="templateBase" class="java.io.File">
-			<constructor-arg value="${push.template_base}" />
-		</bean>
-		<bean id="templateEngine" class="cn.com.chengyisheng.service.template.TemplateEngine">
-			<constructor-arg ref="templateBase" />
-		</bean>
-
-	</beans>
-
-	<beans profile="prod">
-		&lt;!&ndash; context:property-placeholder location="classpath:db-connection.properties"
-			/> Not used in production. In production, use spring boot's spring.config.location 
-			to specify the externalized properties file &ndash;&gt;
-		&lt;!&ndash;微信配置默认值-生成环境 &ndash;&gt;
-		<bean id="webConstants" class="cn.com.chengyisheng.sys.constant.WebConstants">
-			<property name="SERVER_URL" value="https://m.chengyisheng.com.cn/" />
-		</bean>
-
-		<bean id="signUtilDev" class="cn.com.chengyisheng.service.wechat.util.SignUtil">
-			<property name="DOCTOR_TOKEN" value="patient_token" />
-			<property name="PATIENT_TOKEN" value="patient_token" />
-			<property name="IOT_TOKEN" value="iottoken" />
-		</bean>
-	</beans>-->
-
-	<!--<beans profile="test">
-		&lt;!&ndash; context:property-placeholder location="classpath:db-connection.properties"
-			/> Not used in production. In production, use spring boot's spring.config.location 
-			to specify the externalized properties file &ndash;&gt;
-
-		&lt;!&ndash;微信配置默认值-测试和开发相同 &ndash;&gt;
-		<bean id="webConstantsDev" class="cn.com.chengyisheng.sys.constant.WebConstants">
-			<property name="SERVER_URL" value="https://staging.chengyisheng.com.cn/" />
-		</bean>
-		<bean id="signUtilDev" class="cn.com.chengyisheng.service.wechat.util.SignUtil">
-			<property name="DOCTOR_TOKEN" value="patient_token" />
-			<property name="PATIENT_TOKEN" value="patient_token" />
-			<property name="IOT_TOKEN" value="iottoken" />
-		</bean>
-		
-        <bean id="testDb" class="org.apache.commons.dbcp.BasicDataSource">
-            <property name="driverClassName" value="${database.driverClassName}" />
-            <property name="url" value="${database.url}" />
-            <property name="username" value="${database.username}" />
-            <property name="password" value="${database.password}" />
-            <property name="maxActive" value="${database.maxActiveConnection}" />
-            <property name="minIdle" value="${database.minIdleConnection}" />
-        </bean>
-        <bean id="testTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
-            <property name="dataSource" ref="testDb"></property>  
-        </bean>  
-	</beans>-->
-
-<!--	<beans profile="feat-dev">
-		&lt;!&ndash;微信配置默认值-测试 &ndash;&gt;
-		<bean id="webConstantsTest" class="cn.com.chengyisheng.sys.constant.WebConstants">
-			<property name="SERVER_URL" value="http://wxtest.chengyisheng.com.cn/" />
-		</bean>
-		<bean id="signUtilDev" class="cn.com.chengyisheng.service.wechat.util.SignUtil">
-			<property name="DOCTOR_TOKEN" value="patient_token" />
-			<property name="PATIENT_TOKEN" value="patient_token" />
-			<property name="IOT_TOKEN" value="iottoken" />
-		</bean>
-	</beans>-->
-
-
-	<!--<beans profile="dev,ci">
-		&lt;!&ndash;微信配置默认值-开发 &ndash;&gt;
-		<bean id="webConstantsDev" class="cn.com.chengyisheng.sys.constant.WebConstants">
-			&lt;!&ndash;<property name="SERVER_URL" value="http://wxtest.chengyisheng.com.cn/"
-				/> &ndash;&gt;
-			<property name="SERVER_URL" value="http://rm.chengyisheng.com.cn/" />
-		</bean>
-		<bean id="signUtilDev" class="cn.com.chengyisheng.service.wechat.util.SignUtil">
-			<property name="DOCTOR_TOKEN" value="patient_token" />
-			<property name="PATIENT_TOKEN" value="patient_token" />
-			<property name="IOT_TOKEN" value="iottoken" />
-		</bean>
-
-		<bean id="templateEngine" class="cn.com.chengyisheng.service.template.TemplateEngine">
-			<constructor-arg value="/templates/" />
-		</bean>
-		<mongo:mongo host="${mongodb.host}" port="${mongodb.port}" />
-	</beans>
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"
-			class="cn.com.chengyisheng.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
 					<value>classpath*:common-dev.properties</value>
-					<value>classpath*:application-dev.properties</value>
+					<value>classpath*:wechat-dev.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
 			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
 			<property name="order" value="1" />
 		</bean>
 	</beans>
 
-	<beans profile="ci">
+	<beans profile="test">
 		<bean id="placeholderProperties"
-			class="cn.com.chengyisheng.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
-					<value>classpath*:common-dev.properties</value>
-					<value>classpath*:common-ci.properties</value>
-					<value>classpath*:application-dev.properties</value>
+					<value>classpath*:common-test.properties</value>
+					<value>classpath*:wechat-test.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
 			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
 			<property name="order" value="1" />
 		</bean>
-	</beans>-->
+	</beans>
+
+	<beans profile="prod">
+		<bean id="placeholderProperties"
+			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:wechat-prod.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans>
+		<bean id="wechatConfigSecret" class="cn.com.yikangbao.config.wechat.WechatConfigSecret">
+			<property name="wechatAppid" value="${wechat.yikangbao.appid}" />
+			<property name="wechatSecret" value="${wechat.yikangbao.appsecret}" />
+		</bean>
+	</beans>
+
 
 </beans:beans>

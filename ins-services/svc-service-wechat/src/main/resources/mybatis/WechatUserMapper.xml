@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.wechat.wechatuser.WechatUserDAO">
+	<resultMap id="WechatUserResultMap" type="cn.com.yikangbao.entity.wechat.wechatuser.WechatUserDTO"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="open_id" jdbcType="VARCHAR" property="openId" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="qr_code_scene" jdbcType="VARCHAR" property="qrCodeScene" />
+		<result column="channels" jdbcType="VARCHAR" property="channels" />
+	</resultMap>
+
+	<insert id="create" parameterType="WechatUserM">
+		INSERT INTO
+			ykb_wechat_user (id, name, open_id, created_by, created_date, updated_date, updated_by, qr_code_scene)
+	  	VALUES
+	  		(#{id}, #{name}, #{openId}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{qrCodeScene})
+	</insert>
+
+	<update id="update" parameterType="WechatUserM">
+		UPDATE ykb_wechat_user SET
+		name = #{name}, open_id = #{openId}, created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, qr_code_scene = #{qrCodeScene}
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where_wu">
+		<where>
+			<if test="id != null">
+				and wu.id = #{id}
+			</if>
+			<if test="name != null">
+				and wu.name = #{name}
+			</if>
+			<if test="openId != null">
+				and wu.open_id = #{openId}
+			</if>
+			<if test="qrCodeScene != null">
+				and wu.qr_code_scene = #{qrCodeScene}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_wechat_user">
+		FROM ykb_wechat_user wu
+	</sql>
+
+	<sql id="from_wechat_qr_code">
+		LEFT JOIN ykb_wechat_qr_code wqc ON wu.qr_code_scene = wqc.scene
+	</sql>
+
+	<select id="findByConditionPage" resultMap="WechatUserResultMap">
+		SELECT
+			wu.*,wqc.channels
+		<include refid="from_wechat_user" />
+		<include refid="from_wechat_qr_code" />
+		<include refid="sql_where_wu" />
+	    ORDER BY wu.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="WechatUserResultMap">
+		SELECT
+		wu.*
+		<include refid="from_wechat_user" />
+		<include refid="sql_where_wu" />
+	</select>
+</mapper>
+

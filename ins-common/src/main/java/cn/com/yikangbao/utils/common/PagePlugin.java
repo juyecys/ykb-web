@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import cn.com.yikangbao.entitys.common.Page;
+import cn.com.yikangbao.entity.common.Page;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
@@ -71,14 +71,14 @@ public class PagePlugin implements Interceptor {
 					if (parameterObject instanceof Page) { // 参数就是Page实体
 						page = (Page) parameterObject;
 						page.setTotalCount(count);
-						page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageShow()));
+						page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
 					} else if (parameterObject instanceof Map) {
 						Map paraMap = (Map) parameterObject;
 						page = (Page) paraMap.get("page");
 						if (page == null)
 							page = new Page();
 						page.setTotalCount(count);
-						page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageShow()));
+						page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
 						paraMap.put("page", page);
 					} else { // 参数为某个实体，该实体拥有Page属性
 
@@ -88,7 +88,7 @@ public class PagePlugin implements Interceptor {
 							if (page == null)
 								page = new Page();
 							page.setTotalCount(count);
-							page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageShow()));
+							page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
 							ReflectHelper.setValueByFieldName(parameterObject, "page", page); // 通过反射，对实体对象设置分页对象
 						} else {
 							throw new NoSuchFieldException(parameterObject.getClass().getName() + "不存在 page 属性！");
@@ -189,7 +189,7 @@ public class PagePlugin implements Interceptor {
 		if (page != null && dialect != null && dialect.trim().length() > 0) {
 			StringBuffer pageSql = new StringBuffer();
 			int offset = page.getStart();
-			int limit = page.getPageShow();
+			int limit = page.getPageSize();
 			if ("MySQL".equals(dialect)) {
 				pageSql.append(sql);
 				pageSql.append(" limit " + offset + "," + limit);

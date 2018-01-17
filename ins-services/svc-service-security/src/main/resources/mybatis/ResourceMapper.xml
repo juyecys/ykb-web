@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.resource.ResourceDAO">
+	<resultMap id="ResourceResultMap" type="cn.com.yikangbao.entity.resource.Resource"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="resource" jdbcType="VARCHAR" property="resource" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+	</resultMap>
+
+	<insert id="create" parameterType="ResourceM">
+		INSERT INTO
+			ykb_resource (id, name, description, type, resource, created_by, created_date, updated_date, updated_by)
+	  	VALUES
+	  		(#{id}, #{name}, #{description}, #{type}, #{resource}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy})
+	</insert>
+
+	<update id="update" parameterType="ResourceM">
+		UPDATE ykb_resource SET
+		id = #{id} , name = #{name}, description = #{description}, type = #{type}, resource = #{resource}, created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+	</update>
+
+	<sql id="resource_where">
+		<where>
+			<if test="roleId != null">
+				and re.role_id = #{roleId}
+			</if>
+
+			<if test="resourceId != null">
+				and re.resource_id = #{resourceId}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="role_where">
+		<where>
+
+			<if test="roleName != null">
+				and r.name = #{roleName}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_resource">
+		FROM ykb_resource re
+	</sql>
+
+	<sql id="from_role_resource">
+		FROM ykb_role_resource rre
+	</sql>
+
+	<select id="findResourceByRoleName" resultMap="ResourceResultMap">
+		SELECT
+			re.*
+		<include refid="from_role_resource" />
+		LEFT JOIN ykb_resource re ON rre.resource_id = re.id
+		LEFT JOIN ykb_role r ON rre.role_id = r.id
+		<!--<include refid="resource_where" />-->
+		<include refid="role_where" />
+	</select>
+
+</mapper>
+

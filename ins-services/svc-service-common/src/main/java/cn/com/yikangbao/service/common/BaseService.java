@@ -1,23 +1,25 @@
 package cn.com.yikangbao.service.common;
 
-import java.io.Serializable;
+import cn.com.yikangbao.entity.common.Base;
+import cn.com.yikangbao.entity.common.Page;
+
+import java.util.List;
+
 
 /**
  * Created by Administrator on 2018/1/17.
  */
-public interface BaseService<T, ID extends Serializable> {
-    public T create(T entity);
+public interface BaseService<M extends Base,QM extends M> {
+    M create(M entity);
 
-    public T update(T entity);
+    M update(M entity);
 
-    public T findById(ID id);
+    void deleteById(String id);
 
-    public void deleteById(ID id);
+    List<QM> findAll();
 
-    public Iterable<T> findAll();
+    Page<QM> getByConditionPage(QM qm);
 
-    public long count();
-
-    public boolean isExistsById(ID id);
+    QM findOneByCondition(QM qm);
 }
 

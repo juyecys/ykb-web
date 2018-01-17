@@ -1,0 +1,57 @@
+package cn.com.yikangbao.service.common.impl;
+
+import cn.com.yikangbao.dao.common.BaseDAO;
+import cn.com.yikangbao.entity.common.Base;
+import cn.com.yikangbao.entity.common.Page;
+import cn.com.yikangbao.service.common.BaseService;
+
+import java.util.List;
+import java.util.UUID;
+
+public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseService<M, QM> {
+    private BaseDAO dao = null;
+
+    public void setDAO(BaseDAO dao){
+        this.dao = dao;
+    }
+
+    @Override
+    public M create(M entity) {
+        entity.setId(UUID.randomUUID().toString());
+        dao.create(entity);
+        return entity;
+    }
+
+    @Override
+    public M update(M entity) {
+        dao.update(entity);
+        return entity;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        dao.deleteById(id);
+    }
+
+    @Override
+    public List<QM> findAll() {
+        return dao.findAll();
+    }
+
+    @Override
+    public Page<QM> getByConditionPage(QM qm) {
+        List<QM> list = dao.findByConditionPage(qm);
+        if (!list.isEmpty()) {
+            for (QM one: list) {
+                one.setPage(null);
+            }
+        }
+        qm.getPage().setResult(list);
+        return qm.getPage();
+    }
+
+    @Override
+    public QM findOneByCondition(QM qm) {
+        return (QM) dao.findOneByCondition(qm);
+    }
+}

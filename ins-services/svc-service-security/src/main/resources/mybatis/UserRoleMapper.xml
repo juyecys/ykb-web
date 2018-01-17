@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.userrole.UserRoleDAO">
+	<resultMap id="UserRoleResultMap" type="cn.com.yikangbao.entity.userrole.UserRoleDTO"
+		autoMapping="true">
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
+		<result column="role_is_active" jdbcType="BOOLEAN" property="roleIsActive" />
+		<result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+
+	</resultMap>
+
+	<sql id="select_role">
+		r.id role_id, r.name role_name, r.description role_description, r.is_active role_is_active, r.code role_code
+	</sql>
+
+	<sql id="select_user">
+		u.id user_id, u.name user_name
+	</sql>
+
+	<sql id="sql_where">
+		<where>
+			<if test="roleId != null">
+				and r.id = #{roleId}
+			</if>
+
+			<if test="userId != null">
+				and u.id = #{userId}
+			</if>
+			<if test="userName != null">
+				and u.name = #{userName}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_role">
+		FROM ykb_role r
+	</sql>
+
+	<sql id="from_user_role">
+		FROM ykb_user_role ur
+	</sql>
+
+	<sql id="from_user">
+		FROM ykb_user u
+	</sql>
+
+	<insert id="create" parameterType="UserRoleM">
+		INSERT INTO
+			ykb_user_role (user_id, role_id)
+	  	VALUES
+	  		(#{userId}, #{roleId})
+	</insert>
+
+	<select id="findByCondition" parameterType="UserRoleQM" resultMap="UserRoleResultMap">
+		SELECT
+		<include refid="select_role" />
+		,
+		<include refid="select_user"/>
+		<include refid="from_user" />
+		LEFT JOIN ykb_user_role ur ON u.id = ur.user_id
+		LEFT JOIN ykb_role r ON  r.id = ur.role_id
+		<include refid="sql_where" />
+	</select>
+
+</mapper>
+

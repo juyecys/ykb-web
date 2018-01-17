@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.wechat.qrcode.LocalWechatQRCodeDAO">
+	<resultMap id="WechaQRCodeResultMap" type="cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="channels" jdbcType="VARCHAR" property="channels" />
+		<result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
+		<result column="scene" jdbcType="VARCHAR" property="scene" />
+		<result column="scan_time" jdbcType="VARCHAR" property="scanTime" />
+	</resultMap>
+
+	<insert id="create" parameterType="LocalWechatQRCodeM">
+		INSERT INTO
+			ykb_wechat_qr_code (id, created_by, created_date, updated_date, updated_by,
+			channels, qr_code_url, scene, scan_time)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime})
+	</insert>
+
+	<update id="update" parameterType="LocalWechatQRCodeM">
+		UPDATE ykb_wechat_qr_code SET
+		created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, channels = #{channels}
+		, qr_code_url = #{qrCodeUrl}, scene = #{scene}, scan_time = #{scanTime}
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wqc.id = #{id}
+			</if>
+			<if test="scene != null">
+				and wqc.scene = #{scene}
+			</if>
+			<if test="channels != null">
+				and wqc.channels = #{channels}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_wechat_qr_code">
+		ykb_wechat_qr_code wqc
+	</sql>
+
+	<select id="findByConditionPage" resultMap="WechaQRCodeResultMap">
+		SELECT
+		wqc.*
+		FROM
+		<include refid="from_wechat_qr_code" />
+		<include refid="sql_where" />
+	    ORDER BY wqc.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="WechaQRCodeResultMap">
+		SELECT
+		wqc.*
+		FROM
+		<include refid="from_wechat_qr_code" />
+		<include refid="sql_where" />
+	</select>
+</mapper>
+

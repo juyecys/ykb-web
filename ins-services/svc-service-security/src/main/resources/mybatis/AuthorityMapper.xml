@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.authority.AuthorityDAO">
+	<resultMap id="AuthorityResultMap" type="cn.com.yikangbao.entity.authority.Authority"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
+		<result column="resource_id" jdbcType="VARCHAR" property="resourceId" />
+		<result column="is_parent_menu" jdbcType="VARCHAR" property="isParentMenu" />
+		<result column="menu_code" jdbcType="BOOLEAN" property="menuCode" />
+		<result column="parent_menu_code" jdbcType="VARCHAR" property="parentMenuCode" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+	</resultMap>
+
+	<sql id="select_role">
+		r.id role_id, r.name role_name, r.description role_description, r.is_active role_is_active, r.code role_code
+	</sql>
+
+	<sql id="select_user">
+		u.id user_id, u.name user_name
+	</sql>
+
+	<sql id="sql_where">
+		<where>
+			<if test="roleId != null">
+				and r.id = #{roleId}
+			</if>
+
+			<if test="userId != null">
+				and u.id = #{userId}
+			</if>
+			<if test="userName != null">
+				and u.name = #{userName}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_role">
+		FROM ykb_role r
+	</sql>
+
+	<sql id="from_user_role">
+		FROM ykb_user_role ur
+	</sql>
+
+	<sql id="from_user">
+		FROM ykb_user u
+	</sql>
+
+	<insert id="create" parameterType="AuthorityM">
+		INSERT INTO
+			ykb_user_role (user_id, role_id)
+	  	VALUES
+	  		(#{userId}, #{roleId})
+	</insert>
+
+	<select id="findByCondition" parameterType="AuthorityM" resultMap="AuthorityResultMap">
+		SELECT
+		<include refid="select_role" />
+		,
+		<include refid="select_user"/>
+		<include refid="from_user" />
+		LEFT JOIN ykb_user_role ur ON u.id = ur.user_id
+		LEFT JOIN ykb_role r ON  r.id = ur.role_id
+		<include refid="sql_where" />
+	</select>
+
+</mapper>
+

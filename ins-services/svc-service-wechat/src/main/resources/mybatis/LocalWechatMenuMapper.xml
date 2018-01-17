@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.wechat.localwechatmenu.LocalWechatMenuDAO">
+	<resultMap id="LocalWechaMenuResultMap" type="cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="level" jdbcType="BIGINT" property="level" />
+		<result column="sequence" jdbcType="BIGINT" property="sequence" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+		<result column="key" jdbcType="VARCHAR" property="key" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+	</resultMap>
+
+	<insert id="create" parameterType="LocalWechatMenuM">
+		INSERT INTO
+			ykb_wechat_menu (id, name, created_by, created_date, updated_date, updated_by, type, level, sequence, title, content, img_url, parent_id, key, url, parent_name)
+	  	VALUES
+	  		(#{id}, #{name}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{type}, #{level}, #{sequence}, #{title}, #{content}, #{imgUrl}, #{parentId}, #{key}, #{url}, #{parentName})
+	</insert>
+
+	<update id="update" parameterType="LocalWechatMenuM">
+		UPDATE ykb_wechat_menu SET
+		name = #{name}, created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, type = #{type}, level = #{level}, sequence = #{sequence}, title = #{title}, content = #{content}
+		, img_url = #{imgUrl}, parent_id = #{parentId}, key = #{key}, url = #{url},parent_name = #{parentName}
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wm.id = #{id}
+			</if>
+			<if test="name != null">
+				and wm.name = #{name}
+			</if>
+			<if test="parentId != null">
+				and wm.parent_id = #{parentId}
+			</if>
+			<if test="level != null">
+				and wm.level = #{level}
+			</if>
+			<if test="key != null">
+				and wm.key = #{key}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_wechat_menu">
+		ykb_wechat_menu wm
+	</sql>
+
+	<select id="findByConditionPage" resultMap="LocalWechaMenuResultMap">
+		SELECT
+		wm.*
+		FROM
+		<include refid="from_wechat_menu" />
+		<include refid="sql_where" />
+	    ORDER BY wm.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="LocalWechaMenuResultMap">
+		SELECT
+		wm.*
+		FROM
+		<include refid="from_wechat_menu" />
+		<include refid="sql_where" />
+	</select>
+
+	<select id="findByCondition" resultMap="LocalWechaMenuResultMap">
+		SELECT
+		wm.*
+		FROM
+		<include refid="from_wechat_menu" />
+		<include refid="sql_where" />
+		ORDER BY wm.sequence
+	</select>
+</mapper>
+

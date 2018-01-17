@@ -14,10 +14,13 @@
     <modules>
         <module>svc-service-user</module>
         <module>svc-service-common</module>
+        <module>svc-service-security</module>
+        <module>svc-service-wechat</module>
+        <module>svc-service-aliyun</module>
     </modules>
 
-    <dependencies>
-        <!-- jackson start -->
+    <!--<dependencies>
+        &lt;!&ndash; jackson start &ndash;&gt;
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -34,6 +37,6 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
-        <!-- jackson end -->
-    </dependencies>
+        &lt;!&ndash; jackson end &ndash;&gt;
+    </dependencies>-->
 </project>

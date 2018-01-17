@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.role.RoleDAO">
+	<resultMap id="RoleResultMap" type="cn.com.yikangbao.entity.role.Role"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="is_active" jdbcType="BOOLEAN" property="isActive" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+	</resultMap>
+
+	<insert id="create" parameterType="RoleM">
+		INSERT INTO
+			ykb_role (id, name, description, is_active, code, created_by, created_date, updated_date, updated_by)
+	  	VALUES
+	  		(#{id}, #{name}, #{description}, #{isActive}, #{code}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy})
+	</insert>
+
+	<update id="update" parameterType="RoleM">
+		UPDATE ykb_role SET
+		id = #{id} , name = #{name}, description = #{description}, is_active = #{isActive}, code = #{code}, created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+	</update>
+
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and r.id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_role">
+		FROM ykb_role r
+	</sql>
+
+	<select id="findResourceByRoleName" resultMap="RoleResultMap">
+		SELECT
+			r.*
+		<include refid="from_role" />
+		<include refid="sql_where" />
+	</select>
+
+	<select id="findAll" resultMap="RoleResultMap">
+		SELECT  *
+		<include refid="from_role" />
+	</select>
+</mapper>
+

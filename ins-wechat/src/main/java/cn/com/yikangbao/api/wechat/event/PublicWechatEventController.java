@@ -1,0 +1,81 @@
+package cn.com.yikangbao.api.wechat.event;
+
+import cn.com.yikangbao.service.wechat.event.WechatEventService;
+import cn.com.yikangbao.untils.common.Dom4jUtils;
+import cn.com.yikangbao.untils.wechat.WechatSignUtil;
+import org.dom4j.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+
+
+@RestController
+@RequestMapping(value = { "/ykb/wechat/public/event" }, produces = "application/json")
+public class PublicWechatEventController {
+
+    /*@Autowired
+    private WechatAccessTokenService wechatAccessTokenService;*/
+
+    @Autowired
+    private WechatEventService wechatEventService;
+
+    private static Logger logger = LoggerFactory.getLogger(PublicWechatEventController.class);
+
+    @RequestMapping(value = "/", method = RequestMethod.POST,  produces = "application/xml")
+    public ResponseEntity<String> receiveMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        // 接收参数微信加密签名、 时间戳、随机数
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+
+        InputStream inputStream = request.getInputStream();
+
+        try {
+            HashMap<String, String> data = Dom4jUtils.readXml(inputStream);
+            wechatEventService.processEvent(data);
+        } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            logger.error("read xml error: {}", e);
+        } catch (Exception e) {
+            logger.error("read xml error: {}", e);
+        }
+        return new ResponseEntity<String>("", HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/", method = RequestMethod.GET,  produces = "application/json")
+    public void receive(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 微信加密签名
+        String signature = request.getParameter("signature");
+        // 时间戳
+        String timestamp = request.getParameter("timestamp");
+        // 随机数
+        String nonce = request.getParameter("nonce");
+        // 随机字符串
+        String echostr = request.getParameter("echostr");
+
+        PrintWriter out = response.getWriter();
+        // 请求校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
+        if (WechatSignUtil.checkUserMessageSignature(signature, timestamp, nonce)) {
+            out.print(echostr);
+        }
+        out.close();
+        out = null;
+    }
+}

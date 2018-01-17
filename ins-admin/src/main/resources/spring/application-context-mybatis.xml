@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-	<beans profile="dev">
+	<beans>
 		<!-- myBatis文件 -->
 		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 			<property name="dataSource" ref="dataSource" />
@@ -12,9 +12,9 @@
 		</bean>
 	</beans>
 
-	<!-- Jenkins CI是使用dev profile，但也是使用SpringBoot uber Jar，所以必须用SpringBootVFS，所以要把ci 
+	<!-- Jenkins CI是使用dev profile，但也是使用SpringBoot uber Jar，所以必须用SpringBootVFS，所以要把ci
 		profile加上， 那么只能把这个bean声明放后面，在同时有ci和dev时覆盖dev的bean -->
-	<!--<beans profile="!dev,ci">
+	<!--<beans>
 		&lt;!&ndash; myBatis文件 &ndash;&gt;
 		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 			<property name="dataSource" ref="dataSource" />
@@ -37,4 +37,6 @@
 			<property name="annotationClass" value="org.springframework.stereotype.Component"/>
 		</bean>
 	</beans>
+
+
 </beans>
