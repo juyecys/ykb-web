@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.authority.UserDao">
+	<resultMap id="UserResultMap" type="cn.com.yikangbao.entitys.authority.User"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="gender" jdbcType="VARCHAR" property="gender" />
+		<result column="age" jdbcType="BIGINT" property="age" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+	</resultMap>
+
+	<insert id="create" parameterType="cn.com.yikangbao.entitys.authority.User">
+		INSERT INTO
+			ykb_user (id, name, gender, age, created_by, created_date, updated_date, updated_by)
+	  	VALUES
+	  		(#{id}, #{name}, #{gender}, #{age}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy})
+	</insert>
+
+	<insert id="update" parameterType="cn.com.yikangbao.entitys.authority.User">
+		UPDATE ykb_user SET
+		id = #{id} , name = #{name}, gender = #{gender}, age = #{age}, created_by = #{createdBy}, created_date = #{createdDate}
+		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+	</insert>
+
+	<select id="findByConditionPage" resultMap="UserResultMap">
+		SELECT
+			u.*
+		FROM
+			ykb_user u
+		<where>
+		  	<if test="id != null">
+				and u.id = #{id}
+			</if>
+			<if test="name != null">
+				and name like '%${name}%'
+			</if>
+			<if test="gender != null">
+				and gender = #{gender}
+			</if>
+	    </where>
+	    ORDER BY u.created_date DESC
+	</select>
+
+</mapper>
+
