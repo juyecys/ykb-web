@@ -26,8 +26,6 @@ import java.util.HashMap;
 @RequestMapping(value = { "/ykb/wechat/public/event" }, produces = "application/json")
 public class PublicWechatEventController {
 
-    /*@Autowired
-    private WechatAccessTokenService wechatAccessTokenService;*/
 
     @Autowired
     private WechatEventService wechatEventService;

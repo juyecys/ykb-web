@@ -1,6 +1,5 @@
 package cn.com.yikangbao.api.wechat.message;
 
-import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.untils.common.Dom4jUtils;
 import org.dom4j.DocumentException;
@@ -23,9 +22,6 @@ import java.util.HashMap;
 @RestController
 @RequestMapping(value = { "/ykb/wechat/public/message" }, produces = "application/json")
 public class PublicWechatMessageController {
-
-    @Autowired
-    private WechatAccessTokenService wechatAccessTokenService;
 
     @Autowired
     private WechatEventService wechatEventService;

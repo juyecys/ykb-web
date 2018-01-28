@@ -34,7 +34,7 @@
 		</bean>
 
 		<bean id="placeholderProperties"
-			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
 					<value>classpath*:common-dev.properties</value>
@@ -55,7 +55,7 @@
 		</bean>
 
 		<bean id="placeholderProperties"
-			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
 					<value>classpath*:common-test.properties</value>
@@ -76,7 +76,7 @@
 		</bean>
 
 		<bean id="placeholderProperties"
-			  class="cn.com.yikangbao.config.common.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
 					<value>classpath*:common-prod.properties</value>

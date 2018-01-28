@@ -8,14 +8,14 @@ import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
-import cn.com.yikangbao.entity.wechat.wechatuser.WechatUserDTO;
+import cn.com.yikangbao.entity.wechatuser.WechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
-import cn.com.yikangbao.service.wechat.user.WechatUserService;
+import cn.com.yikangbao.service.wechatuser.WechatUserService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
 import cn.com.yikangbao.untils.wechat.WechatQRCodeUtils;
 import org.slf4j.Logger;
@@ -118,13 +118,14 @@ public class PrivateWechatController {
         for (LocalWechatQRCode one: page.getResult()) {
             one.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(one.getQrCodeUrl()));
         }
+        logger.info("qrcode : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/qrcode/user", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getWechatQrCode(WechatUserDTO wechatUserDTO) {
         Page<WechatUserDTO> page = wechatUserService.getByConditionPage(wechatUserDTO);
-
+        logger.info("qrcode user : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 }
