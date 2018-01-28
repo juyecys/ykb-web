@@ -5,7 +5,7 @@ import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatReponseCodeEmnu;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
-import cn.com.yikangbao.entity.wechat.menu.*;
+import cn.com.yikangbao.entity.wechat.menu.WechatMenu;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
@@ -37,11 +37,11 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 		String url = WechatConfigParams.WECHAT_CREATE_MENU_URL.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 
 		String wechatMenuJson = mapper.writeValueAsString(wechatMenu);
-		logger.debug("wechatMenuJson:{}",wechatMenuJson);
+		logger.info("send create menu request to wechat :{}",wechatMenuJson);
 		Response response = OkHttpUtils.postString().content(wechatMenuJson).url(url).build().execute();
 		WechatCommonResult result = mapper.readValue(response.body().string(),WechatCommonResult.class);
 		if (WechatReponseCodeEmnu.OK.getMsg().equals(result.getErrmsg())) {
-			logger.debug("create wechat menu success,code:{},msg:{}", result.getErrcode(), result.getErrmsg());
+			logger.info("create wechat menu success,code:{},msg:{}", result.getErrcode(), result.getErrmsg());
 			return true;
 		} else {
 			logger.error("create wechat menu falid,errorcode:{},errormsg:{}", result.getErrcode(), result.getErrmsg());
@@ -55,7 +55,7 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 		String url = WechatConfigParams.WECHAT_GET_MENU_URL.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 		Response response = OkHttpUtils.get().url(url).build().execute();
 		String result = response.body().string();
-		logger.debug("get wechat menu result:{}",result);
+		logger.info("get wechat menu result:{}",result);
 		return result;
 	}
 
@@ -66,7 +66,7 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 		Response response = OkHttpUtils.get().url(url).build().execute();
 		WechatCommonResult result = mapper.readValue(response.body().string(),WechatCommonResult.class);
 		if (WechatReponseCodeEmnu.OK.getCode().equals(result.getErrcode())) {
-			logger.debug("delete wechat menu success:{}",result);
+			logger.info("delete wechat menu success:{}",result);
 		} else {
 			logger.error("delete wechat menu faild,errcode:{},errmsg:{}",result.getErrcode(),result.getErrmsg());
 		}
@@ -88,8 +88,8 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 			return null;
 		}
 
-
-		WechatButton[] buttons = new WechatButton[wechatParentMenuList.size()];
+		WechatMenu wechatMenu = new WechatMenu();
+		WechatMenu.WechatButton[] buttons = new WechatMenu.WechatButton[wechatParentMenuList.size()];
 		for (int i = 0; i < wechatParentMenuList.size(); i++) {
 			LocalWechatMenu menu = wechatParentMenuList.get(i);
 			if (isViewButton(menu.getType())) {
@@ -100,7 +100,7 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 				search.setLevel(2);
 				search.setParentId(menu.getId());
 				List<LocalWechatMenu> subMenuList = localWechatMenuService.findByCondition(search);
-				WechatButton[] subButtons = new WechatButton[subMenuList.size()];
+				WechatMenu.WechatButton[] subButtons = new WechatMenu.WechatButton[subMenuList.size()];
 				for (int j = 0; j < subMenuList.size(); j++) {
 
 					LocalWechatMenu subMenu = subMenuList.get(j);
@@ -110,27 +110,27 @@ public class WechatMenuServiceImpl implements WechatMenuService {
 						subButtons[j] = getClickButton(subMenu);
 					}
 				}
-				WechatParentButton parentButton = new WechatParentButton();
+				WechatMenu.WechatButton parentButton = wechatMenu.new WechatButton();
 				parentButton.setName(menu.getName());
-				parentButton.setSub_button(subButtons);
+				parentButton.setSubButton(subButtons);
 				buttons[i] = parentButton;
 			}
 		}
-		WechatMenu wechatMenu = new WechatMenu();
+
 		wechatMenu.setButton(buttons);
 		return wechatMenu;
 	}
 
 
-	private WechatViewButton getViewButton(LocalWechatMenu menu){
-		WechatViewButton viewButton = new WechatViewButton();
+	private WechatMenu.WechatViewButton getViewButton(LocalWechatMenu menu){
+		WechatMenu.WechatViewButton viewButton = new WechatMenu().new WechatViewButton();
 		viewButton.setType("view");
 		viewButton.setUrl(menu.getUrl());
 		viewButton.setName(menu.getName());
 		return viewButton;
 	}
-	private WechatClickButton getClickButton(LocalWechatMenu menu) {
-		WechatClickButton clickButton = new WechatClickButton();
+	private WechatMenu.WechatClickButton getClickButton(LocalWechatMenu menu) {
+		WechatMenu.WechatClickButton clickButton = new WechatMenu().new WechatClickButton();
 		clickButton.setKey(menu.getKey());
 		clickButton.setType("click");
 		clickButton.setName(menu.getName());
