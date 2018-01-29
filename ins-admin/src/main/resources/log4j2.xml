@@ -17,7 +17,7 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
         </File>
         <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="RollingFileDebug" fileName="${sys:user.home}/logs/admin/admin-debug-%d{yyyy-MM-dd}.log"
+        <RollingFile name="RollingFileDebug" fileName="/data/jlog/ykb/admin/admin-debug-%d{yyyy-MM-dd}.log"
                      filePattern="/data/jlog/ykb/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -27,7 +27,7 @@
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
         </RollingFile>
-        <RollingFile name="RollingFileWarn" fileName="${sys:user.home}/logs/admin/admin-warn-%d{yyyy-MM-dd}.log"
+        <RollingFile name="RollingFileWarn" fileName="/data/jlog/ykb/admin/admin-warn-%d{yyyy-MM-dd}.log"
                      filePattern="/data/jlog/ykb/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
             <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
@@ -38,7 +38,7 @@
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
-        <RollingFile name="RollingFileError" fileName="${sys:user.home}/logs/admin/admin-error-%d{yyyy-MM-dd}.log"
+        <RollingFile name="RollingFileError" fileName="/data/jlog/ykb/admin/admin-error-%d{yyyy-MM-dd}.log"
                      filePattern="/data/jlog/ykb/admin/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
