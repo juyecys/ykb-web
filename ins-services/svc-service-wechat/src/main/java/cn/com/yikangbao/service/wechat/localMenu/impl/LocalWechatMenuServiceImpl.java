@@ -24,4 +24,29 @@ public class LocalWechatMenuServiceImpl extends BaseServiceImpl<LocalWechatMenu,
     public List<LocalWechatMenu> findByCondition(LocalWechatMenu localWechatMenu) {
         return dao.findByCondition(localWechatMenu);
     }
+
+    @Override
+    public LocalWechatMenu createOrUpdate(LocalWechatMenu menu) throws Exception {
+        LocalWechatMenu check = new LocalWechatMenu();
+        check.setKey(menu.getKey());
+        if (menu.getId() == null && isExistKey(menu)) {
+            throw new Exception("微信菜单key不能重复");
+        }
+        if (menu.getId() == null && !isExistKey(menu)) {
+            menu = create(menu);
+        } else if (menu.getId() != null){
+            menu = update(menu);
+        }
+        return menu;
+    }
+
+    private Boolean isExistKey(LocalWechatMenu menu) {
+        LocalWechatMenu search = new LocalWechatMenu();
+        search.setKey(menu.getKey());
+        search = findOneByCondition(search);
+        if (search == null) {
+            return true;
+        }
+        return false;
+    }
 }

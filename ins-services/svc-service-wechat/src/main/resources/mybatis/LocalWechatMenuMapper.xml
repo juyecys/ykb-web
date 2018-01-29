@@ -31,10 +31,13 @@
 
 	<update id="update" parameterType="LocalWechatMenuM">
 		UPDATE ykb_wechat_menu SET
-		name = #{name}, created_by = #{createdBy}, created_date = #{createdDate}
-		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, type = #{type}, level = #{level}, sequence = #{sequence}, title = #{title}, content = #{content}
+		name = #{name}, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, type = #{type}, level = #{level}, sequence = #{sequence}, title = #{title}, content = #{content}
 		, img_url = #{imgUrl}, parent_id = #{parentId}, key = #{key}, url = #{url},parent_name = #{parentName}
 		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="LocalWechatMenuM">
+		DELETE FROM ykb_wechat_menu WHERE id = #{id}
 	</update>
 
 	<sql id="sql_where">
@@ -76,6 +79,7 @@
 		FROM
 		<include refid="from_wechat_menu" />
 		<include refid="sql_where" />
+		LIMIT 1
 	</select>
 
 	<select id="findByCondition" resultMap="LocalWechaMenuResultMap">

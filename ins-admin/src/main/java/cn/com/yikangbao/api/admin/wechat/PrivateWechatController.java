@@ -57,7 +57,11 @@ public class PrivateWechatController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createWechatMenu(@RequestBody LocalWechatMenu menu) {
-        menu = localWechatMenuService.create(menu);
+        try {
+            localWechatMenuService.createOrUpdate(menu);
+        } catch (Exception e) {
+            return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_INVALID_PARAMETER, "微信菜单KEY不能重复"), HttpStatus.OK);
+        }
         return new ResponseEntity<>(ApiResult.success(menu), HttpStatus.OK);
     }
 
@@ -65,6 +69,16 @@ public class PrivateWechatController {
     public ResponseEntity<ApiResult> getWechatMenu(LocalWechatMenu menu) {
         Page page = localWechatMenuService.getByConditionPage(menu);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/menu/delete", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> deleteWechatMenu(@RequestBody LocalWechatMenu menu) {
+        if (menu.getId() == null) {
+            return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_INVALID_PARAMETER), HttpStatus.OK);
+        } else {
+            localWechatMenuService.deleteById(menu.getId());
+        }
+        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/menu/generate", method = RequestMethod.GET)
