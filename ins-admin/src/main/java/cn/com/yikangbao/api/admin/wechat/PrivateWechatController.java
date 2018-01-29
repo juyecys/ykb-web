@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping(value = { "/ykb/mg/public/wechat" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
 public class PrivateWechatController {
 
     @Autowired

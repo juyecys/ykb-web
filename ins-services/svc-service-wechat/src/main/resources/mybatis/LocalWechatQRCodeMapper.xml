@@ -13,22 +13,22 @@
 		<result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
 		<result column="scene" jdbcType="VARCHAR" property="scene" />
 		<result column="scan_time" jdbcType="VARCHAR" property="scanTime" />
+		<result column="ticket" jdbcType="VARCHAR" property="ticket" />
 	</resultMap>
 
 	<insert id="create" parameterType="LocalWechatQRCodeM">
 		INSERT INTO
 			ykb_wechat_qr_code (id, created_by, created_date, updated_date, updated_by,
-			channels, qr_code_url, scene, scan_time)
+			channels, qr_code_url, scene, scan_time, ticket)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime})
+	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime}, #{ticket})
 	</insert>
 
 	<update id="update" parameterType="LocalWechatQRCodeM">
 		UPDATE ykb_wechat_qr_code SET
-		created_by = #{createdBy}, created_date = #{createdDate}
-		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, channels = #{channels}
-		, qr_code_url = #{qrCodeUrl}, scene = #{scene}, scan_time = #{scanTime}
+		updated_date = #{updatedDate}, updated_by =  #{updatedBy}, channels = #{channels}
+		, scan_time = #{scanTime}
 		WHERE id = #{id}
 	</update>
 

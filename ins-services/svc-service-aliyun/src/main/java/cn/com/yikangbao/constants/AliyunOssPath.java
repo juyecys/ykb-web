@@ -21,7 +21,7 @@ public class AliyunOssPath {
 	public static final String TEMP_FILEPATH = "ykb_tmp_dir/";
 
 	/** 推广二维码保存路径 **/
-	public static final String CHANNEL_QRCODE_FILEPATH = "ykb_channel_qrcode/";
+	public static final String CHANNEL_QRCODE_FILEPATH = "wechat/channel_qrcode/";
 
 
 	public static void setPROFILE(String[] profile) {
