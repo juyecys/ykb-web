@@ -14,16 +14,11 @@
 		<intercept-url pattern="/ykb/mg/private/resource/**" access="permitAll()" />
 		<!-- 保证对/rest/ 后台接口的调用必须是已经验证的 -->
 		<intercept-url pattern="/ykb/mg/private/**" access="isAuthenticated()" />
-	</http>
 
-	<http auto-config="true">
-		<!--<form-login login-page="/login.html"
-					authentication-failure-url="/login.html?error=true"
-					default-target-url="/index.html" always-use-default-target="true" />
-		<logout logout-success-url="/login.html" />-->
 		<remember-me remember-me-parameter="rememberMe" />
 		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 	</http>
+
 
 	<b:bean id="restApiAuthEntryPoint" class="cn.com.yikangbao.interceptor.authority.RestApiAuthEntryPoint"/>
 	<b:bean id="restApiAuthSuccessHandler" class="cn.com.yikangbao.interceptor.authority.RestAuthenticationSucessHandler"/>

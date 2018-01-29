@@ -1,4 +1,4 @@
-package cn.com.yikangbao.entity.wechat.wechatuser;
+package cn.com.yikangbao.entity.wechatuser;
 
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

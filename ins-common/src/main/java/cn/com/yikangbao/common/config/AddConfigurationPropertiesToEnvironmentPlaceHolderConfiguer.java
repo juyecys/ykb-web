@@ -1,4 +1,4 @@
-package cn.com.yikangbao.config.common;
+package cn.com.yikangbao.common.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

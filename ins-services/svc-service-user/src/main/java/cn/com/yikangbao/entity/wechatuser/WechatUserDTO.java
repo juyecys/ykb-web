@@ -1,6 +1,5 @@
-package cn.com.yikangbao.entity.wechat.wechatuser;
+package cn.com.yikangbao.entity.wechatuser;
 
-import cn.com.yikangbao.entity.common.Page;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.ibatis.type.Alias;

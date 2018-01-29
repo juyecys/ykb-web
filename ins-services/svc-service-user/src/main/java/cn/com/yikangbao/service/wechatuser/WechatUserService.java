@@ -1,8 +1,8 @@
-package cn.com.yikangbao.service.wechat.user;
+package cn.com.yikangbao.service.wechatuser;
 
 
-import cn.com.yikangbao.entity.wechat.wechatuser.WechatUser;
-import cn.com.yikangbao.entity.wechat.wechatuser.WechatUserDTO;
+import cn.com.yikangbao.entity.wechatuser.WechatUser;
+import cn.com.yikangbao.entity.wechatuser.WechatUserDTO;
 import cn.com.yikangbao.service.common.BaseService;
 
 /**

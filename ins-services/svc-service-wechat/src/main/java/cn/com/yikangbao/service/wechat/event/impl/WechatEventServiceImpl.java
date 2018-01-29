@@ -6,16 +6,15 @@ import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
-import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
-import cn.com.yikangbao.entity.wechat.wechatuser.WechatUser;
-import cn.com.yikangbao.entity.wechat.wechatuser.WechatUserDTO;
+import cn.com.yikangbao.entity.wechatuser.WechatUser;
+import cn.com.yikangbao.entity.wechatuser.WechatUserDTO;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
-import cn.com.yikangbao.service.wechat.user.WechatUserService;
+import cn.com.yikangbao.service.wechatuser.WechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import org.slf4j.Logger;
@@ -23,8 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.rmi.server.UID;
 import java.util.HashMap;
 
 /**

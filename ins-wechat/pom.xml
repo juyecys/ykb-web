@@ -22,15 +22,12 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-wechat</artifactId>
         </dependency>
+
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-aliyun</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <finalName>ins-wechat</finalName>
