@@ -95,13 +95,14 @@ public class PrivateWechatController {
             if (!savePath.endsWith("/")) {
                 savePath += "/";
             }
-            savePath = savePath + localQrCode.getChannels() + "_" + localQrCode.getScene() + ".jpg";
+            savePath = savePath + localQrCode.getScene() + "_" + System.currentTimeMillis() + ".jpg";
             aliyunContentStorageService.store(savePath, inputStream, "image/jpg");
 
             localQrCode.setTicket(result.getTicket());
             localQrCode.setQrCodeUrl(savePath);
             localQrCode.setScanTime(0);
             localQrCode = localWechatQRCodeService.create(localQrCode);
+            localQrCode.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(localQrCode.getQrCodeUrl()));
         } catch (IOException e) {
             logger.error("transform wechatQrCode:{} to json faild: {}", wechatQRCode, e);
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
