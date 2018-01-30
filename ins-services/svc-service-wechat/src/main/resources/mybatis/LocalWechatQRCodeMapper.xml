@@ -27,8 +27,20 @@
 
 	<update id="update" parameterType="LocalWechatQRCodeM">
 		UPDATE ykb_wechat_qr_code SET
-		updated_date = #{updatedDate}, updated_by =  #{updatedBy}, channels = #{channels}
-		, scan_time = #{scanTime}
+		<set>
+			<if test="channels != null">
+				channels = #{channels},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="scanTime != null">
+				scan_time = #{scanTime}
+			</if>
+		</set>
 		WHERE id = #{id}
 	</update>
 
