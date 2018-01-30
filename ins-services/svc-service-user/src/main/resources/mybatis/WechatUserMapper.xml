@@ -23,9 +23,21 @@
 	</insert>
 
 	<update id="update" parameterType="WechatUserM">
-		UPDATE ykb_wechat_user SET
-		name = #{name}, open_id = #{openId}, created_by = #{createdBy}, created_date = #{createdDate}
-		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, qr_code_scene = #{qrCodeScene}
+		UPDATE ykb_wechat_user
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="qrCodeScene != null">
+				qr_code_scene = #{qrCodeScene}
+			</if>
+		</set>
 		WHERE id = #{id}
 	</update>
 
