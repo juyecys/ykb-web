@@ -47,6 +47,7 @@ public class WechatEventServiceImpl implements WechatEventService {
     @Override
     public void processEvent(HashMap<String, String> data) throws Exception {
         String event = data.get("Event");
+        logger.debug("处理微信事件 data: {}",data);
         if (WechatBaseEvent.EventEnum.SUBSCRIBE.getValue().equals(event)) {
             WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class);
             processSubscribeEvent(subscribeEvent);
@@ -69,11 +70,13 @@ public class WechatEventServiceImpl implements WechatEventService {
 
         WechatUserDTO user = new WechatUserDTO();
         user.setOpenId(subscribeEvent.getFromUserName());
+        WechatUser old = wechatUserService.findOneByCondition(user);
+
         user.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
         if (subscribeEvent.getEventKey() != null) {
             user.setQrCodeScene(subscribeEvent.getEventKey().replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, ""));
         }
-        WechatUser old = wechatUserService.findOneByCondition(user);
+
         if (old == null) {
             wechatUserService.create(user);
         } else {

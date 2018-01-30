@@ -68,6 +68,7 @@
 		wu.*
 		<include refid="from_wechat_user" />
 		<include refid="sql_where_wu" />
+		LIMIT 1
 	</select>
 </mapper>
 

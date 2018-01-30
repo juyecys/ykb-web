@@ -21,7 +21,7 @@ public class WechatBaseEvent {
     private String event;
 
     public static enum EventEnum {
-        SUBSCRIBE("subscribe"), UN_SUBSCRIBE("unsubscribe"), SCAN("scan"), LOCATION("LOCATION"),
+        SUBSCRIBE("subscribe"), UN_SUBSCRIBE("unsubscribe"), SCAN("SCAN"), LOCATION("LOCATION"),
         CLICK("CLICK"), VIEW("VIEW");
 
         private String value ;
