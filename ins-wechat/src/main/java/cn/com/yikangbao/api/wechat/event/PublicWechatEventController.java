@@ -33,7 +33,7 @@ public class PublicWechatEventController {
     private static Logger logger = LoggerFactory.getLogger(PublicWechatEventController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST,  produces = "application/xml")
-    public ResponseEntity<String> receiveMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void receiveMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -45,15 +45,19 @@ public class PublicWechatEventController {
 
         InputStream inputStream = request.getInputStream();
 
+        PrintWriter out = response.getWriter();
+
         try {
             HashMap<String, String> data = Dom4jUtils.readXml(inputStream);
             wechatEventService.processEvent(data);
+            out.print("");
         } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error("read xml error: {}", e);
         } catch (Exception e) {
             logger.error("read xml error: {}", e);
         }
-        return new ResponseEntity<String>("", HttpStatus.OK);
+        out.close();
+        out = null;
     }
 
 

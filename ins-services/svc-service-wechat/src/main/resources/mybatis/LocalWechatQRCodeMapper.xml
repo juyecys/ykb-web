@@ -65,6 +65,7 @@
 		FROM
 		<include refid="from_wechat_qr_code" />
 		<include refid="sql_where" />
+		LIMIT 1
 	</select>
 </mapper>
 

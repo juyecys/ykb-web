@@ -64,6 +64,7 @@
 		FROM
 		<include refid="from_user" />
 		<include refid="sql_where" />
+		LIMIT 1
 	</select>
 </mapper>
 
