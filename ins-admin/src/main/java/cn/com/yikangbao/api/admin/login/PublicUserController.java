@@ -2,7 +2,7 @@ package cn.com.yikangbao.api.admin.login;
 
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
-import cn.com.yikangbao.entity.ContextHolder;
+import cn.com.yikangbao.config.common.CommonContextHolder;
 import cn.com.yikangbao.entity.user.User;
 import cn.com.yikangbao.service.user.UserService;
 import cn.com.yikangbao.utils.common.MD5Util;
@@ -51,7 +51,7 @@ public class PublicUserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             HttpSession session = request.getSession();
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            ContextHolder.setUser(user);
+//            CommonContextHolder.setUserId(user.getId());
             return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
         }
         return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_WRONG_OLD_PASSWORD, "密码错误"), HttpStatus.OK);

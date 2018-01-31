@@ -4,6 +4,7 @@ import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public interface WechatEventService {
     void processEvent(HashMap<String, String> data) throws Exception;
 
-    void processSubscribeEvent(WechatSubscribeEvent subscribeEvent);
+    void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException;
 
     void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent);
 

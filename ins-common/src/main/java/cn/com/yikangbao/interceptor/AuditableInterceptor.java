@@ -26,6 +26,7 @@ import java.util.Properties;
 public class AuditableInterceptor implements Interceptor {
     private static final Logger logger = LoggerFactory.getLogger(AuditableInterceptor.class);
     private static final ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         Object target = invocation.getTarget();
@@ -42,23 +43,27 @@ public class AuditableInterceptor implements Interceptor {
             //获取原始的ms
             MappedStatement ms = (MappedStatement) args[0];
             String commandName = ms.getSqlCommandType().name();
-            String name = method.getName();
 
             Object parameterObject = args[1];
             BoundSql boundSql = ms.getBoundSql(parameterObject);
             List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
-            String parameterObjects = mapper.writeValueAsString(boundSql.getParameterObject());
-            if(commandName.startsWith("INSERT")){
+            //String parameterObjects = mapper.writeValueAsString(boundSql.getParameterObject());
+            Object parameterObjects = boundSql.getParameterObject();
+            logger.debug("parameterObjects: {}", parameterObjects);
+            if (commandName.startsWith("INSERT")) {
+                if (parameterObjects instanceof Base) {
+                    Base base = (Base) parameterObjects;
+                   // base.setCreatedBy();
+                    base.setCreatedDate(new Date());
+                }
                 /*Base base = mapper.readValue(parameterObjects, Base.class);
                 base.setCreatedDate(new Date());*/
-            }else if(commandName.startsWith("UPDATE")){
+            } else if (commandName.startsWith("UPDATE")) {
 
-            }else if(commandName.startsWith("DELETE")){
-                name+="=删除";
-            }else if(commandName.startsWith("SELECT")){
-                name+="=查询";
+            } else if (commandName.startsWith("DELETE")) {
+
+            } else if (commandName.startsWith("SELECT")) {
             }
-
 
 
         }

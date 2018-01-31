@@ -60,7 +60,7 @@ public class PrivateWechatController {
         try {
             localWechatMenuService.createOrUpdate(menu);
         } catch (Exception e) {
-            return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_INVALID_PARAMETER, "微信菜单KEY不能重复"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResult(ApiCodes.STATUS_INVALID_PARAMETER, "微信菜单不能存在重复key"), HttpStatus.OK);
         }
         return new ResponseEntity<>(ApiResult.success(menu), HttpStatus.OK);
     }
@@ -96,7 +96,7 @@ public class PrivateWechatController {
     }
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> createQRCode(@RequestBody LocalWechatQRCode localQrCode) {
+    public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody LocalWechatQRCode localQrCode) {
 
         WechatQRCode wechatQRCode = WechatQRCodeUtils.getForeverQRCode(localQrCode);
         WechatQRCodeResult result = null;

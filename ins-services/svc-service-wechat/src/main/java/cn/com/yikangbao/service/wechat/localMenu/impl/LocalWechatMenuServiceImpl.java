@@ -4,6 +4,7 @@ import cn.com.yikangbao.dao.wechat.localwechatmenu.LocalWechatMenuDAO;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.service.common.impl.BaseServiceImpl;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,12 @@ public class LocalWechatMenuServiceImpl extends BaseServiceImpl<LocalWechatMenu,
     public LocalWechatMenu createOrUpdate(LocalWechatMenu menu) throws Exception {
         LocalWechatMenu check = new LocalWechatMenu();
         check.setKey(menu.getKey());
-        if (menu.getId() == null && isExistKey(menu)) {
+        if (StringUtil.isEmpty(menu.getId()) && isExistKey(menu)) {
             throw new Exception("微信菜单key不能重复");
         }
-        if (menu.getId() == null && !isExistKey(menu)) {
+        if (StringUtil.isEmpty(menu.getId()) && !isExistKey(menu)) {
             menu = create(menu);
-        } else if (menu.getId() != null){
+        } else if (!StringUtil.isEmpty(menu.getId())){
             menu = update(menu);
         }
         return menu;

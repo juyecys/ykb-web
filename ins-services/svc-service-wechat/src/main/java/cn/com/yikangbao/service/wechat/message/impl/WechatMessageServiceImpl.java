@@ -66,11 +66,14 @@ public class WechatMessageServiceImpl implements WechatMessageService {
 
     @Override
     public WechatCommonResult pushTextMessageByMenuEvent(String openId, LocalWechatMenu menu) throws IOException {
+        return pushTextMessage(openId, menu.getContent());
+    }
+
+    @Override
+    public WechatCommonResult pushTextMessage(String openId, String content) throws IOException {
         WechatCustomMessage message = new WechatCustomMessage();
-
         WechatCustomMessage.Text text = message.new Text();
-        text.setContent(menu.getContent());
-
+        text.setContent(content);
         message.setTouser(openId);
         message.setText(text);
         message.setMsgtype(WechatCustomMessage.MsgTypeEnum.TEXT.getValue());

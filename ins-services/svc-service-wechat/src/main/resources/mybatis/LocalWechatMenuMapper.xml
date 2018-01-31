@@ -30,9 +30,45 @@
 	</insert>
 
 	<update id="update" parameterType="LocalWechatMenuM">
-		UPDATE ykb_wechat_menu SET
-		name = #{name}, updated_date = #{updatedDate}, updated_by =  #{updatedBy}, type = #{type}, level = #{level}, sequence = #{sequence}, title = #{title}, content = #{content}
-		, img_url = #{imgUrl}, parent_id = #{parentId}, key = #{key}, url = #{url},parent_name = #{parentName}
+		UPDATE ykb_wechat_menu
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="content != null">
+				content = #{content},
+			</if>
+			<if test="parentName != null">
+				parent_name = #{parentName},
+			</if>
+			<if test="url != null">
+				url = #{url},
+			</if>
+			<if test="key != null">
+				key = #{key},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId}
+			</if>
+		</set>
 		WHERE id = #{id}
 	</update>
 

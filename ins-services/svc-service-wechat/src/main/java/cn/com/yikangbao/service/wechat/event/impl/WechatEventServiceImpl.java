@@ -6,6 +6,7 @@ import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
+import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import cn.com.yikangbao.entity.wechatuser.WechatUser;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -65,7 +67,7 @@ public class WechatEventServiceImpl implements WechatEventService {
     }
 
     @Override
-    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) {
+    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException {
         logger.debug("处理关注用户数据 subscribeEvent: {}",subscribeEvent);
 
         WechatUserDTO user = new WechatUserDTO();
@@ -83,7 +85,7 @@ public class WechatEventServiceImpl implements WechatEventService {
             old.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
             wechatUserService.update(old);
         }
-
+        wechatMessageService.pushTextMessage(user.getOpenId(), WechatConfigParams.WECHAT_SUBSCRIBE_REPLY);
     }
 
     @Override

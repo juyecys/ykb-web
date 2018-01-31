@@ -49,4 +49,15 @@ public class WechatConfigParams {
 	/* 获取二维码 */
 	public static final String WECHAT_GET_QRCODE_URL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
 
+	public static final String WECHAT_SUBSCRIBE_REPLY = "易康保是中国首家专注于医疗场景下的保险综合服务提供商，致力于打造“保险+医疗服务”新模式。\n" +
+			"\n" +
+			"好消息，全国第一款试管婴儿保险上线啦！试管婴儿“保怀孕”，不成功我赔钱。保费低至3千多元，保额高达近5万元。\n" +
+			"\n" +
+			"了解试管婴儿保险详情，请点击下方链接↓↓↓\n" +
+			"http://m.yikangbao.icoc.bz/col.jsp?id=106\n" +
+			"\n" +
+			"手术险投保，请点击下方↓↓↓\n\n" +
+			"<a href='http://insure.hera.tk.cn/product/cps/S20170437/detail.html?fromId=63755'>10万保额请点击</a>\n\n" +
+			"<a href='http://insure.hera.tk.cn/product/cps/S20170227/index.html?fromId=61705'>5万保额请点击</a>";
+
 }
