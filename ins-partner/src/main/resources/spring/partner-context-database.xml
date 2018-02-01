@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-
-
-
-
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 		
-	<!--<import resource="application-context-hibernate.xml" />-->
 	<import resource="partner-context-mybatis.xml" />
 
 	<!--  数据源 -->
-	<!--<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">-->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="${database.driverClassName}"/>
 		<property name="url" value="${database.url}"/>
@@ -44,11 +38,23 @@
 	</bean>
 
 	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
-	
-	<!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>-->
 
+	<!-- transaction manager, use DataSourceTransactionManager -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- spring declarative transaction management -->
+	<aop:config>
+		<aop:pointcut id="serviceMethods"
+					  expression="execution(* cn.com.*.service.impl.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="*" rollback-for="CustomException"/>
+		</tx:attributes>
+	</tx:advice>
 	<!-- Enables the Hibernate @Transactional programming model -->
 	<!--<tx:annotation-driven transaction-manager="transactionManager" />-->
 

@@ -14,19 +14,18 @@
 	    http://www.springframework.org/schema/data/mongo
     http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 	    ">
-	<import resource="partner-context-database.xml" />
-	<import resource="partner-context-redis.xml" />
+
 
 	<task:annotation-driven />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-
-<!--	<context:property-placeholder  ignore-resource-not-found="true"
-								   location="classpath:properties/*.properties" />-->
 
 	<context:component-scan base-package="cn.com.yikangbao">
 		<context:exclude-filter type="annotation"
 								expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
+
+	<import resource="partner-context-database.xml" />
+	<import resource="partner-context-redis.xml" />
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"
@@ -79,4 +78,9 @@
 		</bean>
 	</beans>
 
+	<!--<beans>
+		<bean id="partnerSecretKeyConfig" class="cn.com.yikangbao.config.partner.PartnerSecretKeyConfig">
+			<property name="qianhaiSecretKey" value="${partner.qianhai.secretkey}" />
+		</bean>
+	</beans>-->
 </beans:beans>

@@ -14,6 +14,4 @@ import java.util.List;
 @Component
 public interface UserRoleDAO extends BaseDAO<UserRole, UserRoleDTO>{
     List<UserRoleDTO> findRolesByUserId(@Param("userId") String userId);
-    List<UserRoleDTO> findByCondition(UserRoleDTO userRoleDTO);
-
 }

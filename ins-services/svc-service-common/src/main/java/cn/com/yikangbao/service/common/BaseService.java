@@ -16,9 +16,9 @@ public interface BaseService<M extends Base,QM extends M> {
 
     void deleteById(String id);
 
-    List<QM> findAll();
+    List<QM> findByCondition(QM qm);
 
-    Page<QM> getByConditionPage(QM qm);
+    Page<QM> findByConditionPage(QM qm);
 
     QM findOneByCondition(QM qm);
 }

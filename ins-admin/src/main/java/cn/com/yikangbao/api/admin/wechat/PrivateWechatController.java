@@ -67,7 +67,7 @@ public class PrivateWechatController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getWechatMenu(LocalWechatMenu menu) {
-        Page page = localWechatMenuService.getByConditionPage(menu);
+        Page page = localWechatMenuService.findByConditionPage(menu);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
@@ -129,7 +129,7 @@ public class PrivateWechatController {
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getWechatQrCode(LocalWechatQRCode localQrCode) {
-        Page<LocalWechatQRCode> page = localWechatQRCodeService.getByConditionPage(localQrCode);
+        Page<LocalWechatQRCode> page = localWechatQRCodeService.findByConditionPage(localQrCode);
         for (LocalWechatQRCode one: page.getResult()) {
             one.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(one.getQrCodeUrl()));
         }
@@ -139,7 +139,7 @@ public class PrivateWechatController {
 
     @RequestMapping(value = "/qrcode/user", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getWechatQrCode(WechatUserDTO wechatUserDTO) {
-        Page<WechatUserDTO> page = wechatUserService.getByConditionPage(wechatUserDTO);
+        Page<WechatUserDTO> page = wechatUserService.findByConditionPage(wechatUserDTO);
         logger.info("qrcode user : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }

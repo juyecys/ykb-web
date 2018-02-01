@@ -6,7 +6,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -16,7 +15,7 @@ import java.util.Iterator;
 public class Dom4jUtils {
 
 
-    public static HashMap<String, String> readXml(InputStream inputStream) throws DocumentException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static HashMap<String, Object> readXml(InputStream inputStream) throws DocumentException {
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputStream);
         Element node = document.getRootElement();
@@ -28,8 +27,8 @@ public class Dom4jUtils {
      * 遍历节点
      * @param node
      */
-    private static HashMap<String, String> listNodes(Element node) {
-        HashMap<String, String> dataMap = new HashMap<>();
+    private static HashMap<String, Object> listNodes(Element node) {
+        HashMap<String, Object> dataMap = new HashMap<>();
         Iterator<Element> iterator = node.elementIterator();
         while(iterator.hasNext()){
             Element e = iterator.next();

@@ -6,8 +6,6 @@ import cn.com.yikangbao.service.common.BaseService;
 import java.util.List;
 
 public interface LocalWechatMenuService extends BaseService<LocalWechatMenu, LocalWechatMenu> {
-    List<LocalWechatMenu> findByCondition(LocalWechatMenu localWechatMenu);
-
     LocalWechatMenu createOrUpdate(LocalWechatMenu localWechatMenu) throws Exception;
 
 }

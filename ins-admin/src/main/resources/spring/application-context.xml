@@ -22,13 +22,11 @@
 								expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-
 	<import resource="application-context-database.xml" />
 	<import resource="application-context-redis.xml" />
 	<import resource="application-context-aliyun.xml" />
 	<import resource="application-context-security.xml" />
 	<import resource="application-context-jackson.xml" />
-
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"

@@ -47,20 +47,20 @@ public class WechatEventServiceImpl implements WechatEventService {
     private Logger logger = LoggerFactory.getLogger(WechatEventServiceImpl.class);
 
     @Override
-    public void processEvent(HashMap<String, String> data) throws Exception {
-        String event = data.get("Event");
+    public void processEvent(HashMap<String, Object> data) throws Exception {
+        String event = (String) data.get("Event");
         logger.debug("处理微信事件 data: {}",data);
         if (WechatBaseEvent.EventEnum.SUBSCRIBE.getValue().equals(event)) {
-            WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class);
+            WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
             processSubscribeEvent(subscribeEvent);
         } else if (WechatBaseEvent.EventEnum.UN_SUBSCRIBE.getValue().equals(event)) {
-            WechatSubscribeEvent unsubscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class);
+            WechatSubscribeEvent unsubscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
             processUnSubscribeEvent(unsubscribeEvent);
         } else if (WechatBaseEvent.EventEnum.SCAN.getValue().equals(event)) {
-            WechatScanEvent scanEvent = (WechatScanEvent) MapUtils.getObject(data, WechatScanEvent.class);
+            WechatScanEvent scanEvent = (WechatScanEvent) MapUtils.getObject(data, WechatScanEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
             processScanEvent(scanEvent);
         } else if (WechatBaseEvent.EventEnum.CLICK.getValue().equals(event)) {
-            WechatMenuClickEvent menuClickEvent = (WechatMenuClickEvent) MapUtils.getObject(data, WechatMenuClickEvent.class);
+            WechatMenuClickEvent menuClickEvent = (WechatMenuClickEvent) MapUtils.getObject(data, WechatMenuClickEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
             processMenuClickEvent(menuClickEvent);
         }
 

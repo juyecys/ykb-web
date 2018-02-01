@@ -95,6 +95,7 @@
         <module>ins-common</module>
         <module>ins-services</module>
         <module>ins-wechat</module>
+        <module>ins-wechat-public</module>
     </modules>
 
     <dependencyManagement>
@@ -552,6 +553,24 @@
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
                 <artifactId>svc-service-aliyun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-order</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-partner</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-hospital</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

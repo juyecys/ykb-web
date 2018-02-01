@@ -106,9 +106,9 @@ public class InterfaceUtils {
 		while (it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
 			String k = (String) entry.getKey();
-			String v = (String) entry.getValue();
+			Object v =  entry.getValue();
 			if (k.equals("sign")) {
-				paramSign = v;
+				//paramSign = v;
 				continue;
 			}
 			if (null != v && !"".equals(v)) {
@@ -130,6 +130,21 @@ public class InterfaceUtils {
 	public static void main(String[] args) {
 		String param = "%E6%B5%8B%E8%AF%95%E5%9B%9B";
 		try {
+			SortedMap<String, String> requestParams = new TreeMap<>();
+			/*List<>
+			requestParams.put("")*/
+			Set es = requestParams.entrySet();
+			Iterator it = es.iterator();
+			StringBuilder sb = new StringBuilder();
+			while (it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				String k = (String) entry.getKey();
+				String v = (String) entry.getValue();
+				if (null != v && !"".equals(v)) {
+					sb.append(k + v);
+				}
+			}
+
 			String gbkParam = URLDecoder.decode(param, "GBK");
 			String utf8Param = URLDecoder.decode(param, "utf-8");
 			System.out.println("gbkParam:"+gbkParam);
