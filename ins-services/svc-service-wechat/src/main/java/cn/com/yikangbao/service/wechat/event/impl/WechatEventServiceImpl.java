@@ -86,6 +86,7 @@ public class WechatEventServiceImpl implements WechatEventService {
             wechatUserService.update(old);
         }
         wechatMessageService.pushTextMessage(user.getOpenId(), WechatConfigParams.WECHAT_SUBSCRIBE_REPLY);
+        wechatMessageService.pushImageMessage(user.getOpenId(), WechatConfigParams.WECHAT_SUBSCRIBE_REPLY_QRCODE_MEDIA_ID);
     }
 
     @Override

@@ -79,4 +79,16 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         message.setMsgtype(WechatCustomMessage.MsgTypeEnum.TEXT.getValue());
         return pushMessage(message);
     }
+
+    @Override
+    public WechatCommonResult pushImageMessage(String openId, String mediaId) throws IOException {
+        WechatCustomMessage message = new WechatCustomMessage();
+        WechatCustomMessage.Image image = message.new Image();
+        image.setMediaId(mediaId);
+
+        message.setTouser(openId);
+        message.setImage(image);
+        message.setMsgtype(WechatCustomMessage.MsgTypeEnum.IMAGE.getValue());
+        return pushMessage(message);
+    }
 }

@@ -56,8 +56,8 @@ public class WechatConfigParams {
 			"了解试管婴儿保险详情，请点击下方链接↓↓↓\n" +
 			"http://m.yikangbao.icoc.bz/col.jsp?id=106\n" +
 			"\n" +
-			"手术险投保，请点击下方↓↓↓\n\n" +
-			"<a href='http://insure.hera.tk.cn/product/cps/S20170437/detail.html?fromId=63755'>10万保额请点击</a>\n\n" +
-			"<a href='http://insure.hera.tk.cn/product/cps/S20170227/index.html?fromId=61705'>5万保额请点击</a>";
+			"想了解更多，来加客服微信吧~一对一咨询↓↓↓";
+
+	public static final String WECHAT_SUBSCRIBE_REPLY_QRCODE_MEDIA_ID = "51vxZXaAw3oBofiXRfHFr2F9NUgzkbRo9_5AkVnzSDI";
 
 }

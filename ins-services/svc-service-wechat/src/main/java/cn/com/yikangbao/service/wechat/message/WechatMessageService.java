@@ -18,4 +18,6 @@ public interface WechatMessageService {
     WechatCommonResult pushTextMessageByMenuEvent(String openId, LocalWechatMenu menu) throws IOException;
 
     WechatCommonResult pushTextMessage(String openId, String content) throws IOException;
+
+    WechatCommonResult pushImageMessage(String openId, String mediaId) throws IOException;
 }
