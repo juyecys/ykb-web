@@ -46,12 +46,10 @@ public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseServi
 
     @Override
     public Page<QM> findByConditionPage(QM qm) {
-        List<QM> list = dao.findByConditionPage(qm);
-        if (!list.isEmpty()) {
-            for (QM one: list) {
-                one.setPage(null);
-            }
+        if (qm.getPage() == null) {
+            qm.setPage(new Page(10));
         }
+        List<QM> list = dao.findByConditionPage(qm);
         qm.getPage().setResult(list);
         return qm.getPage();
     }

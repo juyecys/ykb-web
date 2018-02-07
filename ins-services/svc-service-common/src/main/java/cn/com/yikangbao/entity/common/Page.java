@@ -77,7 +77,7 @@ public class Page<E> implements java.io.Serializable {
 	}
 
 	public Integer getNowPage() {
-		if (nowPage <= 0)
+		if (nowPage == null || nowPage <= 0)
 			nowPage = 1;
 		return nowPage;
 	}

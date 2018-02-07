@@ -89,7 +89,7 @@ public class PagePlugin implements Interceptor {
 								page = new Page(10);
 							page.setTotalCount(count);
 							page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
-							ReflectHelper.setValueByFieldName(parameterObject, "page", page); // 通过反射，对实体对象设置分页对象
+							//ReflectHelper.setValueByFieldName(parameterObject, "page", page); // 通过反射，对实体对象设置分页对象
 						} else {
 							throw new NoSuchFieldException(parameterObject.getClass().getName() + "不存在 page 属性！");
 						}

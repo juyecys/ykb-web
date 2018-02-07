@@ -3,6 +3,7 @@ package cn.com.yikangbao.api.partner;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.config.partner.ResultCode;
+import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.hospital.Hospital;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
 import cn.com.yikangbao.entity.partner.PartnerOrder;
@@ -124,15 +125,8 @@ public class QianHaiApiController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ApiResult test() throws PartnerException {
-        List<Hospital> hospitals = new LinkedList<>();
-        HospitalDTO hospital = new HospitalDTO();
-        hospital.setProvinceName("广东省");
-        hospital.setId("8c058c43-ccac-4070-a462-92e8418ab39d");
-        hospital.setName("中医院");
-        hospital.setPage(null);
-        hospitals.add(hospital);
-        hospitals.add(hospital);
-        return ApiResult.build(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getDesc(), hospitals);
+        Page<HospitalDTO> page = hospitalService.findByConditionPage(new HospitalDTO());
+        return ApiResult.build(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getDesc(), page);
     }
 
     private void updatePartnerOrder(PartnerOrder partnerOrder, String[] needParams) throws PartnerException {
