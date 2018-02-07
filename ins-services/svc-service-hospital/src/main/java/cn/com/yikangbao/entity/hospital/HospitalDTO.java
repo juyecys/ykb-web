@@ -11,6 +11,7 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
 public class HospitalDTO extends Hospital {
+    private String sign;
     private String provinceName;
 
     public String getProvinceName() {
@@ -21,10 +22,19 @@ public class HospitalDTO extends Hospital {
         this.provinceName = provinceName;
     }
 
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + ",HospitaoDTO{" +
-                "provinceName='" + provinceName + '\'' +
+        return "HospitalDTO{" +
+                "sign='" + sign + '\'' +
+                ", provinceName='" + provinceName + '\'' +
                 '}';
     }
 }

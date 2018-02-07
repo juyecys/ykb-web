@@ -104,7 +104,7 @@ public class QianHaiApiController {
         };
         HashMap<String, Object> data = null;
         try {
-            data = MapUtils.getMap(hospital, PartnerOrder.class);
+            data = MapUtils.getMap(hospital, HospitalDTO.class);
             if (data == null) {
                 logger.error("partner order map is empty\n\n");
                 throw new PartnerException(PartnerException.PartnerErrorCode.ERROR);

@@ -22,8 +22,10 @@ public class PartnerSignUtils {
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             String k = (String) entry.getKey();
-            Object v = entry.getValue().toString();
-            sb.append(k + v);
+            if (!"sign".equals(k)) {
+                Object v = entry.getValue().toString();
+                sb.append(k + v);
+            }
         }
         sb.append(secretKey);
         logger.debug("before md5: {}", sb.toString());

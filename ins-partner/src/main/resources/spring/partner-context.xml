@@ -78,9 +78,9 @@
 		</bean>
 	</beans>
 
-	<!--<beans>
+	<beans>
 		<bean id="partnerSecretKeyConfig" class="cn.com.yikangbao.config.partner.PartnerSecretKeyConfig">
 			<property name="qianhaiSecretKey" value="${partner.qianhai.secretkey}" />
 		</bean>
-	</beans>-->
+	</beans>
 </beans:beans>

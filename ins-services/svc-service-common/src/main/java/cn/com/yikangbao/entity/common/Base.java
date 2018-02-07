@@ -22,7 +22,7 @@ public class Base implements Serializable {
 
     private String updatedBy;
 
-    private Page page = new Page();
+    private Page page;
     /**
      * 排序列表
      */
