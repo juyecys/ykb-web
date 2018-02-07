@@ -18,10 +18,10 @@
 		<result column="insured_credentials_num" jdbcType="VARCHAR" property="insuredCredentialsNum" />
 		<result column="insured_phone" jdbcType="VARCHAR" property="insuredPhone" />
 		<result column="relation" jdbcType="VARCHAR" property="relation" />
-		<result column="hosipital_id" jdbcType="VARCHAR" property="hosipitalId" />
-		<result column="hosipital_name" jdbcType="VARCHAR" property="hosipitalName" />
-		<result column="insurance_amount" jdbcType="VARCHAR" property="insuranceAmount" />
-		<result column="order_amount" jdbcType="VARCHAR" property="orderAmount" />
+		<result column="hospital_id" jdbcType="VARCHAR" property="hosptalId" />
+		<result column="hospital_name" jdbcType="VARCHAR" property="hosptalName" />
+		<result column="insurance_amount" jdbcType="BIGINT" property="insuranceAmount" />
+		<result column="order_amount" jdbcType="BIGINT" property="orderAmount" />
 		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
 		<result column="user_id" jdbcType="VARCHAR" property="userId" />
 		<result column="status" jdbcType="VARCHAR" property="status" />
@@ -33,12 +33,12 @@
 		INSERT INTO
 			ykb_order (id, created_by, created_date, updated_date, updated_by,
 			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
-			,insured_credentials_num, insured_phone, relation, hosipital_id, hosipital_name, insurance_amount, order_amount, order_number
+			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
 			,user_id, status, insurance_start_date, insurance_end_date)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
-	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hosipitalId}, #{hosipitalName}
+	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
 	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate})
 	</insert>
 
@@ -81,11 +81,11 @@
 			<if test="relation != null">
 				relation = #{relation}
 			</if>
-			<if test="hosipitalId != null">
-				hosipital_id = #{hosipitalId}
+			<if test="hospitalId != null">
+				hospital_id = #{hospitalId}
 			</if>
-			<if test="hosipitalName != null">
-				hosipital_name = #{hosipitalName}
+			<if test="hospitalName != null">
+				hospital_name = #{hospitalName}
 			</if>
 			<if test="insuranceAmount != null">
 				insurance_amount = #{insuranceAmount}

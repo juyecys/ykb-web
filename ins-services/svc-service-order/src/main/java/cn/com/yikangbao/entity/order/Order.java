@@ -118,20 +118,23 @@ public class Order extends Base{
     /**
      * 保障期限开始时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("insurance_start_date")
-    private String insuranceStartDate;
+    private Date insuranceStartDate;
 
     @JsonProperty("channel")
     private String channel;
     /**
      * 保障期限结束时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("insurance_end_date")
-    private String insuranceEndDate;
+    private Date insuranceEndDate;
 
     /**
      * 保单生效时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("policy_effective_date")
     private Date policyEffectiveDate;
 
@@ -330,19 +333,19 @@ public class Order extends Base{
         this.status = status;
     }
 
-    public String getInsuranceStartDate() {
+    public Date getInsuranceStartDate() {
         return insuranceStartDate;
     }
 
-    public void setInsuranceStartDate(String insuranceStartDate) {
+    public void setInsuranceStartDate(Date insuranceStartDate) {
         this.insuranceStartDate = insuranceStartDate;
     }
 
-    public String getInsuranceEndDate() {
+    public Date getInsuranceEndDate() {
         return insuranceEndDate;
     }
 
-    public void setInsuranceEndDate(String insuranceEndDate) {
+    public void setInsuranceEndDate(Date insuranceEndDate) {
         this.insuranceEndDate = insuranceEndDate;
     }
 
