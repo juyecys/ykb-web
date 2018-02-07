@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = { "/partner/qianhai" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/partner/qianhai" }, produces = "application/json")
 public class QianHaiApiController {
 
     @Autowired
@@ -97,7 +97,7 @@ public class QianHaiApiController {
         return ApiResult.success();
     }
     @RequestMapping(value = "/hospital", method = RequestMethod.GET)
-    public ApiResult findHospital(@RequestBody HospitalDTO hospital) throws PartnerException {
+    public ApiResult findHospital(HospitalDTO hospital) throws PartnerException {
         logger.info("receive qianhai hospital: {}", hospital);
         String[] needParams = new String[]{
                 "sign"

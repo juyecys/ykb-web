@@ -53,7 +53,7 @@ public class MyInvocationSecurityMetadataSourceService implements
     }
 
     private void loadResourceDefine() {
-        List<Role> roles = roleDAO.findAll();
+        List<Role> roles = roleDAO.findByCondition(new Role());
         resourceMap = new HashMap<>();
         
         for (Role role : roles) {

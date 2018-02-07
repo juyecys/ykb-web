@@ -48,7 +48,7 @@
 		<include refid="sql_where" />
 	</select>
 
-	<select id="findAll" resultMap="RoleResultMap">
+	<select id="findByCondition" resultMap="RoleResultMap">
 		SELECT  *
 		<include refid="from_role" />
 	</select>

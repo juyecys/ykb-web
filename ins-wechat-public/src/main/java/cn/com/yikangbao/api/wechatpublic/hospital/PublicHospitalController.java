@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = { "/ykb/wechatpublic/public/hospital" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/wp/public/hospital" }, produces = "application/json")
 public class PublicHospitalController {
 
     private static final Logger logger = LoggerFactory.getLogger(PublicHospitalController.class);

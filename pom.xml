@@ -96,6 +96,7 @@
         <module>ins-services</module>
         <module>ins-wechat</module>
         <module>ins-wechat-public</module>
+        <module>ins-partner</module>
     </modules>
 
     <dependencyManagement>
@@ -517,12 +518,6 @@
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
                 <artifactId>ins-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.com.yikangbao</groupId>
-                <artifactId>ins-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

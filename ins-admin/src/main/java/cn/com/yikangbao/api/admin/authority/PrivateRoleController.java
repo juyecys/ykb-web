@@ -32,7 +32,7 @@ public class PrivateRoleController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getRoleList(Role role) {
-        List<Role> roleList = roleService.findAll();
+        List<Role> roleList = roleService.findByCondition(new Role());
         return new ResponseEntity<>(ApiResult.success(roleList), HttpStatus.OK);
     }
 }
