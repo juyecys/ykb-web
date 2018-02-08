@@ -3,6 +3,9 @@ package cn.com.yikangbao.entity.wechat.acesstoken;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 调用微信接口所需的accesstoken
+ */
 public class WechatAccessToken extends WechatCommonResult{
 
 	@JsonProperty("access_token")

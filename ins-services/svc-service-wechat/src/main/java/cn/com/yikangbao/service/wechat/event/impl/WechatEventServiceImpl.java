@@ -6,16 +6,14 @@ import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
-import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
-import cn.com.yikangbao.entity.wechatuser.WechatUser;
-import cn.com.yikangbao.entity.wechatuser.WechatUserDTO;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
-import cn.com.yikangbao.service.wechatuser.WechatUserService;
+import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import org.slf4j.Logger;
@@ -33,7 +31,7 @@ import java.util.HashMap;
 public class WechatEventServiceImpl implements WechatEventService {
 
     @Autowired
-    private WechatUserService wechatUserService;
+    private LocalWechatUserService localWechatUserService;
 
     @Autowired
     private LocalWechatQRCodeService localWechatQRCodeService;
@@ -70,9 +68,9 @@ public class WechatEventServiceImpl implements WechatEventService {
     public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException {
         logger.debug("处理关注用户数据 subscribeEvent: {}",subscribeEvent);
 
-        WechatUserDTO user = new WechatUserDTO();
+        LocalWechatUserDTO user = new LocalWechatUserDTO();
         user.setOpenId(subscribeEvent.getFromUserName());
-        WechatUser old = wechatUserService.findOneByCondition(user);
+        LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
 
         user.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
         if (subscribeEvent.getEventKey() != null) {
@@ -80,10 +78,10 @@ public class WechatEventServiceImpl implements WechatEventService {
         }
 
         if (old == null) {
-            wechatUserService.create(user);
+            localWechatUserService.create(user);
         } else {
             old.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
-            wechatUserService.update(old);
+            localWechatUserService.update(old);
         }
         wechatMessageService.pushTextMessage(user.getOpenId(), WechatConfigParams.WECHAT_SUBSCRIBE_REPLY);
     }

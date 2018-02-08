@@ -7,10 +7,10 @@ import org.apache.ibatis.type.Alias;
 /**
  * Created by jeysine on 2018/1/26.
  */
-@Alias("WechatUserQM")
+@Alias("LocalWechatUserQM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class WechatUserDTO extends WechatUser{
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class LocalWechatUserDTO extends LocalWechatUser{
     /**
      * 推广渠道
      */

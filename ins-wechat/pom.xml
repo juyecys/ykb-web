@@ -27,7 +27,6 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-aliyun</artifactId>
         </dependency>
-
     </dependencies>
     <build>
         <finalName>ins-wechat</finalName>

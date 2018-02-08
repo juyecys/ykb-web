@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans.xsd        
+	                    http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	                    http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context.xsd">
+	<dubbo:consumer filter="setTraceIdPreRpcFilter" />
+
+	<dubbo:provider filter="setLogMdcPreServiceFilter,wechatServiceRequestFilter"
+		timeout="10000" />
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="${dubbo.application.name}" />
+	<!-- 用dubbo协议暴露服务 -->
+	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" accesslog="${service.accesslog.location}" />
+
+	<!-- zookeeper地址 -->
+	<dubbo:registry address="${dubbo.registry.address}" />
+	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
+
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service
+		interface="cn.com.yikangbao.service.wechat.menu.WechatMenuService"
+		ref="wechatMenuService" />
+	<bean id="wechatMenuService"
+		class="cn.com.yikangbao.service.wechat.menu.impl.WechatMenuServiceImpl" />
+
+	<dubbo:service
+			interface="cn.com.yikangbao.service.wechat.message.WechatMessageService"
+			ref="wechatMessageService" />
+	<bean id="wechatMessageService"
+		  class="cn.com.yikangbao.service.wechat.message.impl.WechatMessageServiceImpl" />
+
+	<dubbo:service
+			interface="cn.com.yikangbao.service.wechat.user.WechatUserService"
+			ref="wechatUserService" />
+	<bean id="wechatUserService"
+		  class="cn.com.yikangbao.service.wechat.user.impl.WechatUserServiceImpl" />
+
+	<dubbo:service
+			interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"
+			ref="wechatAuthService" />
+	<bean id="wechatAuthService"
+		  class="cn.com.yikangbao.service.wechat.auth.impl.WechatAuthServiceImpl" />
+</beans>

@@ -1,4 +1,4 @@
-package cn.com.yikangbao.api.wechatpublic.order;
+package cn.com.yikangbao.api.wp.order;
 
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.entity.order.OrderDTO;

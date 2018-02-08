@@ -25,6 +25,15 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-order</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-wechat</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ins-wechat-public</finalName>

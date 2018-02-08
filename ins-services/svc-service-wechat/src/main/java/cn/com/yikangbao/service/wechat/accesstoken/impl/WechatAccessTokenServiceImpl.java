@@ -26,6 +26,8 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 	private static Logger logger = LoggerFactory.getLogger(WechatAccessTokenServiceImpl.class);
 
+	private static final ObjectMapper mapper = new ObjectMapper();
+
 	@Override
 	public WechatAccessToken getAccessToken() {
 		WechatAccessToken wechatAccessToken = null;
@@ -68,7 +70,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			return false;
 		}
 
-		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY_MUTEX, mutexKeyValue.toString(), "NX", "EX", mutexKeyExpired);
+		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY_MUTEX, mutexKeyValue, "NX", "EX", mutexKeyExpired);
 		if (result != null) {
 			logger.debug("get leader success");
 			return true;
@@ -87,7 +89,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		try {
 			response = OkHttpUtils.get().url(url)
 					.build().execute();
-			ObjectMapper mapper = new ObjectMapper();
+
 			String result = response.body().string();
 			wechatAccessToken = mapper.readValue(result, WechatAccessToken.class);
 			logger.debug("get wechat access token suucess:{}", wechatAccessToken);
@@ -132,7 +134,6 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 					.addParams("appid","wx51e37306f30d52a9")
 					.addParams("secret","07f0af046496ce6d6e5bc8f98ec75f65")
 					.build().execute();
-			ObjectMapper mapper = new ObjectMapper();
 			WechatAccessToken wechatAccessToken = null;
 			wechatAccessToken = mapper.readValue(response.body().string(), WechatAccessToken.class);
 			System.out.println(wechatAccessToken);
