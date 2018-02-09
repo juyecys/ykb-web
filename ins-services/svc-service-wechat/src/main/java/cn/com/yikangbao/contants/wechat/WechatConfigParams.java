@@ -68,4 +68,9 @@ public class WechatConfigParams {
 			"<a href='http://insure.hera.tk.cn/product/cps/S20170437/detail.html?fromId=63755'>10万保额请点击</a>\n\n" +
 			"<a href='http://insure.hera.tk.cn/product/cps/S20170227/index.html?fromId=61705'>5万保额请点击</a>";
 
+	/* 新增永久素材 */
+	public static final String WECHAT_ADD_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
+
+	/* 获取永久素材 */
+	public static final String WECHAT_GET_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
 }

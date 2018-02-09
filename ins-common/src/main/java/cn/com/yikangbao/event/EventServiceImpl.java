@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class EventServiceImpl implements EventService {
-	public final static String EVENT_QUEUE_PREFIX = "eq:";
-	public final static String EVENT_QUEUE_LISTENERS_PREFIX = "eql:";
+	public final static String EVENT_QUEUE_PREFIX = "ykb_eq:";
+	public final static String EVENT_QUEUE_LISTENERS_PREFIX = "ykb_eql:";
 	private ObjectMapper mapper = new ObjectMapper();
 	private Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 	private Map<String, Map<String, EventListener>> eventTypeToListenersMap = new ConcurrentHashMap<>();

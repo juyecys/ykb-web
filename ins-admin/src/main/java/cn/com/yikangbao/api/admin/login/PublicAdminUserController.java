@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(value = { "/ykb/mg/public/user" }, produces = "application/json")
-public class PublicUserController {
+public class PublicAdminUserController {
     @Autowired
     private UserService userService;
 

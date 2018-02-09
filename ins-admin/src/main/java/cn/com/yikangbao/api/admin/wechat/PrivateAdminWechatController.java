@@ -8,14 +8,14 @@ import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
-import cn.com.yikangbao.entity.wechatuser.WechatUserDTO;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
-import cn.com.yikangbao.service.wechatuser.WechatUserService;
+import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
 import cn.com.yikangbao.untils.wechat.WechatQRCodeUtils;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
-public class PrivateWechatController {
+public class PrivateAdminWechatController {
 
     @Autowired
     private LocalWechatMenuService localWechatMenuService;
@@ -51,9 +51,9 @@ public class PrivateWechatController {
     private WechatMenuService wechatMenuService;
 
     @Autowired
-    private WechatUserService wechatUserService;
+    private LocalWechatUserService localWechatUserService;
 
-    private static Logger logger = LoggerFactory.getLogger(PrivateWechatController.class);
+    private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
     @RequestMapping(value = "/menu", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createWechatMenu(@RequestBody LocalWechatMenu menu) {
@@ -138,8 +138,8 @@ public class PrivateWechatController {
     }
 
     @RequestMapping(value = "/qrcode/user", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getWechatQrCode(WechatUserDTO wechatUserDTO) {
-        Page<WechatUserDTO> page = wechatUserService.findByConditionPage(wechatUserDTO);
+    public ResponseEntity<ApiResult> getWechatQrCode(LocalWechatUserDTO localWechatUserDTO) {
+        Page<LocalWechatUserDTO> page = localWechatUserService.findByConditionPage(localWechatUserDTO);
         logger.info("qrcode user : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }

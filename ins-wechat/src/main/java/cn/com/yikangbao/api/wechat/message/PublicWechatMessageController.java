@@ -54,4 +54,9 @@ public class PublicWechatMessageController {
         }
         return "";
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST,  produces = "application/xml")
+    public String test(Mu) throws IOException {
+
+    }
 }

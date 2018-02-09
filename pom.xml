@@ -574,6 +574,12 @@
                 <artifactId>svc-service-event</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-message</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

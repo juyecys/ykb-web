@@ -27,6 +27,7 @@
 	<import resource="application-context-aliyun.xml" />
 	<import resource="application-context-security.xml" />
 	<import resource="application-context-jackson.xml" />
+	<import resource="application-context-mongo.xml" />
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"

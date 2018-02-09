@@ -34,6 +34,10 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-aliyun</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-message</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ins-admin</finalName>

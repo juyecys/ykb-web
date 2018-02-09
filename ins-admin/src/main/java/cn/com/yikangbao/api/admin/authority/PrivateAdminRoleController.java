@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/ykb/mg/private/role", produces = "application/json")
-public class PrivateRoleController {
+public class PrivateAdminRoleController {
 
     @Autowired
     private RoleService roleService;
