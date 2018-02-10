@@ -5,6 +5,7 @@ import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.constants.AliyunOssPath;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
+import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
@@ -12,6 +13,7 @@ import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
+import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
@@ -23,16 +25,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/mg/public/wechat" }, produces = "application/json")
 public class PrivateAdminWechatController {
 
     @Autowired
@@ -52,6 +52,9 @@ public class PrivateAdminWechatController {
 
     @Autowired
     private LocalWechatUserService localWechatUserService;
+
+    @Autowired
+    private WechatMaterialService wechatMaterialService;
 
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
@@ -142,5 +145,14 @@ public class PrivateAdminWechatController {
         Page<LocalWechatUserDTO> page = localWechatUserService.findByConditionPage(localWechatUserDTO);
         logger.info("qrcode user : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/material", method = RequestMethod.POST,  produces = "application/json")
+    public ResponseEntity<ApiResult> test(@RequestParam("file") MultipartFile file, @RequestParam String type) throws IOException {
+
+        WechatMaterial wechatMaterial = wechatMaterialService.createForeverMaterial(file, type);
+        logger.info("wechat material: {}", wechatMaterial);
+
+        return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);
     }
 }

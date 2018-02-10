@@ -27,8 +27,8 @@ public class PrivateAdminMessageController {
 
     @Autowired
     private MessageService messageService;
-    @RequestMapping(value = "/", method = RequestMethod.POST)
 
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createMessage(@RequestBody Message message) {
         message.setId(UUID.randomUUID().toString());
         message = messageService.createOrUpdateMessage(message);

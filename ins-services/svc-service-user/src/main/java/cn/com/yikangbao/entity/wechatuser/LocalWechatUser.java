@@ -15,6 +15,7 @@ import org.apache.ibatis.type.Alias;
 public class LocalWechatUser extends Base{
     private String openId;
     private String name;
+    @JsonProperty("qr_code_scene")
     private String qrCodeScene;
 
     /**
@@ -23,14 +24,14 @@ public class LocalWechatUser extends Base{
     @JsonProperty("subscribe")
     private Integer subscribe;
 
-    @JsonProperty("nickname")
+    @JsonProperty("nick_name")
     private String nickname;
 
     /**
      * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
      */
-    @JsonProperty("sex")
-    private Integer sex;
+    @JsonProperty("gender")
+    private Integer gender;
     /**
      * 用户的语言
      */
@@ -45,17 +46,12 @@ public class LocalWechatUser extends Base{
     /**
      * 用户头像
      */
-    @JsonProperty("headimgurl")
+    @JsonProperty("head_img_url")
     private String headImgUrl;
-    /**
-     * 关注时间
-     */
-    @JsonProperty("subscribe_time")
-    private String subscribeTime;
     /**
      * 公众号绑定到微信开放平台,才有该字段
      */
-    @JsonProperty("unionid")
+    @JsonProperty("union_id")
     private String unionId;
     @JsonProperty("remark")
     private String remark;
@@ -100,12 +96,12 @@ public class LocalWechatUser extends Base{
         this.nickname = nickname;
     }
 
-    public Integer getSex() {
-        return sex;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setSex(Integer sex) {
-        this.sex = sex;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public String getLanguage() {
@@ -148,14 +144,6 @@ public class LocalWechatUser extends Base{
         this.headImgUrl = headImgUrl;
     }
 
-    public String getSubscribeTime() {
-        return subscribeTime;
-    }
-
-    public void setSubscribeTime(String subscribeTime) {
-        this.subscribeTime = subscribeTime;
-    }
-
     public String getUnionId() {
         return unionId;
     }
@@ -180,13 +168,12 @@ public class LocalWechatUser extends Base{
                 ", qrCodeScene='" + qrCodeScene + '\'' +
                 ", subscribe=" + subscribe +
                 ", nickname='" + nickname + '\'' +
-                ", sex=" + sex +
+                ", gender=" + gender +
                 ", language='" + language + '\'' +
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 ", country='" + country + '\'' +
                 ", headImgUrl='" + headImgUrl + '\'' +
-                ", subscribeTime='" + subscribeTime + '\'' +
                 ", unionId='" + unionId + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';

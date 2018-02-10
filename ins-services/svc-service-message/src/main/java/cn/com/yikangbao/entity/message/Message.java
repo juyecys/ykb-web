@@ -23,30 +23,33 @@ public class Message {
     @JsonProperty("msg_type")
     private String msgType;
 
-    @JsonProperty("text")
-    private Text text;
+    @JsonProperty("content")
+    private String content;
 
-    @JsonProperty("image")
-    private Image image;
+    @JsonProperty("media_id")
+    private String mediaId;
 
-    @JsonProperty("voice")
-    private Voice voice;
-
-    @JsonProperty("video")
-    private Video video;
-
-    @JsonProperty("music")
-    private Music music;
+    @JsonProperty("thumb_media_id")
+    private String thumbMediaId;
+    @JsonProperty("title")
+    private String title;
+    @JsonProperty("description")
+    private String description;
 
     @JsonProperty("articles")
     private List<Article> articles;
 
-    @JsonProperty("mp_news")
-    private Mpnews mpnews;
+    @JsonProperty("card_id")
+    private String cardId;
 
-    @JsonProperty("wx_card")
-    private Wxcard wxcard;
+    @JsonProperty("music_url")
+    private String musicUrl;
 
+    @JsonProperty("hq_music_url")
+    private String hqMusicUrl;
+
+
+    @JsonProperty("sequence")
     private Integer sequence;
 
     public static enum MsgTypeEnum {
@@ -55,7 +58,8 @@ public class Message {
         VIDEO("video"),
         TEXT("text"),
         MUSIC("music"),
-        NEWS("news"),
+        ARTICLE_LIST("article_list"),
+        ARTICLE("article"),
         MPNEWS("mpnews"),
         WXCARD("wxcard");
 
@@ -78,111 +82,6 @@ public class Message {
             return null;
         }
     }
-
-    public class Text {
-        @JsonProperty("content")
-        private String content;
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-    }
-
-    public class Image {
-        @JsonProperty("media_id")
-        private String mediaId;
-
-        public String getMediaId() {
-            return mediaId;
-        }
-
-        public void setMediaId(String mediaId) {
-            this.mediaId = mediaId;
-        }
-    }
-
-    public class Voice {
-        @JsonProperty("media_id")
-        private String mediaId;
-
-        public String getMediaId() {
-            return mediaId;
-        }
-
-        public void setMediaId(String mediaId) {
-            this.mediaId = mediaId;
-        }
-    }
-
-    public class Video {
-        @JsonProperty("media_id")
-        private String mediaId;
-        @JsonProperty("thumb_media_id")
-        private String thumbMediaId;
-        @JsonProperty("title")
-        private String title;
-        @JsonProperty("description")
-        private String description;
-
-    }
-
-    public class Music {
-        @JsonProperty("title")
-        private String title;
-        @JsonProperty("description")
-        private String description;
-        @JsonProperty("music_url")
-        private String musicUrl;
-        @JsonProperty("hq_music_url")
-        private String hqMusicUrl;
-        @JsonProperty("thumb_media_id")
-        private String thumbMediaId;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getMusicUrl() {
-            return musicUrl;
-        }
-
-        public void setMusicUrl(String musicUrl) {
-            this.musicUrl = musicUrl;
-        }
-
-        public String getHqMusicUrl() {
-            return hqMusicUrl;
-        }
-
-        public void setHqMusicUrl(String hqMusicUrl) {
-            this.hqMusicUrl = hqMusicUrl;
-        }
-
-        public String getThumbMediaId() {
-            return thumbMediaId;
-        }
-
-        public void setThumbMediaId(String thumbMediaId) {
-            this.thumbMediaId = thumbMediaId;
-        }
-    }
-
 
 
     public class Article {
@@ -236,31 +135,6 @@ public class Message {
         this.articles = articles;
     }
 
-    public class Mpnews {
-        @JsonProperty("media_id")
-        private String mediaId;
-
-        public String getMediaId() {
-            return mediaId;
-        }
-
-        public void setMediaId(String mediaId) {
-            this.mediaId = mediaId;
-        }
-    }
-
-    public class Wxcard {
-        @JsonProperty("card_id")
-        private String cardId;
-
-        public String getCardId() {
-            return cardId;
-        }
-
-        public void setCardId(String cardId) {
-            this.cardId = cardId;
-        }
-    }
 
     public String getId() {
         return id;
@@ -278,61 +152,6 @@ public class Message {
         this.msgType = msgType;
     }
 
-    public Text getText() {
-        return text;
-    }
-
-    public void setText(Text text) {
-        this.text = text;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public Voice getVoice() {
-        return voice;
-    }
-
-    public void setVoice(Voice voice) {
-        this.voice = voice;
-    }
-
-    public Video getVideo() {
-        return video;
-    }
-
-    public void setVideo(Video video) {
-        this.video = video;
-    }
-
-    public Music getMusic() {
-        return music;
-    }
-
-    public void setMusic(Music music) {
-        this.music = music;
-    }
-
-    public Mpnews getMpnews() {
-        return mpnews;
-    }
-
-    public void setMpnews(Mpnews mpnews) {
-        this.mpnews = mpnews;
-    }
-
-    public Wxcard getWxcard() {
-        return wxcard;
-    }
-
-    public void setWxcard(Wxcard wxcard) {
-        this.wxcard = wxcard;
-    }
 
     public Integer getSequence() {
         return sequence;
@@ -342,19 +161,84 @@ public class Message {
         this.sequence = sequence;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public String getThumbMediaId() {
+        return thumbMediaId;
+    }
+
+    public void setThumbMediaId(String thumbMediaId) {
+        this.thumbMediaId = thumbMediaId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
+    }
+
+    public String getHqMusicUrl() {
+        return hqMusicUrl;
+    }
+
+    public void setHqMusicUrl(String hqMusicUrl) {
+        this.hqMusicUrl = hqMusicUrl;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "id='" + id + '\'' +
                 ", msgType='" + msgType + '\'' +
-                ", text=" + text +
-                ", image=" + image +
-                ", voice=" + voice +
-                ", video=" + video +
-                ", music=" + music +
+                ", content='" + content + '\'' +
+                ", mediaId='" + mediaId + '\'' +
+                ", thumbMediaId='" + thumbMediaId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", articles=" + articles +
-                ", mpnews=" + mpnews +
-                ", wxcard=" + wxcard +
+                ", cardId='" + cardId + '\'' +
+                ", musicUrl='" + musicUrl + '\'' +
+                ", hqMusicUrl='" + hqMusicUrl + '\'' +
                 ", sequence=" + sequence +
                 '}';
     }

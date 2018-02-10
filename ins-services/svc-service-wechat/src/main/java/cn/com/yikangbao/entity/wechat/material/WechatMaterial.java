@@ -1,5 +1,6 @@
 package cn.com.yikangbao.entity.wechat.material;
 
+import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +12,7 @@ import java.io.File;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
-public class WechatMaterial {
+public class WechatMaterial extends WechatCommonResult{
 
     @JsonProperty("media_id")
     private String mediaId;

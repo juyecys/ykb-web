@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 
 @RestController
-@RequestMapping(value = { "/ykb/wechat/public/message" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/wechat/public/message" })
 public class PublicWechatMessageController {
 
     @Autowired
@@ -53,10 +53,5 @@ public class PublicWechatMessageController {
             logger.error("not find this channel qrcode: {}", e);
         }
         return "";
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.POST,  produces = "application/xml")
-    public String test(Mu) throws IOException {
-
     }
 }

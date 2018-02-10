@@ -5,10 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans.xsd        
 	                    http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 	                    http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context.xsd">
-	<dubbo:consumer filter="setTraceIdPreRpcFilter" />
+<!--	<dubbo:consumer filter="setTraceIdPreRpcFilter" />
 
 	<dubbo:provider filter="setLogMdcPreServiceFilter,wechatServiceRequestFilter"
-		timeout="10000" />
+		timeout="10000" />-->
 
 	<!-- 提供方应用信息，用于计算依赖关系 -->
 	<dubbo:application name="${dubbo.application.name}" />
@@ -40,7 +40,13 @@
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"
-			ref="wechatAuthService" />
-	<bean id="wechatAuthService"
+			ref="wechatAuthService2" />
+	<bean id="wechatAuthService2"
 		  class="cn.com.yikangbao.service.wechat.auth.impl.WechatAuthServiceImpl" />
+
+	<dubbo:service
+			interface="cn.com.yikangbao.service.wechat.material.WechatMaterialService"
+			ref="wechatMaterialService2" />
+	<bean id="wechatMaterialService2"
+		  class="cn.com.yikangbao.service.wechat.material.impl.WechatMaterialServiceImpl" />
 </beans>

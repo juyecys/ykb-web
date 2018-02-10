@@ -191,10 +191,6 @@
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
+        
     </dependencies>
 </project>

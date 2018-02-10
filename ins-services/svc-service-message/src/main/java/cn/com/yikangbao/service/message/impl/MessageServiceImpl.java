@@ -26,8 +26,6 @@ public class MessageServiceImpl implements MessageService {
             case TEXT:
 
                 break;
-            case NEWS:
-                break;
             case IMAGE:
                 break;
             case MUSIC:

@@ -17,6 +17,7 @@
 	<import resource="wechat-context-database.xml" />
 	<import resource="wechat-context-redis.xml" />
 	<import resource="wechat-context-aliyun.xml" />
+	<import resource="wechat-context-dubbo.xml" />
 
 	<task:annotation-driven />
 	<aop:aspectj-autoproxy proxy-target-class="true" />

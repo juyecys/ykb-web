@@ -11,24 +11,10 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class LocalWechatUserDTO extends LocalWechatUser{
-    /**
-     * 推广渠道
-     */
-    private String channels;
-
-    public String getChannels() {
-        return channels;
-    }
-
-    public void setChannels(String channels) {
-        this.channels = channels;
-    }
 
     @Override
     public String toString() {
-        return super.toString() + " WechatUserDTO{" +
-                "channels='" + channels + '\'' +
-                '}';
+        return super.toString();
     }
 
 }

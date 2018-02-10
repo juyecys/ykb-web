@@ -12,7 +12,6 @@
 		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
 		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
 		<result column="qr_code_scene" jdbcType="VARCHAR" property="qrCodeScene" />
-		<result column="channels" jdbcType="VARCHAR" property="channels" />
 	</resultMap>
 
 	<insert id="create" parameterType="LocalWechatUserM">
@@ -81,6 +80,22 @@
 		<include refid="from_wechat_user" />
 		<include refid="sql_where_wu" />
 		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultMap="WechatUserResultMap">
+		SELECT
+		wu.*
+		<include refid="from_wechat_user" />
+		<include refid="sql_where_wu" />
+	</select>
+
+	<select id="findByCondition" resultMap="WechatUserResultMap">
+		SELECT
+		wu.*
+		<include refid="from_wechat_user" />
+		WHERE
+		wu.open_id IS NOT NULL
+		AND wu.name IS NULL
 	</select>
 </mapper>
 
