@@ -1,6 +1,7 @@
 package cn.com.yikangbao.job.wechat;
 
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
+import cn.com.yikangbao.entity.wechat.user.WechatUserDTO;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.job.DistributedExclusiveTask;
 import cn.com.yikangbao.service.wechat.user.WechatUserService;
@@ -28,14 +29,34 @@ public class WechatTimerTasks {
 
     @Scheduled(cron = "0 0/1 * * * ?")
     public void getUserInfo() throws IOException {
-        List<LocalWechatUserDTO> localWechatUserDTOList = localWechatUserService.findByCondition(new LocalWechatUserDTO());
+        List<LocalWechatUserDTO> localWechatUserDTOList = localWechatUserService.findByUnsynchronous();
         if (!localWechatUserDTOList.isEmpty()) {
             List<String> openIds = new LinkedList<>();
             for (LocalWechatUserDTO one : localWechatUserDTOList) {
                 openIds.add(one.getOpenId());
             }
-            List<WechatUser> wechatUserList = wechatUserService.getWechatUserInfoList(openIds);
-            logger.info("wechatUserList: {}", wechatUserList);
+            WechatUserDTO userInfoList = wechatUserService.getWechatUserInfoList(openIds);
+            if (userInfoList.getUserInfoList().isEmpty()) {
+                logger.error("get user info list error, error code: {}, error msg: {}", userInfoList.getErrcode(), userInfoList.getErrmsg());
+                return;
+            }
+            List<WechatUser> wechatUsers = userInfoList.getUserInfoList();
+            logger.info("wechatUsers: {}", wechatUsers);
+            LocalWechatUserDTO wechatUserDTO = new LocalWechatUserDTO();
+            for (WechatUser one: wechatUsers) {
+                wechatUserDTO.setCity(one.getCity());
+                wechatUserDTO.setCountry(one.getCountry());
+                wechatUserDTO.setHeadImgUrl(one.getHeadImgUrl());
+                wechatUserDTO.setNickName(one.getNickname());
+                wechatUserDTO.setProvince(one.getProvince());
+                wechatUserDTO.setRemark(one.getRemark());
+                wechatUserDTO.setGender(one.getSex());
+                wechatUserDTO.setSubscribe(one.getSubscribe());
+                wechatUserDTO.setUnionId(one.getUnionId());
+                wechatUserDTO.setOpenId(one.getOpenId());
+                localWechatUserService.synchronousUser(wechatUserDTO);
+            }
+
         }
 
     }

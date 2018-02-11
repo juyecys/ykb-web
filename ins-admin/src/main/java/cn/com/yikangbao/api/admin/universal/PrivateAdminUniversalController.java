@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping(value = { "/ykb/mg/public/file" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/mg/private/file","/ykb/mg/public/file" }, produces = "application/json")
 public class PrivateAdminUniversalController {
 
     @Autowired
@@ -35,8 +35,6 @@ public class PrivateAdminUniversalController {
             InputStream inputStream = file.getInputStream();
             url = url + file.getOriginalFilename() + "_" + System.currentTimeMillis() + ".jpg";
             aliyunContentStorageService.store(url, inputStream, file.getContentType());
-
-
         } catch (IOException | AliyunContentStorageException e) {
             logger.error("error: {}", e);
             throw e;

@@ -58,4 +58,6 @@ public class PublicWechatMaterialController {
         logger.info("wechat material: {}", list);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
+
+
 }

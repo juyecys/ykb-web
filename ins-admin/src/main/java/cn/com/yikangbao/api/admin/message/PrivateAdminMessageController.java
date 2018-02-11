@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ import java.util.UUID;
  * Created by jeysine on 2018/2/9.
  */
 @RestController
-@RequestMapping(value = { "/ykb/mg/public/message" }, produces = "application/json", consumes = "application/json;")
+@RequestMapping(value = { "/ykb/mg/private/message", "/ykb/mg/public/message" }, produces = "application/json")
 public class PrivateAdminMessageController {
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminMessageController.class);
 
@@ -30,14 +31,19 @@ public class PrivateAdminMessageController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createMessage(@RequestBody Message message) {
-        message.setId(UUID.randomUUID().toString());
-        message = messageService.createOrUpdateMessage(message);
+        message = messageService.createOrUpdate(message);
         return new ResponseEntity<>(ApiResult.success(message), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getMessage(Message message) {
-        List<Message> messageList =  messageService.findAll();
+        List<Message> messageList =  messageService.findByType(message.getType());
         return new ResponseEntity<>(ApiResult.success(messageList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> deleteMessage(@RequestBody Message message) {
+        messageService.delete(message.getId());
+        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
 }

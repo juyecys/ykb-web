@@ -13,10 +13,15 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class LocalWechatUser extends Base{
+    @JsonProperty("open_id")
     private String openId;
+    @JsonProperty("name")
     private String name;
     @JsonProperty("qr_code_scene")
     private String qrCodeScene;
+
+    @JsonProperty("nick_name")
+    private String nickName;
 
     /**
      * 0表示用户没有关注该公众号,1表示有
@@ -24,19 +29,12 @@ public class LocalWechatUser extends Base{
     @JsonProperty("subscribe")
     private Integer subscribe;
 
-    @JsonProperty("nick_name")
-    private String nickname;
-
     /**
      * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
      */
     @JsonProperty("gender")
     private Integer gender;
-    /**
-     * 用户的语言
-     */
-    @JsonProperty("language")
-    private String language;
+
     @JsonProperty("city")
     private String city;
     @JsonProperty("province")
@@ -55,6 +53,14 @@ public class LocalWechatUser extends Base{
     private String unionId;
     @JsonProperty("remark")
     private String remark;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getOpenId() {
         return openId;
@@ -88,28 +94,12 @@ public class LocalWechatUser extends Base{
         this.subscribe = subscribe;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public Integer getGender() {
         return gender;
     }
 
     public void setGender(Integer gender) {
         this.gender = gender;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 
     public String getCity() {
@@ -166,10 +156,9 @@ public class LocalWechatUser extends Base{
                 "openId='" + openId + '\'' +
                 ", name='" + name + '\'' +
                 ", qrCodeScene='" + qrCodeScene + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", subscribe=" + subscribe +
-                ", nickname='" + nickname + '\'' +
                 ", gender=" + gender +
-                ", language='" + language + '\'' +
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 ", country='" + country + '\'' +

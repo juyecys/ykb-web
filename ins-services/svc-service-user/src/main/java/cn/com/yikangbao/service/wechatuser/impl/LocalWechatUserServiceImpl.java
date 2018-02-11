@@ -8,6 +8,8 @@ import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by jeysine on 2018/1/24.
  */
@@ -20,5 +22,19 @@ public class LocalWechatUserServiceImpl extends BaseServiceImpl<LocalWechatUser,
     private void setDao(LocalWechatUserDAO dao) {
         this.dao = dao;
         super.setDAO(dao);
+    }
+
+    /**
+     * 获取未与微信同步的用户
+     * @return
+     */
+    @Override
+    public List<LocalWechatUserDTO> findByUnsynchronous() {
+        return dao.findByUnsynchronous();
+    }
+
+    @Override
+    public void synchronousUser(LocalWechatUser wechatUser) {
+        dao.synchronousUser(wechatUser);
     }
 }

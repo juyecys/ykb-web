@@ -48,8 +48,8 @@ public class WechatMessageServiceImpl implements WechatMessageService {
 
         WechatCustomMessage.News news = message.new News();
 
-        WechatCustomMessage.News.Articl articl = news.new Articl();
-        List<WechatCustomMessage.News.Articl> articls = new LinkedList<>();
+        WechatCustomMessage.News.Article articl = news.new Article();
+        List<WechatCustomMessage.News.Article> articls = new LinkedList<>();
         articl.setDescription(menu.getContent());
         articl.setTitle(menu.getTitle());
         articl.setPicurl(AliyunContentStorageUtils.getFullAccessUrlForKey(menu.getImgUrl()));
@@ -57,6 +57,21 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         articls.add(articl);
 
         news.setArticles(articls);
+        return pushNewsMessage(openId, articls);
+    }
+
+    @Override
+    public WechatCommonResult pushTextMessageByMenuEvent(String openId, LocalWechatMenu menu) throws IOException {
+        return pushTextMessage(openId, menu.getContent());
+    }
+
+    @Override
+    public WechatCommonResult pushNewsMessage(String openId, List<WechatCustomMessage.News.Article> articleList) throws IOException {
+        WechatCustomMessage message = new WechatCustomMessage();
+
+        WechatCustomMessage.News news = message.new News();
+
+        news.setArticles(articleList);
 
         message.setTouser(openId);
         message.setNews(news);
@@ -64,10 +79,6 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         return pushMessage(message);
     }
 
-    @Override
-    public WechatCommonResult pushTextMessageByMenuEvent(String openId, LocalWechatMenu menu) throws IOException {
-        return pushTextMessage(openId, menu.getContent());
-    }
 
     @Override
     public WechatCommonResult pushTextMessage(String openId, String content) throws IOException {

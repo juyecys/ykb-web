@@ -58,7 +58,7 @@ public class PublicWPLoginController {
             user = localWechatUserService.findOneByCondition(user);
             logger.debug("user login success: {}", user.toString());
             request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
-            request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickname());
+            request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
             response.sendRedirect(nextYkbUrl.toString());
         } catch (IOException e) {
             logger.debug("error: {}", e);

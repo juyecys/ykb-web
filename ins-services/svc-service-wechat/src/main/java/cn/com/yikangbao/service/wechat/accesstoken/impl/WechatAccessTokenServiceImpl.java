@@ -99,7 +99,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			}
 
 			wechatAccessToken.setExpiresIn(
-					wechatAccessToken.getExpiresIn()  + (System.currentTimeMillis() / 1000) - 5L);
+					wechatAccessToken.getExpiresIn());
 			logger.debug("get wechat access token suucess:{}", wechatAccessToken.getAccessToken());
 			setAccessTokenToRedis(wechatAccessToken);
 		} catch (IOException e) {
@@ -113,7 +113,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 	private void setAccessTokenToRedis(WechatAccessToken accessToken) throws IOException {
 		logger.debug("set access token to redis start.");
 		Jedis jedis = jedisPool.getResource();
-		Long accessTokenExpiredIn = accessToken.getExpiresIn() - (System.currentTimeMillis() / 1000) - 5L;
+		Long accessTokenExpiredIn = accessToken.getExpiresIn() - 5L;
 		if (accessTokenExpiredIn < 0) {
 			return;
 		}
@@ -127,7 +127,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		}
 	}
 	public static void main(String[] args) {
-		String url = "https://api.weixin.qq.com/cgi-bin/token";
+		/*String url = "https://api.weixin.qq.com/cgi-bin/token";
 		try {
 			Response response = OkHttpUtils.get().url(url)
 					.addParams("grant_type","client_credential")
@@ -139,6 +139,8 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			System.out.println(wechatAccessToken);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		Long s = System.currentTimeMillis()/1000;
+		System.out.println(s);
 	}
 }

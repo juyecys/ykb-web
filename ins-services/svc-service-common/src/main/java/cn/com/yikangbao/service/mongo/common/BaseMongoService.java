@@ -13,4 +13,6 @@ public interface BaseMongoService<M, QM extends M> {
     List<QM> findAll();
 
     List<QM> findAll(Sort var1);
+
+    void delete(String id);
 }

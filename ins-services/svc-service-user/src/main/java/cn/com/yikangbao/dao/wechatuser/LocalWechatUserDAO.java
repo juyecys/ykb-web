@@ -5,10 +5,13 @@ import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by jeysine on 2018/1/24.
  */
 @Component
 public interface LocalWechatUserDAO extends BaseDAO<LocalWechatUser, LocalWechatUserDTO> {
-
+    List<LocalWechatUserDTO> findByUnsynchronous();
+    void synchronousUser(LocalWechatUser wechatUser);
 }

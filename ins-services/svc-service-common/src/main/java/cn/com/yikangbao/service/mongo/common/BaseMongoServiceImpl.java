@@ -22,4 +22,9 @@ public class BaseMongoServiceImpl<M, QM extends M> implements BaseMongoService {
     public List findAll(Sort var1) {
         return null;
     }
+
+    @Override
+    public void delete(String id) {
+
+    }
 }

@@ -4,6 +4,7 @@ package cn.com.yikangbao.service.wechat.user.impl;
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
+import cn.com.yikangbao.entity.wechat.user.WechatUserDTO;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.user.WechatUserService;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
@@ -36,7 +37,7 @@ public class WechatUserServiceImpl implements WechatUserService {
 	}
 
 	@Override
-	public List<WechatUser> getWechatUserInfoList(List<String> openids) throws IOException {
+	public WechatUserDTO getWechatUserInfoList(List<String> openids) throws IOException {
 		if (!openids.isEmpty()) {
 			List<WechatUser> wechatUserList = new LinkedList<>();
 			for (String openid: openids) {
@@ -52,10 +53,9 @@ public class WechatUserServiceImpl implements WechatUserService {
 			logger.info("pro: {}", properties);
 			String result = OkHttpUtils.postString().url(url).content(properties).build().execute().body().string();
 
-			result = result.substring(18, result.length()).replaceAll("\\\\", "");
+			//result = result.substring(18, result.length()).replaceAll("\\\\", "");
 			logger.info("result: {}", result);
-			return mapper.readValue(result,
-					mapper.getTypeFactory().constructParametricType(List.class, WechatUser.class));
+			return mapper.readValue(result, WechatUserDTO.class);
 		}
 		return  null;
 
@@ -73,11 +73,11 @@ public class WechatUserServiceImpl implements WechatUserService {
 
 	public static void main(String[] args) {
 		String result = "{\\\"user_info_list\\\":[{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwnsNk10ZGqqhR3d6AiCLTPI\\\",\\\"nickname\\\":\\\"liangjf\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"广州\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL7C63SboE70ll1edbZ1zQeHnZJuIvshsLt3HcgTuZao3vgzoHibTDa06xRDibUUsbj0o3KJh4ibe2LpKvRIwwkDiaI3\\/132\\\",\\\"subscribe_time\\\":1517193407,\\\"unionid\\\":\\\"opuCTs2h3mOBp79l-DsWbHKNGmHw\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwrWpGfjwW0tTuqpk38rS-hc\\\",\\\"nickname\\\":\\\"Null\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"汕头\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL6wevVCYVxwKiaECagsw5p7BRutXhPW6rpwYlVJb1XvgYSYPTdtQ9Yd5N5FiaIg4rF9Swkoy3C9sp1HcOy2CmdaUic\\/132\\\",\\\"subscribe_time\\\":1517469543,\\\"unionid\\\":\\\"opuCTszT0o5rSO2E0OKRYDCFRrGY\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwrWpGfjwW0tTuqpk38rS-hc\\\",\\\"nickname\\\":\\\"Null\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"汕头\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL6wevVCYVxwKiaECagsw5p7BRutXhPW6rpwYlVJb1XvgYSYPTdtQ9Yd5N5FiaIg4rF9Swkoy3C9sp1HcOy2CmdaUic\\/132\\\",\\\"subscribe_time\\\":1517469543,\\\"unionid\\\":\\\"opuCTszT0o5rSO2E0OKRYDCFRrGY\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwj-hdL6ZzBfFHeSUjGPGajc\\\",\\\"nickname\\\":\\\"希望天空是蓝的\\\",\\\"sex\\\":0,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"\\\",\\\"province\\\":\\\"\\\",\\\"country\\\":\\\"\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL7wKAYiaqsUQMMB0LSGQ82AicGX1nN7bC1HMk8icJkeLSU11wGWxzqbD3SaRkkkQl5mTv2P6ULKTX2libj3sOGLiakHh\\/132\\\",\\\"subscribe_time\\\":1518163530,\\\"unionid\\\":\\\"opuCTsweyjwGJUXUK0laXaPpNnBs\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]}]}";
-		result = result.substring(20, result.length()).replaceAll("\\\\", "");
+		result = result.replaceAll("\\\\", "");
 		try {
 			System.out.println(result);
-			List<WechatUser> list = mapper.readValue(result,
-                    mapper.getTypeFactory().constructParametricType(List.class, WechatUser.class));
+			WechatUserDTO list = mapper.readValue(result,
+					WechatUserDTO.class);
 			System.out.println(list);
 		} catch (IOException e) {
 			e.printStackTrace();

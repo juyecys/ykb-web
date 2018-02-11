@@ -2,10 +2,14 @@ package cn.com.yikangbao.api.admin.login;
 
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
-import cn.com.yikangbao.config.common.CommonContextHolder;
+import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.user.User;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.service.user.UserService;
 import cn.com.yikangbao.utils.common.MD5Util;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,8 @@ public class PublicAdminUserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    private Logger logger = LoggerFactory.getLogger(PublicAdminUserController.class);
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> login(@RequestBody User user, HttpServletRequest request) {
@@ -62,5 +68,20 @@ public class PublicAdminUserController {
 
         return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> createMessage(@RequestBody LocalWechatUser message) {
+        return new ResponseEntity<>(ApiResult.success(message), HttpStatus.OK);
+    }
 
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> createMessage(@RequestBody Message message2) {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = null;
+        /*try {
+             message = mapper.readValue(result, Message.class);
+        } catch (IOException e) {
+            logger.error("error: {}", e);
+        }*/
+        return new ResponseEntity<>(ApiResult.success(message), HttpStatus.OK);
+    }
 }

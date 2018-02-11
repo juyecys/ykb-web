@@ -4,17 +4,23 @@ import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.constants.AliyunOssPath;
 import cn.com.yikangbao.entity.common.Page;
+import cn.com.yikangbao.entity.message.Article;
+import cn.com.yikangbao.entity.message.Message;
+import cn.com.yikangbao.entity.message.MessageDTO;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
+import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
+import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
+import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
@@ -30,9 +36,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestController
-@RequestMapping(value = { "/ykb/mg/public/wechat" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
 public class PrivateAdminWechatController {
 
     @Autowired
@@ -55,6 +63,12 @@ public class PrivateAdminWechatController {
 
     @Autowired
     private WechatMaterialService wechatMaterialService;
+
+    @Autowired
+    private WechatMessageService wechatMessageService2;
+
+    @Autowired
+    private MessageService messageService;
 
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
@@ -154,5 +168,60 @@ public class PrivateAdminWechatController {
         logger.info("wechat material: {}", wechatMaterial);
 
         return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/message", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> sendMessage(@RequestBody MessageDTO message) throws IOException {
+        String open_id = message.getOpenId();
+        List<Message> messages = messageService.findByStatusOrderBySequenceDesc(true);
+
+        if (!messages.isEmpty()) {
+            for (Message one : messages) {
+                    pushMessage(open_id, one);
+            }
+        }
+        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
+    }
+
+    private void pushMessage(String openId, Message message) throws IOException {
+        logger.info("wechat message: {}", message);
+        Message.MsgTypeEnum msgTypeEnum = Message.MsgTypeEnum.getEnumByValue(message.getMsgType());
+        switch (msgTypeEnum) {
+            case TEXT:
+                wechatMessageService2.pushTextMessage(openId, message.getContent());
+                break;
+            case IMAGE:
+                break;
+            case MUSIC:
+                break;
+            case VIDEO:
+                break;
+            case VOICE:
+                break;
+            case MPNEWS:
+                break;
+            case WXCARD:
+                break;
+            case ARTICLE:
+            case ARTICLE_LIST:
+                List<WechatCustomMessage.News.Article> list = generateArticleList(message.getArticleList());
+                wechatMessageService2.pushNewsMessage(openId, list);
+                break;
+        }
+    }
+
+    private List<WechatCustomMessage.News.Article> generateArticleList(List<Article> articles) {
+        WechatCustomMessage wechatCustomMessage = new WechatCustomMessage();
+        WechatCustomMessage.News news = wechatCustomMessage.new News();
+        WechatCustomMessage.News.Article article = news.new Article();
+        List<WechatCustomMessage.News.Article> list = new LinkedList<>();
+        for (Article one: articles) {
+            article.setUrl(one.getUrl());
+            article.setDescription(one.getDescription());
+            article.setPicurl(one.getPicUrl());
+            article.setTitle(one.getTitle());
+            list.add(article);
+        }
+        return list;
     }
 }

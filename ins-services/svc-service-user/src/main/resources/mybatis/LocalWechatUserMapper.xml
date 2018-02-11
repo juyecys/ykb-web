@@ -12,13 +12,24 @@
 		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
 		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
 		<result column="qr_code_scene" jdbcType="VARCHAR" property="qrCodeScene" />
+		<result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+		<result column="subscribe" jdbcType="BIGINT" property="subscribe" />
+		<result column="gender" jdbcType="VARCHAR" property="gender" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="country" jdbcType="VARCHAR" property="country" />
+		<result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
+		<result column="union_id" jdbcType="VARCHAR" property="unionId" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
 	</resultMap>
 
 	<insert id="create" parameterType="LocalWechatUserM">
 		INSERT INTO
-			ykb_wechat_user (id, name, open_id, created_by, created_date, updated_date, updated_by, qr_code_scene)
+			ykb_wechat_user (id, name, open_id, created_by, created_date, updated_date, updated_by, qr_code_scene
+			, nick_name, subscribe, gender, city, province, country, head_img_url, union_id, remark)
 	  	VALUES
-	  		(#{id}, #{name}, #{openId}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{qrCodeScene})
+	  		(#{id}, #{name}, #{openId}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{qrCodeScene}
+	  		, #{nickName}, #{subscribe}, #{gender}, #{city}, #{province}, #{country}, #{headImgUrl}, #{unionId}, #{remark})
 	</insert>
 
 	<update id="update" parameterType="LocalWechatUserM">
@@ -34,10 +45,71 @@
 				updated_by = #{updatedBy},
 			</if>
 			<if test="qrCodeScene != null">
-				qr_code_scene = #{qrCodeScene}
+				qr_code_scene = #{qrCodeScene},
+			</if>
+			<if test="nickName != null">
+				nick_name = #{nickName},
+			</if>
+			<if test="subscribe != null">
+				subscribe = #{subscribe},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="province != null">
+				province = #{province},
+			</if>
+			<if test="country != null">
+				country = #{country},
+			</if>
+			<if test="headImgUrl != null">
+				head_img_url = #{headImgUrl},
+			</if>
+			<if test="unionId != null">
+				union_id = #{unionId},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}
 			</if>
 		</set>
 		WHERE id = #{id}
+	</update>
+
+	<update id="synchronousUser" parameterType="LocalWechatUserM">
+		UPDATE ykb_wechat_user
+		<set>
+			<if test="nickName != null">
+				nick_name = #{nickName},
+			</if>
+			<if test="subscribe != null">
+				subscribe = #{subscribe},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="province != null">
+				province = #{province},
+			</if>
+			<if test="country != null">
+				country = #{country},
+			</if>
+			<if test="headImgUrl != null">
+				head_img_url = #{headImgUrl},
+			</if>
+			<if test="unionId != null">
+				union_id = #{unionId},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}
+			</if>
+		</set>
+		WHERE open_id = #{openId}
 	</update>
 
 	<sql id="sql_where_wu">
@@ -89,13 +161,13 @@
 		<include refid="sql_where_wu" />
 	</select>
 
-	<select id="findByCondition" resultMap="WechatUserResultMap">
+	<select id="findByUnsynchronous" resultMap="WechatUserResultMap">
 		SELECT
 		wu.*
 		<include refid="from_wechat_user" />
 		WHERE
 		wu.open_id IS NOT NULL
-		AND wu.name IS NULL
+		AND wu.nick_name IS NULL
 	</select>
 </mapper>
 

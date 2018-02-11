@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class WechatCustomMessage {
+public class WechatCustomMessage implements Serializable{
+	private static final long serialVersionUID = 8820545938127537114L;
 	/**
 	 * 用户openid
 	 */
@@ -170,9 +172,9 @@ public class WechatCustomMessage {
 	}
 
 	public class News{
-		private List<Articl> articles;
+		private List<Article> articles;
 
-		public class Articl {
+		public class Article {
 			@JsonProperty("title")
 			private String title;
 			@JsonProperty("description")
@@ -215,11 +217,11 @@ public class WechatCustomMessage {
 			}
 		}
 
-		public List<Articl> getArticles() {
+		public List<Article> getArticles() {
 			return articles;
 		}
 
-		public void setArticles(List<Articl> articles) {
+		public void setArticles(List<Article> articles) {
 			this.articles = articles;
 		}
 	}
