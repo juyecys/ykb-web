@@ -67,7 +67,7 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class Text {
+	public class Text implements Serializable {
 		@JsonProperty("content")
 		private String content;
 
@@ -80,7 +80,7 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class Image {
+	public class Image implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -93,7 +93,7 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class Voice {
+	public class Voice implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -106,7 +106,7 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class Video {
+	public class Video implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 		@JsonProperty("thumb_media_id")
@@ -118,7 +118,7 @@ public class WechatCustomMessage implements Serializable{
 
 	}
 
-	public class Music {
+	public class Music implements Serializable {
 		@JsonProperty("title")
 		private String title;
 		@JsonProperty("description")
@@ -171,10 +171,10 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class News{
+	public class News implements Serializable {
 		private List<Article> articles;
 
-		public class Article {
+		public class Article implements Serializable{
 			@JsonProperty("title")
 			private String title;
 			@JsonProperty("description")
@@ -227,7 +227,7 @@ public class WechatCustomMessage implements Serializable{
 	}
 
 
-	public class Mpnews {
+	public class Mpnews implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -240,7 +240,7 @@ public class WechatCustomMessage implements Serializable{
 		}
 	}
 
-	public class Wxcard {
+	public class Wxcard implements Serializable {
 		@JsonProperty("card_id")
 		private String cardId;
 

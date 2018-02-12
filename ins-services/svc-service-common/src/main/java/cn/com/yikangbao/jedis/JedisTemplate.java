@@ -8,7 +8,7 @@ public class JedisTemplate {
 	private JedisPool jedisPool;
 
 	public <T> T execute(JedisCallback<T> callback) throws JedisAccessException {
-		try (Jedis jedis = jedisPool.getResource();) {
+		try (Jedis jedis = jedisPool.getResource()) {
 			if (jedis == null) {
 				throw new JedisException("No Redis Connection is available.");
 			}

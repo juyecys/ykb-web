@@ -1,4 +1,4 @@
-package cn.com.yikangbao.event;
+package cn.com.yikangbao.service.event;
 
 public class EventServiceException extends Exception {
 

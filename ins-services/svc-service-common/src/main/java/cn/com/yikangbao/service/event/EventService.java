@@ -1,6 +1,7 @@
-package cn.com.yikangbao.event;
+package cn.com.yikangbao.service.event;
 
 
+import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.listener.EventListener;
 
 public interface EventService {

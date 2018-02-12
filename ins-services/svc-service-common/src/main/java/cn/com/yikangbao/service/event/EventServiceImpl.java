@@ -1,5 +1,6 @@
-package cn.com.yikangbao.event;
+package cn.com.yikangbao.service.event;
 
+import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.jedis.JedisAccessException;
 import cn.com.yikangbao.jedis.JedisCallback;
 import cn.com.yikangbao.jedis.JedisTemplate;

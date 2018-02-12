@@ -24,5 +24,9 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>ins-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

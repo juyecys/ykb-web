@@ -12,7 +12,11 @@ import java.util.List;
  */
 @Component
 public interface MessageDAO extends PagingAndSortingRepository<Message, String> {
-    List<Message> findByStatusOrderBySequenceDesc(Boolean status);
+    List<Message> findByStatusOrderBySequence(Boolean status);
 
-    List<Message> findByType(String type);
+    List<Message> findByTypeAndQrCodeScene(String type, String qrCodeScene);
+
+    List<Message> findByStatusAndTypeOrderBySequence(Boolean status, String type);
+
+    List<Message> findByStatusAndTypeAndQrCodeSceneOrderBySequence(Boolean status, String type, String qrCodeScene);
 }

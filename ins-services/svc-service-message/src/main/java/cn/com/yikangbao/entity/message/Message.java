@@ -1,5 +1,6 @@
 package cn.com.yikangbao.entity.message;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,17 +56,33 @@ public class Message implements Serializable{
     @JsonProperty("status")
     private Boolean status;
 
-    @JsonProperty("send_channel_message")
-    private Boolean sendChannelMessage;
-
-    @JsonProperty("send_subscribe_message")
-    private Boolean sendSubscribeMessage;
-
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("qr_code_scene")
+    private String qrCodeScene;
+
     @JsonProperty("article_list")
     private List<Article> articleList;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonProperty("created_date")
+    private Date createdDate;
+
+    @JsonProperty("created_by")
+    private String createdBy;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonProperty("updated_date")
+    private Date updatedDate;
+
+    @JsonProperty("updated_by")
+    private String updatedBy;
+
+    public enum TypeEnum {
+        CHANNEL,
+        SUBSCRIBE
+    }
 
     public enum MsgTypeEnum {
         IMAGE("image"),
@@ -98,7 +116,37 @@ public class Message implements Serializable{
     }
 
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
     public String getId() {
         return id;
@@ -197,22 +245,6 @@ public class Message implements Serializable{
         this.status = status;
     }
 
-    public Boolean getSendChannelMessage() {
-        return sendChannelMessage;
-    }
-
-    public void setSendChannelMessage(Boolean sendChannelMessage) {
-        this.sendChannelMessage = sendChannelMessage;
-    }
-
-    public Boolean getSendSubscribeMessage() {
-        return sendSubscribeMessage;
-    }
-
-    public void setSendSubscribeMessage(Boolean sendSubscribeMessage) {
-        this.sendSubscribeMessage = sendSubscribeMessage;
-    }
-
     public String getType() {
         return type;
     }
@@ -233,6 +265,15 @@ public class Message implements Serializable{
         this.articleList = articleList;
     }
 
+
+    public String getQrCodeScene() {
+        return qrCodeScene;
+    }
+
+    public void setQrCodeScene(String qrCodeScene) {
+        this.qrCodeScene = qrCodeScene;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -248,9 +289,8 @@ public class Message implements Serializable{
                 ", hqMusicUrl='" + hqMusicUrl + '\'' +
                 ", sequence=" + sequence +
                 ", status=" + status +
-                ", sendChannelMessage=" + sendChannelMessage +
-                ", sendSubscribeMessage=" + sendSubscribeMessage +
                 ", type='" + type + '\'' +
+                ", qrCodeScene='" + qrCodeScene + '\'' +
                 ", articleList=" + articleList +
                 '}';
     }

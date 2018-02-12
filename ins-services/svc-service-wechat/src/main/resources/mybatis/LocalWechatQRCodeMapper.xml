@@ -14,19 +14,21 @@
 		<result column="scene" jdbcType="VARCHAR" property="scene" />
 		<result column="scan_time" jdbcType="VARCHAR" property="scanTime" />
 		<result column="ticket" jdbcType="VARCHAR" property="ticket" />
+		<result column="send_channel_message" jdbcType="BOOLEAN" property="sendChannelMessage" />
+		<result column="send_subscribe_message" jdbcType="BOOLEAN" property="sendSubscribeMessage" />
 	</resultMap>
 
 	<insert id="create" parameterType="LocalWechatQRCodeM">
 		INSERT INTO
 			ykb_wechat_qr_code (id, created_by, created_date, updated_date, updated_by,
-			channels, qr_code_url, scene, scan_time, ticket)
+			channels, qr_code_url, scene, scan_time, ticket, send_channel_message, send_subscribe_message)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime}, #{ticket})
+	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime}, #{ticket}, #{sendChannelMessage}, #{sendSubscribeMessage})
 	</insert>
 
 	<update id="update" parameterType="LocalWechatQRCodeM">
-		UPDATE ykb_wechat_qr_code SET
+		UPDATE ykb_wechat_qr_code
 		<set>
 			<if test="channels != null">
 				channels = #{channels},
@@ -38,7 +40,13 @@
 				updated_by = #{updatedBy},
 			</if>
 			<if test="scanTime != null">
-				scan_time = #{scanTime}
+				scan_time = #{scanTime},
+			</if>
+			<if test="sendChannelMessage != null">
+				send_channel_message = #{sendChannelMessage},
+			</if>
+			<if test="sendSubscribeMessage != null">
+				send_subscribe_message = #{sendSubscribeMessage},
 			</if>
 		</set>
 		WHERE id = #{id}

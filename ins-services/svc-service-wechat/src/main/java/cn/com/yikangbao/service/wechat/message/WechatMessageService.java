@@ -21,4 +21,5 @@ public interface WechatMessageService {
     WechatCommonResult pushNewsMessage(String openId, List<WechatCustomMessage.News.Article> articleList) throws IOException;
 
     WechatCommonResult pushTextMessage(String openId, String content) throws IOException;
+
 }

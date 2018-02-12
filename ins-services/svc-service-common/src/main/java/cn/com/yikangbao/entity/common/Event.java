@@ -1,4 +1,4 @@
-package cn.com.yikangbao.event;
+package cn.com.yikangbao.entity.common;
 
 import java.util.HashMap;
 import java.util.Map;

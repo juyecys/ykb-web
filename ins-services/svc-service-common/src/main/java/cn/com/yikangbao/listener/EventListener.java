@@ -1,7 +1,7 @@
 package cn.com.yikangbao.listener;
 
 
-import cn.com.yikangbao.event.Event;
+import cn.com.yikangbao.entity.common.Event;
 
 public interface EventListener {
 	public String getId();

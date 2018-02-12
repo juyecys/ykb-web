@@ -5,6 +5,7 @@ import cn.com.yikangbao.entity.common.Base;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.service.common.BaseService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,12 +19,14 @@ public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseServi
     @Override
     public M create(M entity) {
         entity.setId(UUID.randomUUID().toString());
+        entity.setCreatedDate(new Date());
         dao.create(entity);
         return entity;
     }
 
     @Override
     public M update(M entity) {
+        entity.setUpdatedDate(new Date());
         dao.update(entity);
         return entity;
     }

@@ -1,6 +1,6 @@
 package cn.com.yikangbao.service.wechat.event.impl;
 
-import cn.com.yikangbao.contants.wechat.WechatConfigParams;
+import cn.com.yikangbao.contants.wechat.WechatEventConstant;
 import cn.com.yikangbao.entity.wechat.event.WechatBaseEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
@@ -8,13 +8,14 @@ import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
-import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
+import cn.com.yikangbao.entity.common.Event;
+import cn.com.yikangbao.service.event.EventService;
+import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
-import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,7 @@ import java.util.HashMap;
 @Service("wechatEventService")
 public class WechatEventServiceImpl implements WechatEventService {
 
-    @Autowired
-    private LocalWechatUserService localWechatUserService;
+
 
     @Autowired
     private LocalWechatQRCodeService localWechatQRCodeService;
@@ -41,6 +41,9 @@ public class WechatEventServiceImpl implements WechatEventService {
 
     @Autowired
     private WechatMessageService wechatMessageService;
+
+    @Autowired
+    private EventService eventService;
 
     private Logger logger = LoggerFactory.getLogger(WechatEventServiceImpl.class);
 
@@ -65,25 +68,14 @@ public class WechatEventServiceImpl implements WechatEventService {
     }
 
     @Override
-    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException {
-        logger.debug("处理关注用户数据 subscribeEvent: {}",subscribeEvent);
+    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException {
+        logger.debug("发布关注事件 subscribeEvent: {}",subscribeEvent);
+        Event event = new Event();
+        event.addProperty("openId", subscribeEvent.getFromUserName());
+        event.addProperty("createTime", subscribeEvent.getCreateTime());
+        event.addProperty("eventKey", subscribeEvent.getEventKey());
+        eventService.publish(event);
 
-        LocalWechatUserDTO user = new LocalWechatUserDTO();
-        user.setOpenId(subscribeEvent.getFromUserName());
-        LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
-
-        user.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
-        if (subscribeEvent.getEventKey() != null) {
-            user.setQrCodeScene(subscribeEvent.getEventKey().replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, ""));
-        }
-
-        if (old == null) {
-            localWechatUserService.create(user);
-        } else {
-            old.setCreatedDate(DateUtils.toDate(subscribeEvent.getCreateTime()));
-            localWechatUserService.update(old);
-        }
-        wechatMessageService.pushTextMessage(user.getOpenId(), WechatConfigParams.WECHAT_SUBSCRIBE_REPLY);
     }
 
     @Override
@@ -94,15 +86,12 @@ public class WechatEventServiceImpl implements WechatEventService {
     @Override
     public void processScanEvent(WechatScanEvent scanEvent) throws Exception {
         logger.debug("处理扫描二维码事件 scanEvent: {}",scanEvent);
-        LocalWechatQRCode qrCode = new LocalWechatQRCode();
-        qrCode.setScene(scanEvent.getEventKey());
-        qrCode = localWechatQRCodeService.findOneByCondition(qrCode);
-        if (qrCode == null) {
-            logger.warn("not find this channel qrcode, scene: {}", scanEvent.getEventKey());
-            throw new Exception("not find this channel qrcode, scene");
-        }
-        qrCode.setScanTime(qrCode.getScanTime() + 1);
-        localWechatQRCodeService.update(qrCode);
+
+        /*Event event = new Event();
+        event.addProperty("eventKey", scanEvent.getEventKey());
+        event.addProperty("openId", scanEvent.getFromUserName());
+        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE);
+        eventService.publish(event);*/
     }
 
     @Override
@@ -117,14 +106,13 @@ public class WechatEventServiceImpl implements WechatEventService {
             logger.warn("not found this wechat menu key: {}", menuEvent.getEventKey());
             throw new Exception("not found this wechat menu");
         }
-        WechatCommonResult result;
 
         switch (menu.getType()) {
             case "article":
-                result = wechatMessageService.pushNewsMessageByMenuEvent(menuEvent.getFromUserName(), menu);
+                wechatMessageService.pushNewsMessageByMenuEvent(menuEvent.getFromUserName(), menu);
                 break;
             case "text":
-                result = wechatMessageService.pushTextMessageByMenuEvent(menuEvent.getFromUserName(), menu);
+                wechatMessageService.pushTextMessageByMenuEvent(menuEvent.getFromUserName(), menu);
                 break;
         }
 

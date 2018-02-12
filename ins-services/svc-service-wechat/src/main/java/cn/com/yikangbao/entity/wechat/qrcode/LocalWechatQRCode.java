@@ -3,32 +3,44 @@ package cn.com.yikangbao.entity.wechat.qrcode;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 @Alias("LocalWechatQRCodeM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class LocalWechatQRCode extends Base {
     /**
      * 推广渠道
      */
+    @JsonProperty("channels")
     private String channels;
 
     /**
      * 二维码地址
      */
+    @JsonProperty("qr_code_url")
     private String qrCodeUrl;
 
     /***
      * 编码
      */
+    @JsonProperty("scene")
     private String scene;
     /**
      * 扫描次数
      */
+    @JsonProperty("scan_time")
     private Integer scanTime;
 
+    @JsonProperty("ticket")
     private String ticket;
+
+    @JsonProperty("send_channel_message")
+    private Boolean sendChannelMessage;
+
+    @JsonProperty("send_subscribe_message")
+    private Boolean sendSubscribeMessage;
 
     public String getChannels() {
         return channels;
@@ -70,6 +82,22 @@ public class LocalWechatQRCode extends Base {
         this.ticket = ticket;
     }
 
+    public Boolean getSendChannelMessage() {
+        return sendChannelMessage;
+    }
+
+    public void setSendChannelMessage(Boolean sendChannelMessage) {
+        this.sendChannelMessage = sendChannelMessage;
+    }
+
+    public Boolean getSendSubscribeMessage() {
+        return sendSubscribeMessage;
+    }
+
+    public void setSendSubscribeMessage(Boolean sendSubscribeMessage) {
+        this.sendSubscribeMessage = sendSubscribeMessage;
+    }
+
     @Override
     public String toString() {
         return "LocalWechatQRCode{" +
@@ -78,6 +106,8 @@ public class LocalWechatQRCode extends Base {
                 ", scene='" + scene + '\'' +
                 ", scanTime=" + scanTime +
                 ", ticket='" + ticket + '\'' +
+                ", sendChannelMessage=" + sendChannelMessage +
+                ", sendSubscribeMessage=" + sendSubscribeMessage +
                 '}';
     }
 }

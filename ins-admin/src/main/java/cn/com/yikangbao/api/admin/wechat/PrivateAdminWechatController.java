@@ -103,17 +103,22 @@ public class PrivateAdminWechatController {
         try {
             Boolean isSuccess = wechatMenuService.generateWechatMenu();
             if (!isSuccess) {
-                return new ResponseEntity<ApiResult>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
+                return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
             }
         } catch (IOException e) {
             logger.error("generate wechat menu faild: {}", e);
-            return new ResponseEntity<ApiResult>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
+            return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
         }
-        return new ResponseEntity<ApiResult>(ApiResult.success(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody LocalWechatQRCode localQrCode) {
+        if (localQrCode.getId() != null) {
+            localWechatQRCodeService.update(localQrCode);
+            localQrCode = localWechatQRCodeService.findOneByCondition(localQrCode);
+            return new ResponseEntity<>(ApiResult.success(localQrCode), HttpStatus.OK);
+        }
 
         WechatQRCode wechatQRCode = WechatQRCodeUtils.getForeverQRCode(localQrCode);
         WechatQRCodeResult result = null;
@@ -170,58 +175,6 @@ public class PrivateAdminWechatController {
         return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/message", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> sendMessage(@RequestBody MessageDTO message) throws IOException {
-        String open_id = message.getOpenId();
-        List<Message> messages = messageService.findByStatusOrderBySequenceDesc(true);
 
-        if (!messages.isEmpty()) {
-            for (Message one : messages) {
-                    pushMessage(open_id, one);
-            }
-        }
-        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
-    }
 
-    private void pushMessage(String openId, Message message) throws IOException {
-        logger.info("wechat message: {}", message);
-        Message.MsgTypeEnum msgTypeEnum = Message.MsgTypeEnum.getEnumByValue(message.getMsgType());
-        switch (msgTypeEnum) {
-            case TEXT:
-                wechatMessageService2.pushTextMessage(openId, message.getContent());
-                break;
-            case IMAGE:
-                break;
-            case MUSIC:
-                break;
-            case VIDEO:
-                break;
-            case VOICE:
-                break;
-            case MPNEWS:
-                break;
-            case WXCARD:
-                break;
-            case ARTICLE:
-            case ARTICLE_LIST:
-                List<WechatCustomMessage.News.Article> list = generateArticleList(message.getArticleList());
-                wechatMessageService2.pushNewsMessage(openId, list);
-                break;
-        }
-    }
-
-    private List<WechatCustomMessage.News.Article> generateArticleList(List<Article> articles) {
-        WechatCustomMessage wechatCustomMessage = new WechatCustomMessage();
-        WechatCustomMessage.News news = wechatCustomMessage.new News();
-        WechatCustomMessage.News.Article article = news.new Article();
-        List<WechatCustomMessage.News.Article> list = new LinkedList<>();
-        for (Article one: articles) {
-            article.setUrl(one.getUrl());
-            article.setDescription(one.getDescription());
-            article.setPicurl(one.getPicUrl());
-            article.setTitle(one.getTitle());
-            list.add(article);
-        }
-        return list;
-    }
 }
