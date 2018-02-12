@@ -20,7 +20,6 @@
         <module>svc-service-order</module>
         <module>svc-service-partner</module>
         <module>svc-service-hospital</module>
-        <module>svc-service-event</module>
         <module>svc-service-message</module>
     </modules>
 
