@@ -120,24 +120,7 @@ public class WechatEventServiceImpl implements WechatEventService {
     }
 
     public static void main(String[] args) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("CreateTime", "1519378340");
-        map.put("Event", "subscribe");
-        map.put("ToUserName", "gh_a1fc816c0c9a");
-        map.put("FromUserName", "opqVDwrWpGfjwW0tTuqpk38rS-hc");
-        map.put("MsgType", "event");
-        try {
-            WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(map, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
-            System.out.println(subscribeEvent);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+
 
     }
 }

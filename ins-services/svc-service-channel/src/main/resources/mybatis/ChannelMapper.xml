@@ -59,35 +59,39 @@
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
-				and wqc.id = #{id}
+				and wc.id = #{id}
+			</if>
+			<if test="channelGroupId != null">
+				and wc.channel_group_id = #{channelGroupId}
 			</if>
 			<if test="scene != null">
-				and wqc.scene = #{scene}
+				and wc.scene = #{scene}
 			</if>
 			<if test="channels != null">
-				and wqc.channels = #{channels}
+				and wc.channels LIKE '%' + ${channels} + '%'
 			</if>
+
 		</where>
 	</sql>
 
-	<sql id="from_wechat_qr_code">
-		ykb_wechat_qr_code wqc
+	<sql id="from_wechat_channel">
+		ykb_wechat_qr_code wc
 	</sql>
 
-	<select id="findByConditionPage" resultMap="WechaQRCodeResultMap">
+	<select id="findByConditionPage" resultType="ChannelQM">
 		SELECT
-		wqc.*
+		wc.*
 		FROM
-		<include refid="from_wechat_qr_code" />
+		<include refid="from_wechat_channel" />
 		<include refid="sql_where" />
-	    ORDER BY wqc.created_date DESC
+	    ORDER BY wc.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultMap="WechaQRCodeResultMap">
+	<select id="findOneByCondition" resultType="ChannelQM">
 		SELECT
-		wqc.*
+		wc.*
 		FROM
-		<include refid="from_wechat_qr_code" />
+		<include refid="from_wechat_channel" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>

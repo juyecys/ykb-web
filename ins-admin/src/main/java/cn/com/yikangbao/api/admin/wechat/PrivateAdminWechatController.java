@@ -3,25 +3,23 @@ package cn.com.yikangbao.api.admin.wechat;
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.constants.AliyunOssPath;
+import cn.com.yikangbao.entity.channel.Channel;
+import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Page;
-import cn.com.yikangbao.entity.message.Article;
-import cn.com.yikangbao.entity.message.Message;
-import cn.com.yikangbao.entity.message.MessageDTO;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
-import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
+import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
-import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
@@ -36,8 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
@@ -50,7 +46,7 @@ public class PrivateAdminWechatController {
     private WechatQRCodeService wechatQRCodeService;
 
     @Autowired
-    private LocalWechatQRCodeService localWechatQRCodeService;
+    private ChannelService channelService;
 
     @Autowired
     private AliyunContentStorageService aliyunContentStorageService;
@@ -113,14 +109,13 @@ public class PrivateAdminWechatController {
     }
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody LocalWechatQRCode localQrCode) {
-        if (localQrCode.getId() != null) {
-            localWechatQRCodeService.update(localQrCode);
-            localQrCode = localWechatQRCodeService.findOneByCondition(localQrCode);
-            return new ResponseEntity<>(ApiResult.success(localQrCode), HttpStatus.OK);
+    public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody Channel channel) {
+        if (channel.getId() != null) {
+            channelService.update(channel);
+            return new ResponseEntity<>(ApiResult.success(channel), HttpStatus.OK);
         }
 
-        WechatQRCode wechatQRCode = WechatQRCodeUtils.getForeverQRCode(localQrCode);
+        WechatQRCode wechatQRCode = WechatQRCodeUtils.getForeverQRCode(channel);
         WechatQRCodeResult result = null;
 
         try {
@@ -131,14 +126,14 @@ public class PrivateAdminWechatController {
             if (!savePath.endsWith("/")) {
                 savePath += "/";
             }
-            savePath = savePath + localQrCode.getScene() + "_" + System.currentTimeMillis() + ".jpg";
+            savePath = savePath + channel.getScene() + "_" + System.currentTimeMillis() + ".jpg";
             aliyunContentStorageService.store(savePath, inputStream, "image/jpg");
 
-            localQrCode.setTicket(result.getTicket());
-            localQrCode.setQrCodeUrl(savePath);
-            localQrCode.setScanTime(0);
-            localQrCode = localWechatQRCodeService.create(localQrCode);
-            localQrCode.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(localQrCode.getQrCodeUrl()));
+            channel.setTicket(result.getTicket());
+            channel.setQrCodeUrl(savePath);
+            channel.setScanTime(0);
+            channel = channelService.create(channel);
+            channel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channel.getQrCodeUrl()));
         } catch (IOException e) {
             logger.error("transform wechatQrCode:{} to json faild: {}", wechatQRCode, e);
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
@@ -146,13 +141,13 @@ public class PrivateAdminWechatController {
             logger.error("transfer wechatQrCode:{}, ticket:{}  to aliyun oss faild: {}", wechatQRCode, result.getTicket(), e);
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
         }
-        return new ResponseEntity<>(ApiResult.success(localQrCode), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResult.success(channel), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getWechatQrCode(LocalWechatQRCode localQrCode) {
-        Page<LocalWechatQRCode> page = localWechatQRCodeService.findByConditionPage(localQrCode);
-        for (LocalWechatQRCode one: page.getResult()) {
+    public ResponseEntity<ApiResult> getWechatQrCode(ChannelDTO channel) {
+        Page<ChannelDTO> page = channelService.findByConditionPage(channel);
+        for (ChannelDTO one: page.getResult()) {
             one.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(one.getQrCodeUrl()));
         }
         logger.info("qrcode : {}", page);

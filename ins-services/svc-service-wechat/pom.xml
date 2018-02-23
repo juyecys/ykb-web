@@ -28,5 +28,10 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>ins-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-channel</artifactId>
+        </dependency>
     </dependencies>
 </project>

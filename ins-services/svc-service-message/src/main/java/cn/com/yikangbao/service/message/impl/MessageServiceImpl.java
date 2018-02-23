@@ -8,6 +8,8 @@ import cn.com.yikangbao.mongo.dao.message.MessageDAO;
 import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.untils.common.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private WechatMessageService wechatMessageService2;
+
+    private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
     @Override
     public void pushMessage(String openId, Message message) throws IOException {
@@ -68,6 +72,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void pushSubscribeMessage(String openid) throws IOException {
         List<Message> messageList = findByStatusAndTypeOrderBySequence(true, Message.TypeEnum.SUBSCRIBE.name());
+        logger.debug("subscribe messageList: {}", messageList);
         pushMessageList(openid, messageList);
     }
 

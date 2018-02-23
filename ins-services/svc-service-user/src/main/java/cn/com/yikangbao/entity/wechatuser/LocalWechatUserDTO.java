@@ -27,6 +27,9 @@ public class LocalWechatUserDTO extends LocalWechatUser{
     @JsonProperty("created_date_end")
     private Date createdDateEnd;
 
+    @JsonProperty("channel_group_name")
+    private String channelGroupName;
+
     public String getChannels() {
         return channels;
     }
@@ -51,12 +54,21 @@ public class LocalWechatUserDTO extends LocalWechatUser{
         this.createdDateEnd = createdDateEnd;
     }
 
+    public String getChannelGroupName() {
+        return channelGroupName;
+    }
+
+    public void setChannelGroupName(String channelGroupName) {
+        this.channelGroupName = channelGroupName;
+    }
+
     @Override
     public String toString() {
         return "LocalWechatUserDTO{" +
                 "channels='" + channels + '\'' +
                 ", createdDateStart=" + createdDateStart +
                 ", createdDateEnd=" + createdDateEnd +
+                ", channelGroupName='" + channelGroupName + '\'' +
                 '}';
     }
 }
