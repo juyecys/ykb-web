@@ -38,11 +38,8 @@ public class AuditableInterceptor implements Interceptor {
         Object result = null;
 
         if (target instanceof Executor) {
-            long start = System.currentTimeMillis();
-            Method method = invocation.getMethod();
             /**执行方法*/
             result = invocation.proceed();
-            long end = System.currentTimeMillis();
             final Object[] args = invocation.getArgs();
 
             //获取原始的ms

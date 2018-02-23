@@ -21,6 +21,6 @@
 			<property name="pageSqlId" value=".*Page.*" />
 		</plugin>
 
-		<plugin interceptor="cn.com.yikangbao.interceptor.authority.SecurityAuditableInterceptor"/>
+		<plugin interceptor="cn.com.yikangbao.interceptor.AuditableInterceptor"/>
 	</plugins>
 </configuration>
