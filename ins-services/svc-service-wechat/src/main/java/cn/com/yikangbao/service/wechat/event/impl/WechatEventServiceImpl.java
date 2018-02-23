@@ -75,6 +75,7 @@ public class WechatEventServiceImpl implements WechatEventService {
         event.addProperty("openId", subscribeEvent.getFromUserName());
         event.addProperty("createTime", subscribeEvent.getCreateTime());
         event.addProperty("eventKey", subscribeEvent.getEventKey());
+        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE);
         eventService.publish(event);
 
     }
