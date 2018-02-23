@@ -31,19 +31,19 @@ public class MapUtils {
             Field[] fields = clazz.getDeclaredFields();
             if(fields != null){
                 for (Field field:fields){
-                    if (dataMap.get(field.getName()) == null) {
-                        continue;
-                    }
-
-                    field.setAccessible(true);
-                    Method m = obj.getClass().getMethod("set" + StringUtil.toUpperCaseFirstOne(field.getName()), field.getType());
-
                     Object param ;
                     if (firstOneCase.equals(FirstOneCaseEnum.UPPER)) {
                         param = dataMap.get(StringUtil.toUpperCaseFirstOne(field.getName()));
                     } else {
                         param = dataMap.get(StringUtil.toLowerCaseFirstOne(field.getName()));
                     }
+
+                    if (param == null) {
+                        continue;
+                    }
+
+                    field.setAccessible(true);
+                    Method m = obj.getClass().getMethod("set" + StringUtil.toUpperCaseFirstOne(field.getName()), field.getType());
 
                     switch (field.getType().getCanonicalName()) {
                         case "java.lang.Long":
