@@ -32,6 +32,14 @@ public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseServi
     }
 
     @Override
+    public M createOrUpdate(M entity) throws Exception {
+        if (entity.getId() == null) {
+            return create(entity);
+        }
+        return update(entity);
+    }
+
+    @Override
     public void deleteById(String id) {
         dao.deleteById(id);
     }

@@ -1,0 +1,38 @@
+package cn.com.yikangbao.api.admin.channelgroup;
+
+import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.entity.channelgroup.ChannelGroup;
+import cn.com.yikangbao.entity.channelgroup.ChannelGroupDTO;
+import cn.com.yikangbao.entity.common.Page;
+import cn.com.yikangbao.service.channelgroup.ChannelGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * Created by jeysine on 2018/2/21.
+ */
+@RestController
+@RequestMapping(value = "/ykb/mg/private/channelgroup", produces = "application/json")
+public class PrivateAdminChannelGroupController {
+    @Autowired
+    private ChannelGroupService channelGroupService;
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody ChannelGroup channelGroup) {
+        channelGroup = channelGroupService.createOrUpdate(channelGroup);
+        return new ResponseEntity<>(ApiResult.success(channelGroup), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getChannelGroup(ChannelGroupDTO channelGroup) {
+       Page<ChannelGroupDTO> page = channelGroupService.findByConditionPage(channelGroup);
+        return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+}

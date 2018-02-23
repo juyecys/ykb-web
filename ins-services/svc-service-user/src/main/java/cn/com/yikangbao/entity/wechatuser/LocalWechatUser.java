@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
+import java.util.Date;
+
 /**
  * Created by jeysine on 2018/1/24.
  */
@@ -53,6 +55,9 @@ public class LocalWechatUser extends Base{
     private String unionId;
     @JsonProperty("remark")
     private String remark;
+
+    @JsonProperty("subscribe_time")
+    private Date subscribeTime;
 
     public String getNickName() {
         return nickName;
@@ -148,6 +153,14 @@ public class LocalWechatUser extends Base{
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Date getSubscribeTime() {
+        return subscribeTime;
+    }
+
+    public void setSubscribeTime(Date subscribeTime) {
+        this.subscribeTime = subscribeTime;
     }
 
     @Override

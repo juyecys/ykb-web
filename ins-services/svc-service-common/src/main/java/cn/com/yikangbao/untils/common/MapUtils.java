@@ -36,13 +36,13 @@ public class MapUtils {
                     }
 
                     field.setAccessible(true);
-                    Method m = obj.getClass().getMethod("set" + toUpperCaseFirstOne(field.getName()), field.getType());
+                    Method m = obj.getClass().getMethod("set" + StringUtil.toUpperCaseFirstOne(field.getName()), field.getType());
 
                     Object param ;
                     if (firstOneCase.equals(FirstOneCaseEnum.UPPER)) {
-                        param = dataMap.get(toUpperCaseFirstOne(field.getName()));
+                        param = dataMap.get(StringUtil.toUpperCaseFirstOne(field.getName()));
                     } else {
-                        param = dataMap.get(toLowerCaseFirstOne(field.getName()));
+                        param = dataMap.get(StringUtil.toLowerCaseFirstOne(field.getName()));
                     }
 
                     switch (field.getType().getCanonicalName()) {
@@ -106,19 +106,6 @@ public class MapUtils {
         return map;
     }
 
-    public static String toLowerCaseFirstOne(String s){
-        if(Character.isLowerCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
-    }
-
-    private static String toUpperCaseFirstOne(String s){
-        if(Character.isUpperCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
-    }
 
     public enum FirstOneCaseEnum {
         UPPER // 类字段首字母大写

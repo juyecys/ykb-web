@@ -21,6 +21,7 @@
 		<result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
 		<result column="union_id" jdbcType="VARCHAR" property="unionId" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="channels" jdbcType="VARCHAR" property="channels" />
 	</resultMap>
 
 	<insert id="create" parameterType="LocalWechatUserM">
@@ -125,6 +126,9 @@
 			</if>
 			<if test="qrCodeScene != null">
 				and wu.qr_code_scene = #{qrCodeScene}
+			</if>
+			<if test="createdDateStart != null and createdDateEnd != null">
+				and wu.createdDate &lt;= createdDateStart AND wu.createdDate &gt;= createdDateEnd
 			</if>
 		</where>
 	</sql>

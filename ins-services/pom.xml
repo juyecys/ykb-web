@@ -21,6 +21,7 @@
         <module>svc-service-partner</module>
         <module>svc-service-hospital</module>
         <module>svc-service-message</module>
+        <module>svc-service-channel</module>
     </modules>
 
     <!--<dependencies>

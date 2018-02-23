@@ -14,6 +14,8 @@ public interface BaseService<M extends Base,QM extends M> {
 
     M update(M entity);
 
+    M createOrUpdate(M entity) throws Exception;
+
     void deleteById(String id);
 
     List<QM> findByCondition(QM qm);

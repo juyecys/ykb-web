@@ -1,5 +1,6 @@
 package cn.com.yikangbao.filter.wp;
 
+import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,10 @@ public class WechatUserAuthFilter implements Filter {
             out.close();
             return;
         }
+        WechatContextHolder.setOpenId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_OPENID));
+        WechatContextHolder.setNickName((String) req.getSession().getAttribute(WechatPublicContants.SESSION_NICKNAME));
+        WechatContextHolder.setUserId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_USERID));
+        WechatContextHolder.setUnionId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_UNIONID));
         chain.doFilter(request, response);
     }
 

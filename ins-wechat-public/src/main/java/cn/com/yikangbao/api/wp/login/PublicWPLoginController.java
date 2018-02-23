@@ -34,7 +34,7 @@ public class PublicWPLoginController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public void getHospital(HttpServletRequest request, HttpServletResponse response) {
+    public void login(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
 
@@ -59,6 +59,9 @@ public class PublicWPLoginController {
             logger.debug("user login success: {}", user.toString());
             request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
             request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
+
+            request.getSession().setAttribute(WechatPublicContants.SESSION_USERID, user.getId());
+            request.getSession().setAttribute(WechatPublicContants.SESSION_UNIONID, user.getUnionId());
             response.sendRedirect(nextYkbUrl.toString());
         } catch (IOException e) {
             logger.debug("error: {}", e);
