@@ -1,14 +1,13 @@
 package cn.com.yikangbao.service.wechat.event.impl;
 
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
+import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatBaseEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
-import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
-import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
-import cn.com.yikangbao.entity.common.Event;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.event.EventService;
 import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
@@ -17,13 +16,14 @@ import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.MapUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -42,6 +42,9 @@ public class WechatEventServiceImpl implements WechatEventService {
 
     @Autowired
     private WechatMessageService wechatMessageService;
+
+    @Autowired
+    private LocalWechatUserService localWechatUserService;
 
     @Autowired
     private EventService eventService;
@@ -74,10 +77,28 @@ public class WechatEventServiceImpl implements WechatEventService {
         Event event = new Event();
         event.addProperty("openId", subscribeEvent.getFromUserName());
         event.addProperty("createTime", subscribeEvent.getCreateTime());
-        event.addProperty("eventKey", subscribeEvent.getEventKey());
+        if (!StringUtil.isEmpty(subscribeEvent.getEventKey())) {
+            event.addProperty("eventKey", subscribeEvent.getEventKey());
+        }
         event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE);
         eventService.publish(event);
 
+    }
+
+    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime) {
+        LocalWechatUserDTO user = new LocalWechatUserDTO();
+        user.setOpenId(openId);
+        LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
+
+        if (old == null) {
+            user.setCreatedDate(createdTime);
+            user.setSubscribeTime(createdTime);
+            localWechatUserService.create(user);
+        } else {
+            old.setUpdatedDate(new Date());
+            localWechatUserService.update(old);
+        }
+        return old;
     }
 
     @Override

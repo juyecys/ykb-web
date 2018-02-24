@@ -71,28 +71,28 @@
 	<sql id="sql_where">
 		<where>
 			<if test="name != null">
-				h.name LIKE '%' + ${name} + '%',
+				AND h.name LIKE '%${name}%'
 			</if>
 			<if test="address != null">
-				h.address LIKE '%' + ${address} + '%',
+				AND h.address LIKE '%${address}%'
 			</if>
 			<if test="phoneNumber != null">
-				h.phone_number = #{phoneNumber},
+				AND h.phone_number = #{phoneNumber}
 			</if>
 			<if test="type != null">
-				h.type = #{type},
+				AND h.type = #{type}
 			</if>
 			<if test="status != null">
-				h.status = #{status},
+				AND h.status = #{status}
 			</if>
 			<if test="technique != null">
-				h.technique = #{technique},
+				AND h.technique = #{technique}
 			</if>
 			<if test="level != null">
-				h.level = #{level},
+				AND h.level = #{level}
 			</if>
 			<if test="provinceId != null">
-				h.province_id = #{provinceId},
+				AND h.province_id = #{provinceId}
 			</if>
 		</where>
 	</sql>

@@ -53,7 +53,7 @@
 	<sql id="sql_where">
 		<where>
 			<if test="name != null">
-				and cg.name LIKE '%' + ${name} + '%'
+				and cg.name LIKE '%${name}%'
 			</if>
 			<if test="id != null">
 				and cg.id = #{id}

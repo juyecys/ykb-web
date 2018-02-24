@@ -137,7 +137,7 @@
 				and wu.createdDate &lt;= createdDateStart AND wu.createdDate &gt;= createdDateEnd
 			</if>
             <if test="channelGroupName != null">
-                and wcg.name LIKE '%' + ${channelGroupName} + '%'
+                and wcg.name LIKE '%${channelGroupName}%'
             </if>
             <if test="city != null">
                 and wu.city = #{city},
@@ -192,6 +192,8 @@
 		WHERE
 		wu.open_id IS NOT NULL
 		AND wu.nick_name IS NULL
+		AND wu.subscribe = 1
+		LIMIT 100
 	</select>
 </mapper>
 

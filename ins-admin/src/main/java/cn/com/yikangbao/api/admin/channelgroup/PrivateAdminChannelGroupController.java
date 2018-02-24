@@ -44,7 +44,7 @@ public class PrivateAdminChannelGroupController {
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getAllChannelGroup(ChannelGroupDTO channelGroup) {
         List<ChannelGroupDTO> list = channelGroupService.findByCondition(channelGroup);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);

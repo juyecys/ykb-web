@@ -53,12 +53,10 @@ public class WechatUserSubscribeEventListener implements EventListener{
         logger.debug("处理关注事件: {}",event);
         Map<String, Object> properties = event.getProperties();
         String openId = properties.get("openId").toString();
-        Date createdTime = DateUtils.toDate((Long) properties.get("createTime"));
+        Date createdTime = DateUtils.toDate(((Integer)properties.get("createTime")).longValue());
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
-
         LocalWechatUserDTO old = createOrUpdateWechatUser(openId, createdTime);
-
-        if (!(StringUtil.isEmpty(eventKey) && StringUtil.isEmpty(old.getQrCodeScene()))) {
+        if (!StringUtil.isEmpty(eventKey) && !StringUtil.isEmpty(old.getQrCodeScene())) {
             eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
             LocalWechatQRCode qrCode = new LocalWechatQRCode();
             qrCode.setScene(eventKey);
@@ -95,12 +93,11 @@ public class WechatUserSubscribeEventListener implements EventListener{
         user.setOpenId(openId);
         LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
 
-        user.setCreatedDate(createdTime);
-
         if (old == null) {
+            user.setCreatedDate(createdTime);
+            user.setSubscribeTime(createdTime);
             localWechatUserService.create(user);
         } else {
-            old.setCreatedDate(createdTime);
             old.setUpdatedDate(new Date());
             localWechatUserService.update(old);
         }

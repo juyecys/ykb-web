@@ -183,4 +183,24 @@ public class WechatUser {
     public void setTagidList(List<Integer> tagidList) {
         this.tagidList = tagidList;
     }
+
+    @Override
+    public String toString() {
+        return "WechatUser{" +
+                "subscribe=" + subscribe +
+                ", openId='" + openId + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex=" + sex +
+                ", language='" + language + '\'' +
+                ", city='" + city + '\'' +
+                ", province='" + province + '\'' +
+                ", country='" + country + '\'' +
+                ", headImgUrl='" + headImgUrl + '\'' +
+                ", subscribeTime='" + subscribeTime + '\'' +
+                ", unionId='" + unionId + '\'' +
+                ", remark='" + remark + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", tagidList=" + tagidList +
+                '}';
+    }
 }

@@ -68,7 +68,7 @@
 				and wc.scene = #{scene}
 			</if>
 			<if test="channels != null">
-				and wc.channels LIKE '%' + ${channels} + '%'
+				and wc.channels LIKE '%${channels}%'
 			</if>
 
 		</where>
@@ -78,29 +78,35 @@
 		ykb_wechat_channel wc
 	</sql>
 
+	<sql id="from_wechat_channel_group">
+		LEFT JOIN ykb_wechat_channel_group wcg on wc.channel_group_id = wcg.id
+	</sql>
 	<select id="findByConditionPage" resultType="ChannelQM">
 		SELECT
-		wc.*
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
 		FROM
 		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where" />
 	    ORDER BY wc.created_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="ChannelQM">
 		SELECT
-		wc.*
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
 		FROM
 		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
 	<select id="findByCondition" resultType="ChannelQM">
 		SELECT
-		wc.*
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
 		FROM
 		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where" />
 		ORDER BY wc.created_date DESC
 	</select>
