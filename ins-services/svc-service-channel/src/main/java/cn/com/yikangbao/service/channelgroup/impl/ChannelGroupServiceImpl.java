@@ -29,6 +29,7 @@ public class ChannelGroupServiceImpl extends BaseServiceImpl<ChannelGroup, Chann
             entity.setScene(StringUtil.numRandom(6));
             return create(entity);
         }
+
         return update(entity);
     }
 }

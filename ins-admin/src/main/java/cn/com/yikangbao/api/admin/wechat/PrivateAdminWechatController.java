@@ -14,11 +14,9 @@ import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
 import cn.com.yikangbao.service.channel.ChannelService;
-import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
-import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.WechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
@@ -33,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = { "/ykb/mg/private/wechat" }, produces = "application/json")
@@ -58,12 +57,6 @@ public class PrivateAdminWechatController {
 
     @Autowired
     private WechatMaterialService wechatMaterialService;
-
-    @Autowired
-    private WechatMessageService wechatMessageService2;
-
-    @Autowired
-    private MessageService messageService;
 
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
@@ -151,6 +144,18 @@ public class PrivateAdminWechatController {
         }
         logger.info("qrcode : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/qrcode/query", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getOneWechatQrCode(ChannelDTO channel) {
+        List<ChannelDTO> channelDTOS = channelService.findByCondition(channel);
+
+        for (ChannelDTO one: channelDTOS) {
+            one.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(one.getQrCodeUrl()));
+        }
+
+        logger.info("channel : {}", channel);
+        return new ResponseEntity<>(ApiResult.success(channelDTOS), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/qrcode/user", method = RequestMethod.GET)

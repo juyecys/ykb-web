@@ -95,5 +95,14 @@
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
+
+	<select id="findByCondition" resultType="ChannelQM">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_wechat_channel" />
+		<include refid="sql_where" />
+		ORDER BY wc.created_date DESC
+	</select>
 </mapper>
 

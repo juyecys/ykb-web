@@ -16,9 +16,9 @@
 
 	<insert id="create" parameterType="ChannelGroupM">
 		INSERT INTO
-			ykb_wechat_channel_group (id, name, created_by, created_date, updated_date, updated_by, status, remark)
+			ykb_wechat_channel_group (id, name, created_by, created_date, updated_date, updated_by, status, remark, scene)
 	  	VALUES
-	  		(#{id}, #{name}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{status}, #{remark})
+	  		(#{id}, #{name}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{status}, #{remark}, #{scene})
 	</insert>
 
 	<update id="update" parameterType="ChannelGroupM">
@@ -30,11 +30,17 @@
 			<if test="updatedBy != null">
 				updated_by = #{updatedBy},
 			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
 			<if test="status != null">
-				name = #{status},
+				status = #{status},
 			</if>
 			<if test="remark != null">
 				remark = #{remark},
+			</if>
+			<if test="scene != null">
+				scene = #{scene},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -47,13 +53,16 @@
 	<sql id="sql_where">
 		<where>
 			<if test="name != null">
-				cg.name LIKE '%' + ${name} + '%',
+				and cg.name LIKE '%' + ${name} + '%'
 			</if>
 			<if test="id != null">
-				cg.id = #{id},
+				and cg.id = #{id}
 			</if>
 			<if test="status != null">
-				cg.status = #{status},
+				and cg.status = #{status}
+			</if>
+			<if test="scene != null">
+				and scene = #{scene}
 			</if>
 		</where>
 	</sql>
