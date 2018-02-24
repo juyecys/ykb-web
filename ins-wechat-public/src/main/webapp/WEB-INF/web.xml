@@ -86,6 +86,15 @@
   </servlet-mapping>
 
   <filter>
+    <filter-name>wechatUserAuthFilter</filter-name>
+    <filter-class>cn.com.yikangbao.filter.wp.WechatUserAuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>wechatUserAuthFilter</filter-name>
+    <url-pattern>/ykb/wp/private/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
     <filter-name>DruidWebStatFilter</filter-name>
     <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
     <!-- 经常需要排除一些不必要的url，比如*.js,/jslib/*等等。配置在init-param中。比如：-->

@@ -12,6 +12,12 @@
     <artifactId>svc-service-wechat</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-common</artifactId>
@@ -21,17 +27,12 @@
             <artifactId>svc-service-user</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-channel</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>ins-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-channel</artifactId>
         </dependency>
     </dependencies>
 </project>

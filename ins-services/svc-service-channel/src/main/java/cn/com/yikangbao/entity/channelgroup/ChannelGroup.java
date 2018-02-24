@@ -22,6 +22,9 @@ public class ChannelGroup extends Base {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("scene")
+    private String scene;
+
     public String getRemark() {
         return remark;
     }
@@ -46,12 +49,21 @@ public class ChannelGroup extends Base {
         this.name = name;
     }
 
+    public String getScene() {
+        return scene;
+    }
+
+    public void setScene(String scene) {
+        this.scene = scene;
+    }
+
     @Override
     public String toString() {
         return "ChannelGroup{" +
                 "remark='" + remark + '\'' +
                 ", status=" + status +
                 ", name='" + name + '\'' +
+                ", scene='" + scene + '\'' +
                 '}';
     }
 }

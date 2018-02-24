@@ -1,6 +1,8 @@
 package cn.com.yikangbao.filter;
 
 import cn.com.yikangbao.config.common.CommonContextHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,9 @@ import java.io.IOException;
  */
 @Component("adminAuthEndpointFilter")
 public class AdminAuthEndpointFilter extends GenericFilterBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminAuthEndpointFilter.class);
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
@@ -35,6 +40,7 @@ public class AdminAuthEndpointFilter extends GenericFilterBean {
                 userName = principal.toString();
             }
         }
+        logger.debug("user name: {}", userName);
         CommonContextHolder.setUserName(userName);
         chain.doFilter(request, response);
     }

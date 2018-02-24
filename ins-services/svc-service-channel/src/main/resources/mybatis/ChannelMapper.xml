@@ -29,7 +29,7 @@
 	</insert>
 
 	<update id="update" parameterType="ChannelM">
-		UPDATE ykb_wechat_qr_code
+		UPDATE ykb_wechat_channel
 		<set>
 			<if test="channels != null">
 				channels = #{channels},
@@ -75,7 +75,7 @@
 	</sql>
 
 	<sql id="from_wechat_channel">
-		ykb_wechat_qr_code wc
+		ykb_wechat_channel wc
 	</sql>
 
 	<select id="findByConditionPage" resultType="ChannelQM">

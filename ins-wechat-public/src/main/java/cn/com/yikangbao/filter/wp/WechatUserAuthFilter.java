@@ -4,6 +4,7 @@ import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.io.PrintWriter;
  * Created by jeysine on 2018/2/7.
  * 微信用户身份验证
  */
+@Component("wechatUserAuthFilter")
 public class WechatUserAuthFilter implements Filter {
 
     private Logger logger = LoggerFactory.getLogger(WechatUserAuthFilter.class);

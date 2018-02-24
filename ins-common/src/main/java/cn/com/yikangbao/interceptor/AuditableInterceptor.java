@@ -34,8 +34,7 @@ public class AuditableInterceptor implements Interceptor {
         Object result = null;
 
         if (target instanceof Executor) {
-            /**执行方法*/
-            result = invocation.proceed();
+
             final Object[] args = invocation.getArgs();
 
             //获取原始的ms
@@ -50,6 +49,8 @@ public class AuditableInterceptor implements Interceptor {
             if (commandName.startsWith("INSERT")) {
                 setField(parameterObjects, "createdDate");
                 setField(parameterObjects, "createdBy");
+                setField(parameterObjects, "updatedDate");
+                setField(parameterObjects, "updatedBy");
             } else if (commandName.startsWith("UPDATE")) {
                 setField(parameterObjects, "updatedDate");
                 setField(parameterObjects, "updatedBy");
@@ -58,7 +59,8 @@ public class AuditableInterceptor implements Interceptor {
             } else if (commandName.startsWith("SELECT")) {
 
             }
-
+            /**执行方法*/
+            result = invocation.proceed();
 
         }
         return result;
@@ -88,11 +90,11 @@ public class AuditableInterceptor implements Interceptor {
                             setUserField(parameterObjects, field);
                         }
 
-                        Object param = field.get(parameterObjects);
+                        /*Object param = field.get(parameterObjects);
                         if (param == null) {
                             continue;
                         }
-                        logger.debug("param:{}", param);
+                        logger.debug("field: {}, param:{}",field.getName(), param);*/
                     }
                 } catch (NoSuchFieldException e) {
                 }
@@ -114,5 +116,9 @@ public class AuditableInterceptor implements Interceptor {
         String userName = CommonContextHolder.getUserName();
 
         m.invoke(parameterObjects, userName);
+    }
+
+    public enum QueryMethodEnum {
+        INSERT, UPDATE
     }
 }

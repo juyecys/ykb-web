@@ -109,6 +109,15 @@
     </filter-mapping>
     <!-- ************************** filter 配置区域End ************************** -->
 
+    <!--后台用户过滤器-->
+    <filter>
+        <filter-name>adminAuthEndpointFilter</filter-name>
+        <filter-class>cn.com.yikangbao.filter.AdminAuthEndpointFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>adminAuthEndpointFilter</filter-name>
+        <url-pattern>/ykb/mg/private/*</url-pattern>
+    </filter-mapping>
 
     <!-- ************************** servlet 配置区域End ************************** -->
 

@@ -8,7 +8,6 @@ import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
-import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;

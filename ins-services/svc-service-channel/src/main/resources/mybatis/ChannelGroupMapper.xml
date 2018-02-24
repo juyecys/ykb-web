@@ -16,13 +16,13 @@
 
 	<insert id="create" parameterType="ChannelGroupM">
 		INSERT INTO
-			ykb_channel_group (id, name, created_by, created_date, updated_date, updated_by, status, remark)
+			ykb_wechat_channel_group (id, name, created_by, created_date, updated_date, updated_by, status, remark)
 	  	VALUES
 	  		(#{id}, #{name}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{status}, #{remark})
 	</insert>
 
 	<update id="update" parameterType="ChannelGroupM">
-		UPDATE ykb_channel_group
+		UPDATE ykb_wechat_channel_group
 		<set>
 			<if test="updatedDate != null">
 				updated_date = #{updatedDate},
@@ -41,7 +41,7 @@
 	</update>
 
 	<update id="deleteById" parameterType="ChannelGroupM">
-		DELETE FROM ykb_channel_group WHERE id = #{id}
+		DELETE FROM ykb_wechat_channel_group WHERE id = #{id}
 	</update>
 
 	<sql id="sql_where">
@@ -59,7 +59,7 @@
 	</sql>
 
 	<sql id="from_channel_group">
-		ykb_channel_group cg
+		ykb_wechat_channel_group cg
 	</sql>
 
 	<select id="findByConditionPage" resultType="ChannelGroupQM">

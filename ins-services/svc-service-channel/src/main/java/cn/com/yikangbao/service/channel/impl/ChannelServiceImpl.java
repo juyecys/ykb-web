@@ -8,7 +8,7 @@ import cn.com.yikangbao.service.common.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("ChannelService")
+@Service("channelService")
 public class ChannelServiceImpl extends BaseServiceImpl<Channel, ChannelDTO> implements ChannelService{
     @Autowired
     private ChannelDAO dao;

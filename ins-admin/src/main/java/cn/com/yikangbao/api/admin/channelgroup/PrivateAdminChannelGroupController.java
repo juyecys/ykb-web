@@ -21,7 +21,7 @@ import java.util.List;
  * Created by jeysine on 2018/2/21.
  */
 @RestController
-@RequestMapping(value = "/ykb/mg/private/channelgroup", produces = "application/json")
+@RequestMapping(value = {"/ykb/mg/private/channelgroup", "/ykb/mg/public/channelgroup"}, produces = "application/json")
 public class PrivateAdminChannelGroupController {
     @Autowired
     private ChannelGroupService channelGroupService;
@@ -38,9 +38,15 @@ public class PrivateAdminChannelGroupController {
         return new ResponseEntity<>(ApiResult.success(channelGroup), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getChannelGroup(ChannelGroupDTO channelGroup) {
        Page<ChannelGroupDTO> page = channelGroupService.findByConditionPage(channelGroup);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAllChannelGroup(ChannelGroupDTO channelGroup) {
+        List<ChannelGroupDTO> list = channelGroupService.findByCondition(channelGroup);
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
 }

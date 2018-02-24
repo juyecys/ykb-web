@@ -157,14 +157,14 @@
 	</sql>
 
     <sql id="from_wechat_channel_group">
-        LEFT JOIN ykb_wechat_qr_code wcg ON wc.channel_group_id = wcg.id
+        LEFT JOIN ykb_wechat_channel_group wcg ON wc.channel_group_id = wcg.id
     </sql>
 
 	<select id="findByConditionPage" resultType="LocalWechatUserQM">
 		SELECT
 			wu.*,wc.channels,wcg.name channel_group_name
 		<include refid="from_wechat_user" />
-		<include refid="from_wechat_qr_code" />
+		<include refid="from_wechat_channel" />
 		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where_wu" />
 	    ORDER BY wu.created_date DESC
