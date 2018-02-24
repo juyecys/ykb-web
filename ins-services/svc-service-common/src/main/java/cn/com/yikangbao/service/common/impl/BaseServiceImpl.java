@@ -19,14 +19,12 @@ public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseServi
     @Override
     public M create(M entity) {
         entity.setId(UUID.randomUUID().toString());
-        entity.setCreatedDate(new Date());
         dao.create(entity);
         return entity;
     }
 
     @Override
     public M update(M entity) {
-        entity.setUpdatedDate(new Date());
         dao.update(entity);
         return entity;
     }

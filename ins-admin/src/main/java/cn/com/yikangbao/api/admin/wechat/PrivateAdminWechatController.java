@@ -104,7 +104,11 @@ public class PrivateAdminWechatController {
     public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody Channel channel) {
         if (channel.getId() != null) {
             channelService.update(channel);
-            return new ResponseEntity<>(ApiResult.success(channel), HttpStatus.OK);
+
+            ChannelDTO channelDTO = new ChannelDTO();
+            channelDTO.setId(channel.getId());
+            channelDTO = channelService.findOneByCondition(channelDTO);
+            return new ResponseEntity<>(ApiResult.success(channelDTO), HttpStatus.OK);
         }
 
         WechatQRCode wechatQRCode = WechatQRCodeUtils.getForeverQRCode(channel);
