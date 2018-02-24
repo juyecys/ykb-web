@@ -137,7 +137,7 @@
 				and wu.createdDate &lt;= createdDateStart AND wu.createdDate &gt;= createdDateEnd
 			</if>
             <if test="channelGroupName != null">
-                and wcg.name LIKE '%' + ${channelGroupName} + '%'
+                and wcg.name LIKE '%${channelGroupName}%'
             </if>
             <if test="city != null">
                 and wu.city = #{city},

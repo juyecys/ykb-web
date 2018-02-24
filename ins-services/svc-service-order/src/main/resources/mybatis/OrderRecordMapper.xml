@@ -46,28 +46,28 @@
 	<sql id="sql_where">
 		<where>
 			<if test="name != null">
-				or.name LIKE '%' + ${name} + '%',
+				AND or.name LIKE '%${name}%'
 			</if>
 			<if test="address != null">
-				or.address LIKE '%' + ${address} + '%',
+				AND or.address LIKE '%${address}%'
 			</if>
 			<if test="phoneNumber != null">
-				or.phone_number = #{phoneNumber},
+				AND or.phone_number = #{phoneNumber}
 			</if>
 			<if test="type != null">
-				or.type = #{type},
+				AND or.type = #{type}
 			</if>
 			<if test="isActive != null">
-				or.is_active = #{isActive},
+				AND or.is_active = #{isActive}
 			</if>
 			<if test="technique != null">
-				or.technique = #{technique},
+				AND or.technique = #{technique}
 			</if>
 			<if test="level != null">
-				or.level = #{level},
+				AND or.level = #{level}
 			</if>
 			<if test="provinceId != null">
-				or.province_id = #{provinceId},
+				AND or.province_id = #{provinceId}
 			</if>
 		</where>
 	</sql>

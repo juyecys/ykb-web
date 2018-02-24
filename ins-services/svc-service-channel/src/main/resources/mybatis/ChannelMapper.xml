@@ -68,7 +68,7 @@
 				and wc.scene = #{scene}
 			</if>
 			<if test="channels != null">
-				and wc.channels LIKE '%' + ${channels} + '%'
+				and wc.channels LIKE '%${channels}%'
 			</if>
 
 		</where>
