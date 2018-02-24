@@ -47,5 +47,10 @@
 	</bean>
 	<mongo:repositories base-package="cn.com.yikangbao.mongo.dao" />
 
-	<mongo:mongo host="${mongodb.host}" port="${mongodb.port}" />
+	<beans profile="dev">
+		<mongo:mongo host="${mongodb.host}" port="${mongodb.port}" />
+	</beans>
+	<beans profile="test,prod">
+		<mongo:mongo id="mongo" replica-set="${mongodb.replica.set.servers}" />
+	</beans>
 </beans:beans>
