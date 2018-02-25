@@ -14,8 +14,7 @@
 
 
 
-	<mongo:db-factory dbname="${mongodb.dbname}"
-					  username="${mongodb.username}" password="${mongodb.password}"
+	<mongo:db-factory dbname="${mongodb.dbname}" username="${mongodb.username}" password="${mongodb.password}"
 		mongo-ref="mongo" id="mongoDbFactory" />
 		
 	<mongo:auditing mapping-context-ref="mappingContext" auditor-aware-ref="auditorAware"/>
