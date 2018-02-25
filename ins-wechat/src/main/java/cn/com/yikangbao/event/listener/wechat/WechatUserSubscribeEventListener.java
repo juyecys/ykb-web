@@ -2,13 +2,13 @@ package cn.com.yikangbao.event.listener.wechat;
 
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
+import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
-import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.listener.EventListener;
+import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
-import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
@@ -36,7 +36,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
     private LocalWechatUserService localWechatUserService;
 
     @Autowired
-    private LocalWechatQRCodeService localWechatQRCodeService;
+    private ChannelService channelService;
 
     @Autowired
     private WechatMessageService wechatMessageService;
@@ -56,19 +56,19 @@ public class WechatUserSubscribeEventListener implements EventListener{
         LocalWechatUserDTO old = createOrUpdateWechatUser(openId, createdTime);
         if (!StringUtil.isEmpty(eventKey) && !StringUtil.isEmpty(old.getQrCodeScene())) {
             eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
-            LocalWechatQRCode qrCode = new LocalWechatQRCode();
-            qrCode.setScene(eventKey);
-            qrCode = localWechatQRCodeService.findOneByCondition(qrCode);
-            if (qrCode == null) {
+            ChannelDTO channel = new ChannelDTO();
+            channel.setScene(eventKey);
+            channel = channelService.findOneByCondition(channel);
+            if (channel == null) {
                 logger.error("not find this channel qrcode, scene: {}", eventKey);
             }
-            qrCode.setScanTime(qrCode.getScanTime() + 1);
-            localWechatQRCodeService.update(qrCode);
+            channel.setScanTime(channel.getScanTime() + 1);
+            channelService.update(channel);
             try {
-                if (qrCode.getSendSubscribeMessage()) {
+                if (channel.getSendSubscribeMessage()) {
                     wechatMessageService.pushSubscribeMessage(openId);
                 }
-                if (qrCode.getSendChannelMessage()) {
+                if (channel.getSendChannelMessage()) {
                     wechatMessageService.pushChannelsMessage(openId, eventKey);
                 }
             }catch (IOException e) {

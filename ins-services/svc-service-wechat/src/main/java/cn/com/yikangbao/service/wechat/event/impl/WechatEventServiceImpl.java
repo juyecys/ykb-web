@@ -13,7 +13,6 @@ import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
-import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.StringUtil;
@@ -31,11 +30,6 @@ import java.util.HashMap;
  */
 @Service("wechatEventService")
 public class WechatEventServiceImpl implements WechatEventService {
-
-
-
-    @Autowired
-    private LocalWechatQRCodeService localWechatQRCodeService;
 
     @Autowired
     private LocalWechatMenuService localWechatMenuService;
