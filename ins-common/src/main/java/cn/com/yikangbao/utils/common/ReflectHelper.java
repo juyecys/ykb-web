@@ -75,7 +75,7 @@ public class ReflectHelper {
 				field.setAccessible(false);
 			}
 		}catch(Exception err){
-			//
+			err.printStackTrace();
 		}
 	}
 }

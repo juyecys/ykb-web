@@ -12,9 +12,7 @@ public interface BaseDAO<M,QM>{
 
 	void deleteById(@Param("id") String id);
 
-	QM findById(@Param("id") String id);
-
-	List<QM> findAll();
+	List<QM> findByCondition(QM qm);
 
 	List<QM> findByConditionPage(QM qm);
 

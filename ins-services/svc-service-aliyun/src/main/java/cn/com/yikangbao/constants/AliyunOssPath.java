@@ -23,6 +23,8 @@ public class AliyunOssPath {
 	/** 推广二维码保存路径 **/
 	public static final String CHANNEL_QRCODE_FILEPATH = "wechat/channel_qrcode/";
 
+	/** 消息图片保存路径 **/
+	public static final String MESSAGE_FILEPATH = "wechat/message/";
 
 	public static void setPROFILE(String[] profile) {
 		PROFILE = profile;

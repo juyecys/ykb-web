@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.orderrecord.OrderRecordDAO">
+	<resultMap id="OrderRecordResultMap" type="cn.com.yikangbao.entity.orderrecord.OrderRecord"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+	</resultMap>
+
+	<insert id="create" parameterType="HospitalM">
+		INSERT INTO
+			ykb_order_record (id, created_by, created_date, updated_date, updated_by, status, order_number)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{status}, #{orderNumber})
+	</insert>
+
+	<update id="update" parameterType="HospitalM">
+		UPDATE ykb_order_record
+		<set>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="status != null">
+				name = #{status},
+			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="HospitalM">
+		DELETE FROM ykb_order_record WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="name != null">
+				AND or.name LIKE '%${name}%'
+			</if>
+			<if test="address != null">
+				AND or.address LIKE '%${address}%'
+			</if>
+			<if test="phoneNumber != null">
+				AND or.phone_number = #{phoneNumber}
+			</if>
+			<if test="type != null">
+				AND or.type = #{type}
+			</if>
+			<if test="isActive != null">
+				AND or.is_active = #{isActive}
+			</if>
+			<if test="technique != null">
+				AND or.technique = #{technique}
+			</if>
+			<if test="level != null">
+				AND or.level = #{level}
+			</if>
+			<if test="provinceId != null">
+				AND or.province_id = #{provinceId}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_order_record">
+		ykb_order_record or
+	</sql>
+
+	<select id="findByConditionPage" resultMap="OrderRecordResultMap">
+		SELECT
+		or.*
+		FROM
+		<include refid="from_order_record" />
+		<include refid="sql_where" />
+	    ORDER BY or.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="OrderRecordResultMap">
+		SELECT
+		or.*
+		FROM
+		<include refid="from_order_record" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultMap="OrderRecordResultMap">
+		SELECT
+		or.*
+		FROM
+		<include refid="from_order_record" />
+		<include refid="sql_where" />
+		ORDER BY or.created_date
+	</select>
+</mapper>
+

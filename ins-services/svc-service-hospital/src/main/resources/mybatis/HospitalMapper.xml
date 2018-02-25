@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.hospital.HospitalDAO">
+	<resultMap id="HospitalResultMap" type="cn.com.yikangbao.entity.hospital.HospitalDTO"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="phone_number" jdbcType="BIGINT" property="phoneNumber" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="technique" jdbcType="VARCHAR" property="technique" />
+		<result column="level" jdbcType="VARCHAR" property="level" />
+		<result column="province_id" jdbcType="VARCHAR" property="provinceId" />
+		<result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+	</resultMap>
+
+	<insert id="create" parameterType="HospitalM">
+		INSERT INTO
+			ykb_hospital (id, created_by, created_date, updated_date, updated_by, name, address, phone_number, type, status, technique, level, province_id)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{name}, #{address}, #{phoneNumber}, #{type}, #{status}, #{technique}, #{level}, #{provinceId})
+	</insert>
+
+	<update id="update" parameterType="HospitalM">
+		UPDATE ykb_hospital
+		<set>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="phoneNumber != null">
+				phone_number = #{phoneNumber},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="technique != null">
+				technique = #{technique},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="provinceId != null">
+				province_id = #{provinceId},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="HospitalM">
+		DELETE FROM ykb_hospital WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="name != null">
+				AND h.name LIKE '%${name}%'
+			</if>
+			<if test="address != null">
+				AND h.address LIKE '%${address}%'
+			</if>
+			<if test="phoneNumber != null">
+				AND h.phone_number = #{phoneNumber}
+			</if>
+			<if test="type != null">
+				AND h.type = #{type}
+			</if>
+			<if test="status != null">
+				AND h.status = #{status}
+			</if>
+			<if test="technique != null">
+				AND h.technique = #{technique}
+			</if>
+			<if test="level != null">
+				AND h.level = #{level}
+			</if>
+			<if test="provinceId != null">
+				AND h.province_id = #{provinceId}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_hospital">
+		ykb_hospital h
+	</sql>
+
+	<select id="findByConditionPage" resultMap="HospitalResultMap">
+		SELECT
+		h.*
+		FROM
+		<include refid="from_hospital" />
+		<include refid="sql_where" />
+	    ORDER BY h.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="HospitalResultMap">
+		SELECT
+		h.*
+		FROM
+		<include refid="from_hospital" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultMap="HospitalResultMap">
+		SELECT
+		h.*
+		FROM
+		<include refid="from_hospital" />
+		<include refid="sql_where" />
+		ORDER BY h.created_date DESC
+	</select>
+
+	<select id="findForPartner" resultMap="HospitalResultMap">
+		SELECT
+		h.id, h.name, h.province_name
+		FROM
+		<include refid="from_hospital" />
+		<include refid="sql_where" />
+	</select>
+</mapper>
+

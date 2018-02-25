@@ -13,6 +13,13 @@ public class WechatConfigParams {
 	public static final String WECHAT_PREFIX_QRCODE_EVENT_KEY = "qrscene_";
 
 	/**
+	 * 用户授权
+	 */
+	public static final String WECHAT_GET_AUTH_ACCESSTOKEN_URL="https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+
+	public static final String WECHAT_REFRESH_AUTH_ACCESSTOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN";
+
+	/**
 	 * 微信accesToken获取
 	 */
 	public static final String WECHAT_GET_ACCESSTOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
@@ -29,6 +36,7 @@ public class WechatConfigParams {
 	 */
 	public static final String WEHCAT_GET_USER_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 	public static final String WECHAT_GET_USER_LIST_URL  = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN";
+	public static final String WECHAT_GET_USER_BY_AUTH_URL = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 
 	/**
 	 * 微信客服管理
@@ -60,6 +68,9 @@ public class WechatConfigParams {
 			"<a href='http://insure.hera.tk.cn/product/cps/S20170437/detail.html?fromId=63755'>10万保额请点击</a>\n\n" +
 			"<a href='http://insure.hera.tk.cn/product/cps/S20170227/index.html?fromId=61705'>5万保额请点击</a>";
 
-	//public static final String WECHAT_SUBSCRIBE_REPLY_QRCODE_MEDIA_ID = "51vxZXaAw3oBofiXRfHFr2F9NUgzkbRo9_5AkVnzSDI";
+	/* 新增永久素材 */
+	public static final String WECHAT_ADD_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
 
+	/* 获取永久素材 */
+	public static final String WECHAT_GET_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
 }

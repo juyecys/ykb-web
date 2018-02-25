@@ -48,13 +48,13 @@ public class PublicWechatEventController {
         PrintWriter out = response.getWriter();
 
         try {
-            HashMap<String, String> data = Dom4jUtils.readXml(inputStream);
+            HashMap<String, Object> data = Dom4jUtils.readXml(inputStream);
             wechatEventService.processEvent(data);
             out.print("");
         } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error("read xml error: {}", e);
         } catch (Exception e) {
-            logger.error("read xml error: {}", e);
+            logger.error("error: {}", e);
         }
         out.close();
         out = null;

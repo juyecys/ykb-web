@@ -61,23 +61,23 @@ public class ApiResult {
 	}
 
 	public static ApiResult error(int status) {
-		return new ApiResult(status, "Error");
+		return new ApiResult(status, "error");
 	}
 
 	public static ApiResult error(int status, Object result) {
-		return new ApiResult(status, "Error", result);
+		return new ApiResult(status, "error", result);
 	}
 
 	public static ApiResult success() {
-		return new ApiResult(ApiCodes.STATUS_OK, "Success");
+		return new ApiResult(ApiCodes.STATUS_OK, "success");
 	}
 
 	public static ApiResult success(Object result) {
-		return new ApiResult(ApiCodes.STATUS_OK, "Success", result);
+		return new ApiResult(ApiCodes.STATUS_OK, "success", result);
 	}
 
 	public static ApiResult success(Object result, Object extraInfo) {
-		return new ApiResult(ApiCodes.STATUS_OK, "Success", result, extraInfo);
+		return new ApiResult(ApiCodes.STATUS_OK, "success", result, extraInfo);
 	}
 
 	public static ApiResult unknownError() {

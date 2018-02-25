@@ -95,6 +95,8 @@
         <module>ins-common</module>
         <module>ins-services</module>
         <module>ins-wechat</module>
+        <module>ins-wechat-public</module>
+        <module>ins-partner</module>
     </modules>
 
     <dependencyManagement>
@@ -150,6 +152,13 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>2.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>1.9.8</version>
+                <type>jar</type>
+                <scope>compile</scope>
             </dependency>
             <!-- jackson end -->
 
@@ -486,6 +495,10 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
                 </exclusions>
                 <version>2.5.3</version>
             </dependency>
@@ -521,12 +534,6 @@
 
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
-                <artifactId>ins-admin</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.com.yikangbao</groupId>
                 <artifactId>svc-service-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -552,6 +559,42 @@
             <dependency>
                 <groupId>cn.com.yikangbao</groupId>
                 <artifactId>svc-service-aliyun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-order</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-partner</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-hospital</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-event</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-message</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-service-channel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

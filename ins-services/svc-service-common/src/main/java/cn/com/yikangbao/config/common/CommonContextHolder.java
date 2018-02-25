@@ -18,7 +18,8 @@ public class CommonContextHolder {
 	};
 
 	private static final String KEY_USER_ID = "user_id";
-	private CommonContextHolder() {
+	private static final String KEY_USER_NAME = "user_name";
+	public CommonContextHolder() {
 	}
 	/**
 	 * 清除ThreadLocal中所有数据
@@ -57,12 +58,20 @@ public class CommonContextHolder {
 	}
 
 
-	public static void setUserId(String openId) {
-		setData(KEY_USER_ID, openId);
+	public static void setUserId(String userId) {
+		setData(KEY_USER_ID, userId);
 	}
 
-	public static void getUserId(){
-		getData(KEY_USER_ID);
+	public static Object getUserId(){
+		return getData(KEY_USER_ID);
+	}
+
+	public static void setUserName(String userName) {
+		setData(KEY_USER_NAME, userName);
+	}
+
+	public static String getUserName() {
+		return (String) getData(KEY_USER_NAME);
 	}
 
 }

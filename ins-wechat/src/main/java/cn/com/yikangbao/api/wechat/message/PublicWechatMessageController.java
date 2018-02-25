@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 
 @RestController
-@RequestMapping(value = { "/ykb/wechat/public/message" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/wechat/public/message" })
 public class PublicWechatMessageController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class PublicWechatMessageController {
 
 
         try {
-            HashMap<String, String> data = Dom4jUtils.readXml(inputStream);
+            HashMap<String, Object> data = Dom4jUtils.readXml(inputStream);
             logger.debug("recive wechat event xml data: {}", data);
             wechatEventService.processEvent(data);
         } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

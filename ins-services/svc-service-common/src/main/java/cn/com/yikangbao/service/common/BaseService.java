@@ -14,11 +14,13 @@ public interface BaseService<M extends Base,QM extends M> {
 
     M update(M entity);
 
+    M createOrUpdate(M entity) throws Exception;
+
     void deleteById(String id);
 
-    List<QM> findAll();
+    List<QM> findByCondition(QM qm);
 
-    Page<QM> getByConditionPage(QM qm);
+    Page<QM> findByConditionPage(QM qm);
 
     QM findOneByCondition(QM qm);
 }

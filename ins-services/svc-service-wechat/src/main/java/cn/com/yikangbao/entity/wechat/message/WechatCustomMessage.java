@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class WechatCustomMessage {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class WechatCustomMessage implements Serializable{
+	private static final long serialVersionUID = 8820545938127537114L;
 	/**
 	 * 用户openid
 	 */
@@ -65,7 +67,7 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class Text {
+	public class Text implements Serializable {
 		@JsonProperty("content")
 		private String content;
 
@@ -78,7 +80,7 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class Image {
+	public class Image implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -91,7 +93,7 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class Voice {
+	public class Voice implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -104,7 +106,7 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class Video {
+	public class Video implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 		@JsonProperty("thumb_media_id")
@@ -116,7 +118,7 @@ public class WechatCustomMessage {
 
 	}
 
-	public class Music {
+	public class Music implements Serializable {
 		@JsonProperty("title")
 		private String title;
 		@JsonProperty("description")
@@ -169,10 +171,10 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class News{
-		private List<Articl> articles;
+	public class News implements Serializable {
+		private List<Article> articles;
 
-		public class Articl {
+		public class Article implements Serializable{
 			@JsonProperty("title")
 			private String title;
 			@JsonProperty("description")
@@ -215,17 +217,17 @@ public class WechatCustomMessage {
 			}
 		}
 
-		public List<Articl> getArticles() {
+		public List<Article> getArticles() {
 			return articles;
 		}
 
-		public void setArticles(List<Articl> articles) {
+		public void setArticles(List<Article> articles) {
 			this.articles = articles;
 		}
 	}
 
 
-	public class Mpnews {
+	public class Mpnews implements Serializable {
 		@JsonProperty("media_id")
 		private String mediaId;
 
@@ -238,7 +240,7 @@ public class WechatCustomMessage {
 		}
 	}
 
-	public class Wxcard {
+	public class Wxcard implements Serializable {
 		@JsonProperty("card_id")
 		private String cardId;
 

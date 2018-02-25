@@ -9,54 +9,15 @@ import java.util.Map;
  * @author jeysine
  *
  */
-public class WechatContextHolder {
-	private static ThreadLocal<HashMap<String, Object>> holder = new ThreadLocal<HashMap<String, Object>>() {
-		@Override
-		protected HashMap<String, Object> initialValue() {
-			return new HashMap<>();
-		}
-	};
+public class WechatContextHolder extends CommonContextHolder{
 
 	private static final String KEY_MINI_PROGRAM_ACCOUNT = "mini_program_account";
 	private static final String KEY_OPEN_ID = "open_id";
 	private static final String KEY_UNION_ID = "union_id";
+	private static final String KEY_NICK_NAME = "nick_name";
 
 	private WechatContextHolder() {
-	}
-	/**
-	 * 清除ThreadLocal中所有数据
-	 */
-	public static void clear() {
-		holder.remove();
-	}
-
-	/**
-	 * Map经历了初始化,一定不为null
-	 * 
-	 * @return
-	 */
-	public static Map<String, Object> getHolder() {
-		return holder.get();
-	}
-
-	/**
-	 * 存放数据
-	 * 
-	 * @param key
-	 * @param data
-	 */
-	public static void setData(String key, Object data) {
-		getHolder().put(key, data);
-	}
-
-	/**
-	 * 获取数据
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public static Object getData(String key) {
-		return getHolder().get(key);
+		super();
 	}
 
 
@@ -68,4 +29,18 @@ public class WechatContextHolder {
 		setData(KEY_UNION_ID, unionId);
 	}
 
+	public static String getOpenId() {
+		return (String) getData(KEY_OPEN_ID);
+	}
+	public static String getUnionId() {
+		return (String) getData(KEY_UNION_ID);
+	}
+
+	public static void setNickName(String nickName) {
+		setData(KEY_NICK_NAME, nickName);
+	}
+
+	public static String getNickName() {
+		return (String) getData(KEY_NICK_NAME);
+	}
 }

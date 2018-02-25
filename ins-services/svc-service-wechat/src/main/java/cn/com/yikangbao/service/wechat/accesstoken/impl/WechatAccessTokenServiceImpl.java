@@ -26,6 +26,8 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 	private static Logger logger = LoggerFactory.getLogger(WechatAccessTokenServiceImpl.class);
 
+	private static final ObjectMapper mapper = new ObjectMapper();
+
 	@Override
 	public WechatAccessToken getAccessToken() {
 		WechatAccessToken wechatAccessToken = null;
@@ -68,7 +70,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			return false;
 		}
 
-		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY_MUTEX, mutexKeyValue.toString(), "NX", "EX", mutexKeyExpired);
+		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY_MUTEX, mutexKeyValue, "NX", "EX", mutexKeyExpired);
 		if (result != null) {
 			logger.debug("get leader success");
 			return true;
@@ -87,7 +89,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		try {
 			response = OkHttpUtils.get().url(url)
 					.build().execute();
-			ObjectMapper mapper = new ObjectMapper();
+
 			String result = response.body().string();
 			wechatAccessToken = mapper.readValue(result, WechatAccessToken.class);
 			logger.debug("get wechat access token suucess:{}", wechatAccessToken);
@@ -97,7 +99,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			}
 
 			wechatAccessToken.setExpiresIn(
-					wechatAccessToken.getExpiresIn()  + (System.currentTimeMillis() / 1000) - 5L);
+					wechatAccessToken.getExpiresIn());
 			logger.debug("get wechat access token suucess:{}", wechatAccessToken.getAccessToken());
 			setAccessTokenToRedis(wechatAccessToken);
 		} catch (IOException e) {
@@ -111,10 +113,11 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 	private void setAccessTokenToRedis(WechatAccessToken accessToken) throws IOException {
 		logger.debug("set access token to redis start.");
 		Jedis jedis = jedisPool.getResource();
-		Long accessTokenExpiredIn = accessToken.getExpiresIn() - (System.currentTimeMillis() / 1000) - 5L;
+		Long accessTokenExpiredIn = accessToken.getExpiresIn() - 5L;
 		if (accessTokenExpiredIn < 0) {
 			return;
 		}
+		jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY);
 		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY, accessToken.getAccessToken(), "NX", "EX", accessTokenExpiredIn);
 		logger.debug("result:{}",result);
 		if (result != null) {
@@ -125,19 +128,20 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		}
 	}
 	public static void main(String[] args) {
-		String url = "https://api.weixin.qq.com/cgi-bin/token";
+		/*String url = "https://api.weixin.qq.com/cgi-bin/token";
 		try {
 			Response response = OkHttpUtils.get().url(url)
 					.addParams("grant_type","client_credential")
 					.addParams("appid","wx51e37306f30d52a9")
 					.addParams("secret","07f0af046496ce6d6e5bc8f98ec75f65")
 					.build().execute();
-			ObjectMapper mapper = new ObjectMapper();
 			WechatAccessToken wechatAccessToken = null;
 			wechatAccessToken = mapper.readValue(response.body().string(), WechatAccessToken.class);
 			System.out.println(wechatAccessToken);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		Long s = System.currentTimeMillis()/1000;
+		System.out.println(s);
 	}
 }

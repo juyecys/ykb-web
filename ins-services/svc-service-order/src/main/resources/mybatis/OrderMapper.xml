@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.order.OrderDAO">
+	<resultMap id="OrderResultMap" type="cn.com.yikangbao.entity.order.OrderDTO"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="proposer_name" jdbcType="VARCHAR" property="proposerName" />
+		<result column="proposer_credentials_type" jdbcType="VARCHAR" property="proposerCredentialsType" />
+		<result column="proposer_credentials_num" jdbcType="VARCHAR" property="proposerCredentialsNum" />
+		<result column="proposer_phone" jdbcType="VARCHAR" property="proposerPhone" />
+		<result column="insured_name" jdbcType="VARCHAR" property="insuredName" />
+		<result column="insured_credentials_type" jdbcType="VARCHAR" property="insuredCredentialsType" />
+		<result column="insured_credentials_num" jdbcType="VARCHAR" property="insuredCredentialsNum" />
+		<result column="insured_phone" jdbcType="VARCHAR" property="insuredPhone" />
+		<result column="relation" jdbcType="VARCHAR" property="relation" />
+		<result column="hospital_id" jdbcType="VARCHAR" property="hosptalId" />
+		<result column="hospital_name" jdbcType="VARCHAR" property="hosptalName" />
+		<result column="insurance_amount" jdbcType="BIGINT" property="insuranceAmount" />
+		<result column="order_amount" jdbcType="BIGINT" property="orderAmount" />
+		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="insurance_start_date" jdbcType="TIMESTAMP" property="insuranceStartDate" />
+		<result column="insurance_end_date" jdbcType="TIMESTAMP" property="insuranceEndDate" />
+	</resultMap>
+
+	<insert id="create" parameterType="OrderM">
+		INSERT INTO
+			ykb_order (id, created_by, created_date, updated_date, updated_by,
+			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
+			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
+			,user_id, status, insurance_start_date, insurance_end_date)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
+	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
+	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate})
+	</insert>
+
+	<update id="update" parameterType="OrderM">
+		UPDATE ykb_order
+		<set>
+			<if test="channels != null">
+				channels = #{channels},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="proposerName != null">
+				proposer_name = #{proposerName}
+			</if>
+			<if test="proposerCredentialsType != null">
+				proposer_credentials_type = #{proposerCredentialsType}
+			</if>
+			<if test="proposerCredentialsNum != null">
+				proposer_credentials_num = #{proposerCredentialsNum}
+			</if>
+			<if test="proposerPhone != null">
+				proposer_phone = #{proposerPhone}
+			</if>
+			<if test="insuredName != null">
+				insured_name = #{insuredName}
+			</if>
+			<if test="insuredCredentialsType != null">
+				insured_credentials_type = #{insuredCredentialsType}
+			</if>
+			<if test="insuredCredentialsNum != null">
+				insured_credentials_num = #{insuredCredentialsNum}
+			</if>
+			<if test="insuredPhone != null">
+				insured_phone = #{insuredPhone}
+			</if>
+			<if test="relation != null">
+				relation = #{relation}
+			</if>
+			<if test="hospitalId != null">
+				hospital_id = #{hospitalId}
+			</if>
+			<if test="hospitalName != null">
+				hospital_name = #{hospitalName}
+			</if>
+			<if test="insuranceAmount != null">
+				insurance_amount = #{insuranceAmount}
+			</if>
+			<if test="orderAmount != null">
+				order_amount = #{orderAmount}
+			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber}
+			</if>
+			<if test="userId != null">
+				user_id = #{userId}
+			</if>
+			<if test="status != null">
+				status = #{status}
+			</if>
+			<if test="insuranceStartDate != null">
+				insurance_start_date = #{insuranceStartDate}
+			</if>
+			<if test="insuranceEndDate != null">
+				insurance_end_date = #{insuranceEndDate}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!--同步订单状态-->
+	<update id="synchronousOrderStatus" parameterType="OrderM">
+		UPDATE ykb_order
+		<set>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="policyNumber != null">
+				policy_number = #{policyNumber},
+			</if>
+			<if test="status != null">
+				status = #{status}
+			</if>
+			<if test="reason != null">
+				reason = #{reason}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and o.id = #{id}
+			</if>
+			<if test="orderNumber != null">
+				and o.order_number = #{orderNumber}
+			</if>
+			<if test="status != null">
+				and o.status = #{status}
+			</if>
+			<if test="proposerName != null">
+				and o.proposer_name = #{proposerName}
+			</if>
+			<if test="insuredName != null">
+				and o.insured_name = #{insuredName}
+			</if>
+			<if test="createdDateStart != null and createdDateEnd != null">
+				and o.created_date BETWEEN #{createdDateStart} and #{createdDateEnd}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_order">
+		ykb_order o
+	</sql>
+
+	<select id="findByConditionPage" resultMap="OrderResultMap">
+		SELECT
+		o.*
+		FROM
+		<include refid="from_order" />
+		<include refid="sql_where" />
+	    ORDER BY o.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultMap="OrderResultMap">
+		SELECT
+		o.*
+		FROM
+		<include refid="from_order" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultMap="OrderResultMap">
+		SELECT
+		o.*
+		FROM
+		<include refid="from_order" />
+		<include refid="sql_where" />
+	</select>
+
+	<!--需要同步状态的订单-->
+	<select id="findNeedSysByStatus" resultMap="OrderResultMap">
+		SELECT
+		o.order_number "order_id"
+		FROM
+		<include refid="from_order" />
+		WHERE
+		o.status in ('WAIT_CONFIRM','WAIT_CONFIRM','PAIED')
+	</select>
+</mapper>
+

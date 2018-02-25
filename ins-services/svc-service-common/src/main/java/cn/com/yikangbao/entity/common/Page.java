@@ -9,17 +9,21 @@ public class Page<E> implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5874717906598880778L;
-	private int pageSize = 10;
-	private int totalPage;
-	private int totalCount;
-	private int start;
-	private int nowPage;
+	private Integer pageSize;
+	private Integer totalPage;
+	private Integer totalCount;
+	private Integer start;
+	private Integer nowPage;
 	private List<E> result = Collections.emptyList();
 
 	public Page() {
 	}
 
-	public Page(int pageSize, int nowPage) {
+	public Page(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public Page(Integer pageSize, Integer nowPage) {
 		this.pageSize = pageSize;
 		this.nowPage = nowPage;
 	}
@@ -32,23 +36,23 @@ public class Page<E> implements java.io.Serializable {
 		return start;
 	}
 
-	public void setStart(int start) {
+	public void setStart(Integer start) {
 		this.start = start;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 
-	public int getTotalCount() {
+	public Integer getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 	}
 
@@ -60,20 +64,20 @@ public class Page<E> implements java.io.Serializable {
 		this.result = result;
 	}
 
-	public void setTotalPage(int totalPage) {
+	public void setTotalPage(Integer totalPage) {
 		this.totalPage = totalPage;
 	}
 
-	public void setNowPage(int nowPage) {
+	public void setNowPage(Integer nowPage) {
 		this.nowPage = nowPage;
 	}
 
-	public int getTotalPage() {
-		return (int) Math.ceil(totalCount * 1.0 / pageSize);
+	public Integer getTotalPage() {
+		return  (int)Math.ceil(totalCount * 1.0 / pageSize);
 	}
 
-	public int getNowPage() {
-		if (nowPage <= 0)
+	public Integer getNowPage() {
+		if (nowPage == null || nowPage <= 0)
 			nowPage = 1;
 		return nowPage;
 	}

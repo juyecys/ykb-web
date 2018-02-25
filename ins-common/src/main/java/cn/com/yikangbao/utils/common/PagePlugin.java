@@ -76,7 +76,7 @@ public class PagePlugin implements Interceptor {
 						Map paraMap = (Map) parameterObject;
 						page = (Page) paraMap.get("page");
 						if (page == null)
-							page = new Page();
+							page = new Page(10);
 						page.setTotalCount(count);
 						page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
 						paraMap.put("page", page);
@@ -86,10 +86,10 @@ public class PagePlugin implements Interceptor {
 						if (pageField != null) {
 							page = (Page) ReflectHelper.getValueByFieldName(parameterObject, "page");
 							if (page == null)
-								page = new Page();
+								page = new Page(10);
 							page.setTotalCount(count);
 							page.setTotalPage((int) Math.ceil(count * 1.0 / page.getPageSize()));
-							ReflectHelper.setValueByFieldName(parameterObject, "page", page); // 通过反射，对实体对象设置分页对象
+							//ReflectHelper.setValueByFieldName(parameterObject, "page", page); // 通过反射，对实体对象设置分页对象
 						} else {
 							throw new NoSuchFieldException(parameterObject.getClass().getName() + "不存在 page 属性！");
 						}

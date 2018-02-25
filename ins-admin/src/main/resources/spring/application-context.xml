@@ -22,13 +22,13 @@
 								expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-
 	<import resource="application-context-database.xml" />
 	<import resource="application-context-redis.xml" />
 	<import resource="application-context-aliyun.xml" />
 	<import resource="application-context-security.xml" />
 	<import resource="application-context-jackson.xml" />
-
+	<import resource="application-context-mongo.xml" />
+	<import resource="application-context-dubbo.xml" />
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"
@@ -36,7 +36,7 @@
 			<property name="locations">
 				<list>
 					<value>classpath*:common-dev.properties</value>
-					<value>classpath*:wechat-dev.properties</value>
+					<value>classpath*:admin-dev.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
@@ -53,7 +53,7 @@
 			<property name="locations">
 				<list>
 					<value>classpath*:common-test.properties</value>
-					<value>classpath*:wechat-test.properties</value>
+					<value>classpath*:admin-test.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
@@ -70,7 +70,7 @@
 			<property name="locations">
 				<list>
 					<value>classpath*:common-prod.properties</value>
-					<value>classpath*:wechat-prod.properties</value>
+					<value>classpath*:admin-prod.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
