@@ -10,13 +10,6 @@ import java.util.List;
  * Created by jeysine on 2018/2/9.
  */
 public interface MessageService extends BaseMongoService<Message, Message>{
-    void pushMessage(String openId, Message message) throws IOException;
-
-    void pushMessageList(String openId, List<Message> message) throws IOException;
-
-    void pushSubscribeMessage(String openid) throws IOException;
-
-    void pushChannelsMessage(String openId, String qrCodeScene) throws IOException;
 
     Message createOrUpdate(Message message);
 

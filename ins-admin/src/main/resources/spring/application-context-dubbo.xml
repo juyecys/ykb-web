@@ -15,10 +15,13 @@
 	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
-	<dubbo:reference id="wechatMessageService2"
+	<dubbo:reference id="wechatMessageServiceRPC"
 					 interface="cn.com.yikangbao.service.wechat.message.WechatMessageService" />
 
-	<dubbo:reference id="wechatMaterialService2"
+	<dubbo:reference id="wechatMaterialServiceRPC"
 					 interface="cn.com.yikangbao.service.wechat.material.WechatMaterialService" />
+
+	<dubbo:reference id="wechatMenuServiceRPC"
+					 interface="cn.com.yikangbao.service.wechat.menu.WechatMenuService" />
 
 </beans>

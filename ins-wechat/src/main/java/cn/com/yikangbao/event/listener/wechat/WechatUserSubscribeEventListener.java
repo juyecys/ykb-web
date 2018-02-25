@@ -3,12 +3,11 @@ package cn.com.yikangbao.event.listener.wechat;
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
 import cn.com.yikangbao.entity.common.Event;
-import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.listener.EventListener;
-import cn.com.yikangbao.service.message.MessageService;
+import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
@@ -23,7 +22,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +39,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
     private LocalWechatQRCodeService localWechatQRCodeService;
 
     @Autowired
-    private MessageService messageService;
+    private WechatMessageService wechatMessageService;
 
     @Override
     public String getId() {
@@ -68,10 +66,10 @@ public class WechatUserSubscribeEventListener implements EventListener{
             localWechatQRCodeService.update(qrCode);
             try {
                 if (qrCode.getSendSubscribeMessage()) {
-                    messageService.pushSubscribeMessage(openId);
+                    wechatMessageService.pushSubscribeMessage(openId);
                 }
                 if (qrCode.getSendChannelMessage()) {
-                    messageService.pushChannelsMessage(openId, eventKey);
+                    wechatMessageService.pushChannelsMessage(openId, eventKey);
                 }
             }catch (IOException e) {
                 logger.error("error: {}",e);
@@ -80,7 +78,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
 
         if (StringUtil.isEmpty(eventKey)) {
             try {
-                messageService.pushSubscribeMessage(openId);
+                wechatMessageService.pushSubscribeMessage(openId);
             }catch (IOException e) {
                 logger.error("error: {}",e);
             }

@@ -1,13 +1,17 @@
 package cn.com.yikangbao.service.wechat.message.impl;
 
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
+import cn.com.yikangbao.entity.message.Article;
+import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
+import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -27,6 +31,9 @@ public class WechatMessageServiceImpl implements WechatMessageService {
 
     @Autowired
     private WechatAccessTokenService wechatAccessTokenService;
+
+    @Autowired
+    private MessageService messageService;
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -89,5 +96,70 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         message.setText(text);
         message.setMsgtype(WechatCustomMessage.MsgTypeEnum.TEXT.getValue());
         return pushMessage(message);
+    }
+
+
+    @Override
+    public void pushMessageByMessage(String openId, Message message) throws IOException {
+        Message.MsgTypeEnum msgTypeEnum = Message.MsgTypeEnum.getEnumByValue(message.getMsgType());
+        switch (msgTypeEnum) {
+            case TEXT:
+                pushTextMessage(openId, message.getContent());
+                break;
+            case IMAGE:
+                break;
+            case MUSIC:
+                break;
+            case VIDEO:
+                break;
+            case VOICE:
+                break;
+            case MPNEWS:
+                break;
+            case WXCARD:
+                break;
+            case ARTICLE:
+            case ARTICLE_LIST:
+                List<WechatCustomMessage.News.Article> list = generateArticleList(message.getArticleList());
+                pushNewsMessage(openId, list);
+                break;
+        }
+    }
+
+    @Override
+    public void pushMessageListByMessage(String openId, List<Message> messageList) throws IOException {
+        if (!StringUtil.isEmpty(openId) && !messageList.isEmpty()) {
+            for(Message message: messageList) {
+                pushMessageByMessage(openId, message);
+            }
+        }
+    }
+
+    @Override
+    public void pushSubscribeMessage(String openid) throws IOException {
+        List<Message> messageList = messageService.findByStatusAndTypeOrderBySequence(true, Message.TypeEnum.SUBSCRIBE.name());
+        logger.debug("subscribe messageList: {}", messageList);
+        pushMessageListByMessage(openid, messageList);
+    }
+
+    @Override
+    public void pushChannelsMessage(String openId, String qrCodeScene) throws IOException {
+        List<Message> messageList = messageService.findByStatusAndTypeAndQrCodeSceneOrderBySequence(true, Message.TypeEnum.CHANNEL.name(), qrCodeScene);
+        pushMessageListByMessage(openId, messageList);
+    }
+
+    private List<WechatCustomMessage.News.Article> generateArticleList(List<Article> articles) {
+        WechatCustomMessage wechatCustomMessage = new WechatCustomMessage();
+        WechatCustomMessage.News news = wechatCustomMessage.new News();
+        WechatCustomMessage.News.Article article = news.new Article();
+        List<WechatCustomMessage.News.Article> list = new LinkedList<>();
+        for (Article one: articles) {
+            article.setUrl(one.getUrl());
+            article.setDescription(one.getDescription());
+            article.setPicurl(one.getPicUrl());
+            article.setTitle(one.getTitle());
+            list.add(article);
+        }
+        return list;
     }
 }

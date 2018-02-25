@@ -1,5 +1,6 @@
 package cn.com.yikangbao.service.wechat.message;
 
+import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
@@ -21,5 +22,13 @@ public interface WechatMessageService {
     WechatCommonResult pushNewsMessage(String openId, List<WechatCustomMessage.News.Article> articleList) throws IOException;
 
     WechatCommonResult pushTextMessage(String openId, String content) throws IOException;
+
+    void pushMessageByMessage(String openId, Message message) throws IOException;
+
+    void pushMessageListByMessage(String openId, List<Message> message) throws IOException;
+
+    void pushSubscribeMessage(String openid) throws IOException;
+
+    void pushChannelsMessage(String openId, String qrCodeScene) throws IOException;
 
 }

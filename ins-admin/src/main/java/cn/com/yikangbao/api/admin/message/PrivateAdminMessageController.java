@@ -1,11 +1,12 @@
 package cn.com.yikangbao.api.admin.message;
 
 import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.message.MessageDTO;
-import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
+import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.message.MessageService;
-import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
+import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by jeysine on 2018/2/9.
@@ -32,7 +32,10 @@ public class PrivateAdminMessageController {
     private MessageService messageService;
 
     @Autowired
-    private LocalWechatQRCodeService localWechatQRCodeService;
+    private ChannelService channelService;
+
+    @Autowired
+    private WechatMessageService wechatMessageServiceRPC;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createMessage(@RequestBody Message message) {
@@ -55,18 +58,18 @@ public class PrivateAdminMessageController {
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> sendMessage(@RequestBody MessageDTO message) throws IOException {
         if (Message.TypeEnum.CHANNEL.name().equals(message.getType())) {
-            LocalWechatQRCode localWechatQRCode = new LocalWechatQRCode();
-            localWechatQRCode.setScene(message.getQrCodeScene());
-            localWechatQRCode = localWechatQRCodeService.findOneByCondition(localWechatQRCode);
-            if (localWechatQRCode.getSendChannelMessage()) {
-                messageService.pushChannelsMessage(message.getOpenId(), message.getQrCodeScene());
+            ChannelDTO channel = new ChannelDTO();
+            channel.setScene(message.getQrCodeScene());
+            channel = channelService.findOneByCondition(channel);
+            if (channel.getSendChannelMessage()) {
+                wechatMessageServiceRPC.pushChannelsMessage(message.getOpenId(), message.getQrCodeScene());
             }
-            if (localWechatQRCode.getSendSubscribeMessage()) {
-                messageService.pushSubscribeMessage(message.getOpenId());
+            if (channel.getSendSubscribeMessage()) {
+                wechatMessageServiceRPC.pushSubscribeMessage(message.getOpenId());
             }
 
         } else if(Message.TypeEnum.SUBSCRIBE.name().equals(message.getType())){
-            messageService.pushSubscribeMessage(message.getOpenId());
+            wechatMessageServiceRPC.pushSubscribeMessage(message.getOpenId());
         }
         return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
