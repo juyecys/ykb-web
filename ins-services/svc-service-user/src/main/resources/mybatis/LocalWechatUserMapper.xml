@@ -27,10 +27,10 @@
 	<insert id="create" parameterType="LocalWechatUserM">
 		INSERT INTO
 			ykb_wechat_user (id, name, open_id, created_by, created_date, updated_date, updated_by, qr_code_scene
-			, nick_name, subscribe, gender, city, province, country, head_img_url, union_id, remark)
+			, nick_name, subscribe, gender, city, province, country, head_img_url, union_id, remark, subscribe_time)
 	  	VALUES
 	  		(#{id}, #{name}, #{openId}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{qrCodeScene}
-	  		, #{nickName}, #{subscribe}, #{gender}, #{city}, #{province}, #{country}, #{headImgUrl}, #{unionId}, #{remark})
+	  		, #{nickName}, #{subscribe}, #{gender}, #{city}, #{province}, #{country}, #{headImgUrl}, #{unionId}, #{remark}, #{subscribeTime})
 	</insert>
 
 	<update id="update" parameterType="LocalWechatUserM">
@@ -73,7 +73,10 @@
 				union_id = #{unionId},
 			</if>
 			<if test="remark != null">
-				remark = #{remark}
+				remark = #{remark},
+			</if>
+			<if test="subscribeTime != null">
+				subscribe_time = #{subscribeTime},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -107,7 +110,10 @@
 				union_id = #{unionId},
 			</if>
 			<if test="remark != null">
-				remark = #{remark}
+				remark = #{remark},
+			</if>
+			<if test="subscribeTime != null">
+				subscribe_time = #{subscribeTime},
 			</if>
 		</set>
 		WHERE open_id = #{openId}
