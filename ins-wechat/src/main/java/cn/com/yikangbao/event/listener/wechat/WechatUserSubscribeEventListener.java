@@ -61,10 +61,11 @@ public class WechatUserSubscribeEventListener implements EventListener{
 
         LocalWechatUserDTO old = null;
         try {
-            old = createOrUpdateWechatUser(openId, createdTime);
-
-            if (!(StringUtil.isEmpty(eventKey) && StringUtil.isEmpty(old.getQrCodeScene()))) {
+            if (!StringUtil.isEmpty(eventKey)) {
                 eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+            }
+            old = createOrUpdateWechatUser(openId, createdTime, eventKey);
+            if (!StringUtil.isEmpty(eventKey) && !StringUtil.isEmpty(old.getQrCodeScene())) {
                 ChannelDTO channel = new ChannelDTO();
                 channel.setScene(eventKey);
                 channel = channelService.findOneByCondition(channel);
@@ -90,7 +91,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
         }
     }
 
-    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime) throws IOException {
+    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime, String qrCodeScene) throws IOException {
         LocalWechatUserDTO user = new LocalWechatUserDTO();
         user.setOpenId(openId);
         LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
@@ -107,7 +108,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
             user.setSubscribe(wechatUser.getSubscribe());
             user.setUnionId(wechatUser.getUnionId());
             user.setOpenId(wechatUser.getOpenId());
-
+            user.setQrCodeScene(qrCodeScene);
             user.setCreatedDate(createdTime);
             user.setSubscribeTime(createdTime);
             localWechatUserService.create(user);
