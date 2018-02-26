@@ -100,7 +100,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 			wechatAccessToken.setExpiresIn(
 					wechatAccessToken.getExpiresIn());
-			logger.debug("get wechat access token suucess:{}", wechatAccessToken.getAccessToken());
+			logger.debug("get wechat access token suucess, accessToken:{}, accessToken expire time: {}", wechatAccessToken.getAccessToken(), wechatAccessToken.getExpiresIn());
 			setAccessTokenToRedis(wechatAccessToken);
 		} catch (IOException e) {
 			logger.error("visit wechat get access token faild:{}", e);
@@ -113,7 +113,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 	private void setAccessTokenToRedis(WechatAccessToken accessToken) throws IOException {
 		logger.debug("set access token to redis start.");
 		Jedis jedis = jedisPool.getResource();
-		Long accessTokenExpiredIn = accessToken.getExpiresIn() - 5L;
+		Long accessTokenExpiredIn = accessToken.getExpiresIn() - 60L;
 		if (accessTokenExpiredIn < 0) {
 			return;
 		}
@@ -121,7 +121,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY, accessToken.getAccessToken(), "NX", "EX", accessTokenExpiredIn);
 		logger.debug("result:{}",result);
 		if (result != null) {
-			logger.debug("set access token to redis success, accessToken:{}, expired: {}.", accessToken.getAccessToken(),accessToken.getExpiresIn());
+			logger.debug("set access token to redis success, accessToken:{}, expired: {}.", accessToken.getAccessToken(),accessTokenExpiredIn);
 			jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY_MUTEX);
 		} else {
 			logger.debug("access token had saved.");

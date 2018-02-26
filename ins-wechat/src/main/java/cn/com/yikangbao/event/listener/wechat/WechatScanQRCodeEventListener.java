@@ -17,8 +17,6 @@ import java.util.Map;
 @Component
 public class WechatScanQRCodeEventListener  implements EventListener {
     private Logger logger = LoggerFactory.getLogger(WechatScanQRCodeEventListener.class);
-    @Autowired
-    private ChannelService channelService;
 
     @Override
     public String getId() {
@@ -28,14 +26,6 @@ public class WechatScanQRCodeEventListener  implements EventListener {
     @Override
     public void handleEvent(Event event){
         logger.debug("处理扫码事件: {}",event);
-        Map<String, Object> properties = event.getProperties();
-        ChannelDTO channel = new ChannelDTO();
-        channel.setScene(properties.get("eventKey").toString());
-        channel = channelService.findOneByCondition(channel);
-        if (channel == null) {
-            logger.error("not find this channel qrcode, scene: {}", properties.get("eventKey").toString());
-        }
-        channel.setScanTime(channel.getScanTime() + 1);
-        channelService.update(channel);
+
     }
 }
