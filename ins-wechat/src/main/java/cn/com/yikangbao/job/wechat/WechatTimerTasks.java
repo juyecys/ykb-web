@@ -36,7 +36,7 @@ public class WechatTimerTasks {
                 openIds.add(one.getOpenId());
             }
             WechatUserDTO userInfoList = wechatUserService.getWechatUserInfoList(openIds);
-            if (userInfoList.getUserInfoList().isEmpty()) {
+            if (userInfoList.getErrmsg() == null && userInfoList.getUserInfoList().isEmpty()) {
                 logger.error("get user info list error, error code: {}, error msg: {}", userInfoList.getErrcode(), userInfoList.getErrmsg());
                 return;
             }

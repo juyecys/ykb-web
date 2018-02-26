@@ -32,6 +32,10 @@
         </dependency>
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-message</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
             <artifactId>ins-common</artifactId>
         </dependency>
     </dependencies>

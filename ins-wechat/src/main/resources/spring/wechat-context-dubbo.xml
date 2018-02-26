@@ -22,31 +22,31 @@
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service
 		interface="cn.com.yikangbao.service.wechat.menu.WechatMenuService"
-		ref="wechatMenuService" />
-	<bean id="wechatMenuService"
+		ref="wechatMenuServiceRPC" />
+	<bean id="wechatMenuServiceRPC"
 		class="cn.com.yikangbao.service.wechat.menu.impl.WechatMenuServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.message.WechatMessageService"
-			ref="wechatMessageService" />
-	<bean id="wechatMessageService"
+			ref="wechatMessageServiceRPC" />
+	<bean id="wechatMessageServiceRPC"
 		  class="cn.com.yikangbao.service.wechat.message.impl.WechatMessageServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.user.WechatUserService"
-			ref="wechatUserService" />
-	<bean id="wechatUserService"
+			ref="wechatUserServiceRPC" />
+	<bean id="wechatUserServiceRPC"
 		  class="cn.com.yikangbao.service.wechat.user.impl.WechatUserServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"
-			ref="wechatAuthService2" />
-	<bean id="wechatAuthService2"
+			ref="wechatAuthServiceRPC" />
+	<bean id="wechatAuthServiceRPC"
 		  class="cn.com.yikangbao.service.wechat.auth.impl.WechatAuthServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.material.WechatMaterialService"
-			ref="wechatMaterialService2" />
-	<bean id="wechatMaterialService2"
+			ref="wechatMaterialServiceRPC" />
+	<bean id="wechatMaterialServiceRPC"
 		  class="cn.com.yikangbao.service.wechat.material.impl.WechatMaterialServiceImpl" />
 </beans>

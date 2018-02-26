@@ -1,10 +1,9 @@
 package cn.com.yikangbao.event.listener.wechat;
 
+import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
-import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
 import cn.com.yikangbao.listener.EventListener;
-import cn.com.yikangbao.service.message.MessageService;
-import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
+import cn.com.yikangbao.service.channel.ChannelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,7 @@ import java.util.Map;
 public class WechatScanQRCodeEventListener  implements EventListener {
     private Logger logger = LoggerFactory.getLogger(WechatScanQRCodeEventListener.class);
     @Autowired
-    private LocalWechatQRCodeService localWechatQRCodeService;
-
-    @Autowired
-    private MessageService messageService;
+    private ChannelService channelService;
 
     @Override
     public String getId() {
@@ -33,13 +29,13 @@ public class WechatScanQRCodeEventListener  implements EventListener {
     public void handleEvent(Event event){
         logger.debug("处理扫码事件: {}",event);
         Map<String, Object> properties = event.getProperties();
-        LocalWechatQRCode qrCode = new LocalWechatQRCode();
-        qrCode.setScene(properties.get("eventKey").toString());
-        qrCode = localWechatQRCodeService.findOneByCondition(qrCode);
-        if (qrCode == null) {
+        ChannelDTO channel = new ChannelDTO();
+        channel.setScene(properties.get("eventKey").toString());
+        channel = channelService.findOneByCondition(channel);
+        if (channel == null) {
             logger.error("not find this channel qrcode, scene: {}", properties.get("eventKey").toString());
         }
-        qrCode.setScanTime(qrCode.getScanTime() + 1);
-        localWechatQRCodeService.update(qrCode);
+        channel.setScanTime(channel.getScanTime() + 1);
+        channelService.update(channel);
     }
 }

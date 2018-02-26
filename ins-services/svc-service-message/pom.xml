@@ -21,11 +21,5 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>2.0.4.RELEASE</version>
         </dependency>
-
-
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-wechat</artifactId>
-        </dependency>
     </dependencies>
 </project>

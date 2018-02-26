@@ -117,6 +117,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		if (accessTokenExpiredIn < 0) {
 			return;
 		}
+		jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY);
 		String result = jedis.set(WechatConfigParams.ACCESS_TOKEN_KEY, accessToken.getAccessToken(), "NX", "EX", accessTokenExpiredIn);
 		logger.debug("result:{}",result);
 		if (result != null) {

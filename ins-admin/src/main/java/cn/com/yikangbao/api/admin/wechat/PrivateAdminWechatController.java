@@ -41,7 +41,7 @@ public class PrivateAdminWechatController {
     private LocalWechatMenuService localWechatMenuService;
 
     @Autowired
-    private WechatQRCodeService wechatQRCodeService;
+    private WechatQRCodeService wechatQRCodeServiceRPC;
 
     @Autowired
     private ChannelService channelService;
@@ -50,13 +50,13 @@ public class PrivateAdminWechatController {
     private AliyunContentStorageService aliyunContentStorageService;
 
     @Autowired
-    private WechatMenuService wechatMenuService;
+    private WechatMenuService wechatMenuServiceRPC;
 
     @Autowired
     private LocalWechatUserService localWechatUserService;
 
     @Autowired
-    private WechatMaterialService wechatMaterialService;
+    private WechatMaterialService wechatMaterialServiceRPC;
 
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
@@ -89,7 +89,7 @@ public class PrivateAdminWechatController {
     @RequestMapping(value = "/menu/generate", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> generateWechatMenu() {
         try {
-            Boolean isSuccess = wechatMenuService.generateWechatMenu();
+            Boolean isSuccess = wechatMenuServiceRPC.generateWechatMenu();
             if (!isSuccess) {
                 return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
             }
@@ -115,8 +115,8 @@ public class PrivateAdminWechatController {
         WechatQRCodeResult result = null;
 
         try {
-            result = wechatQRCodeService.createForverQRCode(wechatQRCode);
-            InputStream inputStream = wechatQRCodeService.getQRCode(result.getTicket());
+            result = wechatQRCodeServiceRPC.createForverQRCode(wechatQRCode);
+            InputStream inputStream = wechatQRCodeServiceRPC.getQRCode(result.getTicket());
 
             String savePath = AliyunOssPath.CHANNEL_QRCODE_FILEPATH;
             if (!savePath.endsWith("/")) {
@@ -172,7 +172,7 @@ public class PrivateAdminWechatController {
     @RequestMapping(value = "/material", method = RequestMethod.POST,  produces = "application/json")
     public ResponseEntity<ApiResult> test(@RequestParam("file") MultipartFile file, @RequestParam String type) throws IOException {
 
-        WechatMaterial wechatMaterial = wechatMaterialService.createForeverMaterial(file, type);
+        WechatMaterial wechatMaterial = wechatMaterialServiceRPC.createForeverMaterial(file, type);
         logger.info("wechat material: {}", wechatMaterial);
 
         return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);
