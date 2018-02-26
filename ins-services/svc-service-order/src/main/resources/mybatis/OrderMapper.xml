@@ -132,7 +132,7 @@
 				reason = #{reason}
 			</if>
 		</set>
-		WHERE id = #{id}
+		WHERE order_number = #{orderNumber}
 	</update>
 
 	<sql id="sql_where">

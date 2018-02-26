@@ -19,13 +19,13 @@ public class PrivateAdminWechatUserController {
     @Autowired
     private LocalWechatUserService localWechatUserService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getUser(LocalWechatUserDTO wechatUser) {
         List<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByCondition(wechatUser);
         return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getUserPage(LocalWechatUserDTO wechatUser) {
         Page<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByConditionPage(wechatUser);
         return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);

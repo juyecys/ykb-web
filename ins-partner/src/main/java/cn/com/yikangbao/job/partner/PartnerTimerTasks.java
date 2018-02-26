@@ -4,8 +4,10 @@ import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.config.partner.PartnerUrlConfig;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
+import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.job.DistributedExclusiveTask;
 import cn.com.yikangbao.service.order.OrderService;
+import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
@@ -32,12 +34,17 @@ public class PartnerTimerTasks {
 	@Autowired
 	private OrderService orderService;
 
+	@Autowired
+	private OrderRecordService orderRecordService;
+
 	private static final ObjectMapper mapper = new ObjectMapper();
 
 	@Scheduled(cron = "0 0/1 * * * ?")
 	public void synchronousOrderStatus() {
 		List<OrderDTO> orders =  orderService.findNeedSysByStatus();
 		logger.info("need synchronous order: {}", orders);
+		Order newOrder = null;
+		OrderRecord orderRecord = null;
 		if (!orders.isEmpty()) {
 			for (OrderDTO order: orders) {
 				try {
@@ -48,10 +55,16 @@ public class PartnerTimerTasks {
 					String url = PartnerUrlConfig.getFullUrl(
 							PartnerUrlConfig.getQianhaiServerUrl(), PartnerUrlConfig.getQianhaiOrderUrl());
 					String resultJson = OkHttpUtils.postString().url(url).content(dataJson).build().execute().body().string();
-					HashMap resutMap = mapper.readValue(resultJson, HashMap.class);
-					Order newOrder = PartnerConvertUtils.convertOrder(resutMap);
-
-				} catch (IllegalAccessException | IOException e) {
+					HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
+					newOrder = PartnerConvertUtils.convertOrder(resultMap);
+					if (!order.getStatus().equals(newOrder.getStatus())) {
+						orderService.synchronousOrderStatus(newOrder);
+						orderRecord = new OrderRecord();
+						orderRecord.setOrderNumber(newOrder.getOrderNumber());
+						orderRecord.setStatus(newOrder.getStatus());
+						orderRecordService.createOrUpdate(orderRecord);
+					}
+				} catch (Exception e) {
 					logger.error("", e);
 				}
 

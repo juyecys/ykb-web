@@ -6,10 +6,12 @@ import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.qrcode.LocalWechatQRCode;
+import cn.com.yikangbao.entity.wechat.user.WechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.listener.EventListener;
 import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.qrcode.LocalWechatQRCodeService;
+import cn.com.yikangbao.service.wechat.user.WechatUserService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
@@ -43,6 +45,9 @@ public class WechatUserSubscribeEventListener implements EventListener{
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private WechatUserService wechatUserService;
+
     @Override
     public String getId() {
         return "YKB_EVENT_WECHAT_USER_SUBSCRIBE_EVENT";
@@ -56,51 +61,58 @@ public class WechatUserSubscribeEventListener implements EventListener{
         Date createdTime = DateUtils.toDate((Long) properties.get("createTime"));
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
 
-        LocalWechatUserDTO old = createOrUpdateWechatUser(openId, createdTime);
+        LocalWechatUserDTO old = null;
+        try {
+            old = createOrUpdateWechatUser(openId, createdTime);
 
-        if (!(StringUtil.isEmpty(eventKey) && StringUtil.isEmpty(old.getQrCodeScene()))) {
-            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
-            LocalWechatQRCode qrCode = new LocalWechatQRCode();
-            qrCode.setScene(eventKey);
-            qrCode = localWechatQRCodeService.findOneByCondition(qrCode);
-            if (qrCode == null) {
-                logger.error("not find this channel qrcode, scene: {}", eventKey);
-            }
-            qrCode.setScanTime(qrCode.getScanTime() + 1);
-            localWechatQRCodeService.update(qrCode);
-            try {
+            if (!(StringUtil.isEmpty(eventKey) && StringUtil.isEmpty(old.getQrCodeScene()))) {
+                eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+                LocalWechatQRCode qrCode = new LocalWechatQRCode();
+                qrCode.setScene(eventKey);
+                qrCode = localWechatQRCodeService.findOneByCondition(qrCode);
+                if (qrCode == null) {
+                    logger.error("not find this channel qrcode, scene: {}", eventKey);
+                }
+                qrCode.setScanTime(qrCode.getScanTime() + 1);
+                localWechatQRCodeService.update(qrCode);
+
                 if (qrCode.getSendSubscribeMessage()) {
                     messageService.pushSubscribeMessage(openId);
                 }
                 if (qrCode.getSendChannelMessage()) {
                     messageService.pushChannelsMessage(openId, eventKey);
                 }
-            }catch (IOException e) {
-                logger.error("error: {}",e);
             }
-        }
 
-        if (StringUtil.isEmpty(eventKey)) {
-            try {
+            if (StringUtil.isEmpty(eventKey)) {
                 messageService.pushSubscribeMessage(openId);
-            }catch (IOException e) {
-                logger.error("error: {}",e);
             }
+        } catch (IOException e) {
+            logger.error("error: {}",e);
         }
-
     }
 
-    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime) {
+    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime) throws IOException {
         LocalWechatUserDTO user = new LocalWechatUserDTO();
         user.setOpenId(openId);
         LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
 
-        user.setCreatedDate(createdTime);
-
         if (old == null) {
+            WechatUser wechatUser = wechatUserService.getWechatUserInfo(openId, null);
+            user.setCity(wechatUser.getCity());
+            user.setCountry(wechatUser.getCountry());
+            user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+            user.setNickName(wechatUser.getNickname());
+            user.setProvince(wechatUser.getProvince());
+            user.setRemark(wechatUser.getRemark());
+            user.setGender(wechatUser.getSex());
+            user.setSubscribe(wechatUser.getSubscribe());
+            user.setUnionId(wechatUser.getUnionId());
+            user.setOpenId(wechatUser.getOpenId());
+            user.setCreatedDate(createdTime);
+            user.setSubscribeTime(createdTime);
             localWechatUserService.create(user);
         } else {
-            old.setCreatedDate(createdTime);
             old.setUpdatedDate(new Date());
             localWechatUserService.update(old);
         }

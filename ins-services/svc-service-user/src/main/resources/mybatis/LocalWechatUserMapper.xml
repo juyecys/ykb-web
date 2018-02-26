@@ -192,6 +192,7 @@
 		WHERE
 		wu.open_id IS NOT NULL
 		AND wu.nick_name IS NULL
+		AND wu.subscribe != 0
 	</select>
 </mapper>
 
