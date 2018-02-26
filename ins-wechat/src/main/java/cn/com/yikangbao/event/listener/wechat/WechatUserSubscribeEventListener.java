@@ -58,7 +58,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
         logger.debug("处理关注事件: {}",event);
         Map<String, Object> properties = event.getProperties();
         String openId = properties.get("openId").toString();
-        Date createdTime = DateUtils.toDate((Long) properties.get("createTime"));
+        Date createdTime = DateUtils.toDate(((Integer)properties.get("createTime")).longValue());
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
 
         LocalWechatUserDTO old = null;
