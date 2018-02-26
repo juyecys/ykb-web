@@ -6,6 +6,7 @@ import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.listener.EventListener;
 import cn.com.yikangbao.service.channel.ChannelService;
@@ -59,7 +60,7 @@ public class WechatUserSubscribeEventListener implements EventListener{
         Date createdTime = DateUtils.toDate(((Integer)properties.get("createTime")).longValue());
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
 
-        LocalWechatUserDTO old = null;
+        LocalWechatUser old = null;
         try {
             if (!StringUtil.isEmpty(eventKey)) {
                 eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
@@ -91,13 +92,14 @@ public class WechatUserSubscribeEventListener implements EventListener{
         }
     }
 
-    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime, String qrCodeScene) throws IOException {
+    private LocalWechatUser createOrUpdateWechatUser(String openId, Date createdTime, String qrCodeScene) throws IOException {
         LocalWechatUserDTO user = new LocalWechatUserDTO();
         user.setOpenId(openId);
         LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
 
         if (old == null) {
             WechatUser wechatUser = wechatUserService.getWechatUserInfo(openId, null);
+
             user.setCity(wechatUser.getCity());
             user.setCountry(wechatUser.getCountry());
             user.setHeadImgUrl(wechatUser.getHeadImgUrl());
@@ -111,7 +113,8 @@ public class WechatUserSubscribeEventListener implements EventListener{
             user.setQrCodeScene(qrCodeScene);
             user.setCreatedDate(createdTime);
             user.setSubscribeTime(createdTime);
-            localWechatUserService.create(user);
+            LocalWechatUser localWechatUser = localWechatUserService.create(user);
+            return localWechatUser;
         } else {
             old.setUpdatedDate(new Date());
             localWechatUserService.update(old);
