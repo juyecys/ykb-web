@@ -1,7 +1,9 @@
 package cn.com.yikangbao.event;
 
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
+import cn.com.yikangbao.event.listener.wechat.WechatScanQRCodeEventListener;
 import cn.com.yikangbao.event.listener.wechat.WechatUserSubscribeEventListener;
+import cn.com.yikangbao.event.listener.wechat.WechatUserUnSubscribeEventListener;
 import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.event.EventServiceImpl;
 import org.slf4j.Logger;
@@ -25,10 +27,18 @@ public class BusinessEventsSubscriber {
 	@Autowired
 	private WechatUserSubscribeEventListener wechatUserSubscribeEventListener;
 
+	@Autowired
+	private WechatUserUnSubscribeEventListener wechatUserUnSubscribeEventListener;
+
+	@Autowired
+	private WechatScanQRCodeEventListener wechatScanQRCodeEventListener;
+
 	@PostConstruct
 	public void init() {
 		try {
 			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE, wechatUserSubscribeEventListener);
+			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_USER_UNSUBSCRIBE, wechatUserUnSubscribeEventListener);
+			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE, wechatScanQRCodeEventListener);
 		} catch (EventServiceException e) {
 			logger.error("订阅业务事件失败！！ ", e);
 			throw new IllegalStateException();

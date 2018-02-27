@@ -17,6 +17,7 @@
 	<import resource="wechat-public-context-database.xml" />
 	<import resource="wechat-public-context-redis.xml" />
 	<import resource="wechat-public-context-dubbo.xml" />
+	<import resource="wechat-public-context-mongo.xml" />
 	<!--<import resource="wechat-public-context-aliyun.xml" />-->
 
 	<task:annotation-driven />

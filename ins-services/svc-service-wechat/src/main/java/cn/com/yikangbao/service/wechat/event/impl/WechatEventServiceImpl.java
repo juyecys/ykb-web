@@ -79,36 +79,25 @@ public class WechatEventServiceImpl implements WechatEventService {
 
     }
 
-    private LocalWechatUserDTO createOrUpdateWechatUser(String openId, Date createdTime) {
-        LocalWechatUserDTO user = new LocalWechatUserDTO();
-        user.setOpenId(openId);
-        LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
-
-        if (old == null) {
-            user.setCreatedDate(createdTime);
-            user.setSubscribeTime(createdTime);
-            localWechatUserService.create(user);
-        } else {
-            old.setUpdatedDate(new Date());
-            localWechatUserService.update(old);
-        }
-        return old;
-    }
-
     @Override
-    public void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent) {
-
+    public void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent) throws EventServiceException {
+        logger.debug("发布取消关注事件 subscribeEvent: {}",unsubscribeEvent);
+        Event event = new Event();
+        event.addProperty("openId", unsubscribeEvent.getFromUserName());
+        event.addProperty("createTime", unsubscribeEvent.getCreateTime());
+        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_UNSUBSCRIBE);
+        eventService.publish(event);
     }
 
     @Override
     public void processScanEvent(WechatScanEvent scanEvent) throws Exception {
         logger.debug("处理扫描二维码事件 scanEvent: {}",scanEvent);
 
-        /*Event event = new Event();
+        Event event = new Event();
         event.addProperty("eventKey", scanEvent.getEventKey());
         event.addProperty("openId", scanEvent.getFromUserName());
         event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE);
-        eventService.publish(event);*/
+        eventService.publish(event);
     }
 
     @Override

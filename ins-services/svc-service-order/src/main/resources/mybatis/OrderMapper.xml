@@ -55,58 +55,58 @@
 				updated_by = #{updatedBy},
 			</if>
 			<if test="proposerName != null">
-				proposer_name = #{proposerName}
+				proposer_name = #{proposerName},
 			</if>
 			<if test="proposerCredentialsType != null">
-				proposer_credentials_type = #{proposerCredentialsType}
+				proposer_credentials_type = #{proposerCredentialsType},
 			</if>
 			<if test="proposerCredentialsNum != null">
-				proposer_credentials_num = #{proposerCredentialsNum}
+				proposer_credentials_num = #{proposerCredentialsNum},
 			</if>
 			<if test="proposerPhone != null">
-				proposer_phone = #{proposerPhone}
+				proposer_phone = #{proposerPhone},
 			</if>
 			<if test="insuredName != null">
-				insured_name = #{insuredName}
+				insured_name = #{insuredName},
 			</if>
 			<if test="insuredCredentialsType != null">
-				insured_credentials_type = #{insuredCredentialsType}
+				insured_credentials_type = #{insuredCredentialsType},
 			</if>
 			<if test="insuredCredentialsNum != null">
-				insured_credentials_num = #{insuredCredentialsNum}
+				insured_credentials_num = #{insuredCredentialsNum},
 			</if>
 			<if test="insuredPhone != null">
-				insured_phone = #{insuredPhone}
+				insured_phone = #{insuredPhone},
 			</if>
 			<if test="relation != null">
-				relation = #{relation}
+				relation = #{relation},
 			</if>
 			<if test="hospitalId != null">
-				hospital_id = #{hospitalId}
+				hospital_id = #{hospitalId},
 			</if>
 			<if test="hospitalName != null">
-				hospital_name = #{hospitalName}
+				hospital_name = #{hospitalName},
 			</if>
 			<if test="insuranceAmount != null">
-				insurance_amount = #{insuranceAmount}
+				insurance_amount = #{insuranceAmount},
 			</if>
 			<if test="orderAmount != null">
-				order_amount = #{orderAmount}
+				order_amount = #{orderAmount},
 			</if>
 			<if test="orderNumber != null">
-				order_number = #{orderNumber}
+				order_number = #{orderNumber},
 			</if>
 			<if test="userId != null">
-				user_id = #{userId}
+				user_id = #{userId},
 			</if>
 			<if test="status != null">
-				status = #{status}
+				status = #{status},
 			</if>
 			<if test="insuranceStartDate != null">
-				insurance_start_date = #{insuranceStartDate}
+				insurance_start_date = #{insuranceStartDate},
 			</if>
 			<if test="insuranceEndDate != null">
-				insurance_end_date = #{insuranceEndDate}
+				insurance_end_date = #{insuranceEndDate},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -126,10 +126,10 @@
 				policy_number = #{policyNumber},
 			</if>
 			<if test="status != null">
-				status = #{status}
+				status = #{status},
 			</if>
 			<if test="reason != null">
-				reason = #{reason}
+				reason = #{reason},
 			</if>
 		</set>
 		WHERE order_number = #{orderNumber}
@@ -162,7 +162,7 @@
 		ykb_order o
 	</sql>
 
-	<select id="findByConditionPage" resultMap="OrderResultMap">
+	<select id="findByConditionPage" resultType="OrderQM">
 		SELECT
 		o.*
 		FROM
@@ -171,7 +171,7 @@
 	    ORDER BY o.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultMap="OrderResultMap">
+	<select id="findOneByCondition" resultType="OrderQM">
 		SELECT
 		o.*
 		FROM
@@ -180,7 +180,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultMap="OrderResultMap">
+	<select id="findByCondition" resultType="OrderQM">
 		SELECT
 		o.*
 		FROM
@@ -189,7 +189,7 @@
 	</select>
 
 	<!--需要同步状态的订单-->
-	<select id="findNeedSysByStatus" resultMap="OrderResultMap">
+	<select id="findNeedSysByStatus" resultType="OrderQM">
 		SELECT
 		o.order_number "order_id"
 		FROM

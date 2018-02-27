@@ -156,6 +156,7 @@ public class WechatMessageServiceImpl implements WechatMessageService {
     @Override
     public void pushChannelsMessage(String openId, String qrCodeScene) throws IOException {
         List<Message> messageList = messageService.findByStatusAndTypeAndQrCodeSceneOrderBySequence(true, Message.TypeEnum.CHANNEL.name(), qrCodeScene);
+        logger.debug("channel messageList: {}", messageList);
         pushMessageListByMessage(openId, messageList);
     }
 

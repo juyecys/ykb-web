@@ -16,7 +16,7 @@ public interface WechatEventService {
 
     void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException;
 
-    void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent);
+    void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent) throws EventServiceException;
 
     void processScanEvent(WechatScanEvent scanEvent) throws Exception;
 

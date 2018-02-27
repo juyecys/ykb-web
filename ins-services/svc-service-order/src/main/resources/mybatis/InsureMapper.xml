@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>    
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.com.yikangbao.dao.order.OrderDAO">
-	<resultMap id="OrderResultMap" type="cn.com.yikangbao.entity.order.OrderDTO"
+<mapper namespace="cn.com.yikangbao.dao.insure.InsureDAO">
+	<!--<resultMap id="OrderResultMap" type="cn.com.yikangbao.entity.order.OrderDTO"
 		autoMapping="true">
 		<result column="id" jdbcType="VARCHAR" property="id" />
 		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
@@ -15,9 +15,9 @@
 		<result column="order_amount" jdbcType="BIGINT" property="orderAmount" />
 		<result column="user_id" jdbcType="VARCHAR" property="userId" />
 		<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-	</resultMap>
+	</resultMap>-->
 
-	<insert id="create" parameterType="OrderM">
+	<insert id="create" parameterType="InsureM">
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount,
@@ -28,7 +28,7 @@
 	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday})
 	</insert>
 
-	<update id="update" parameterType="OrderM">
+	<update id="update" parameterType="InsureM">
 		UPDATE ykb_insure
 		<set>
 			<if test="updatedDate != null">
@@ -84,7 +84,7 @@
 	</update>
 
 	<!--同步订单状态-->
-	<update id="synchronousOrderStatus" parameterType="OrderM">
+	<update id="synchronousOrderStatus" parameterType="InsureM">
 		UPDATE ykb_order
 		<set>
 			<if test="updatedDate != null">
@@ -133,7 +133,7 @@
 		ykb_order o
 	</sql>
 
-	<select id="findByConditionPage" resultMap="OrderResultMap">
+	<select id="findByConditionPage" resultType="InsureM">
 		SELECT
 		o.*
 		FROM
@@ -142,7 +142,7 @@
 	    ORDER BY o.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultMap="OrderResultMap">
+	<select id="findOneByCondition" resultType="InsureM">
 		SELECT
 		o.*
 		FROM
@@ -151,7 +151,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultMap="OrderResultMap">
+	<select id="findByCondition" resultType="InsureM">
 		SELECT
 		o.*
 		FROM
@@ -160,7 +160,7 @@
 	</select>
 
 	<!--需要同步状态的订单-->
-	<select id="findNeedSysByStatus" resultMap="OrderResultMap">
+	<select id="findNeedSysByStatus" resultType="InsureM">
 		SELECT
 		o.order_number "order_id"
 		FROM
