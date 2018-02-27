@@ -1,11 +1,13 @@
 package cn.com.yikangbao.event.listener.wechat;
 
+import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.listener.EventListener;
 import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.untils.common.DateUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,10 @@ public class WechatScanQRCodeEventListener  implements EventListener {
         Map<String, Object> properties = event.getProperties();
         String openId = properties.get("openId").toString();
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
+
+        if (!StringUtil.isEmpty(eventKey)) {
+            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+        }
 
         ChannelDTO channel = new ChannelDTO();
         channel.setScene(eventKey);
