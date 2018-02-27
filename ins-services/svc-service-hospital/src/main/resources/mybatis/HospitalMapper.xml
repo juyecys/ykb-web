@@ -94,12 +94,19 @@
 			<if test="provinceId != null">
 				AND h.province_id = #{provinceId}
 			</if>
+			<if test="provinceName != null">
+				AND h.province_name like '%${provinceName}%'
+			</if>
 		</where>
 	</sql>
 
 	<sql id="from_hospital">
 		ykb_hospital h
 	</sql>
+
+	<!--<sql id="from_province">
+		LEFT JOIN ykb_province p ON h.province_id = p.id
+	</sql>-->
 
 	<select id="findByConditionPage" resultMap="HospitalResultMap">
 		SELECT
