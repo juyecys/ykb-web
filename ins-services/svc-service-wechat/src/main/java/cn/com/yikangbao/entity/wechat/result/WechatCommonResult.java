@@ -13,6 +13,26 @@ public class WechatCommonResult implements Serializable{
 	@JsonProperty("errmsg")
 	private String errmsg;
 
+	public static enum ErrorCodeEnum {
+		SYSTEM_BUSY(-1L),
+		SUCCESS(0L),
+		ACCESS_TOKEN_ERROR(4001L);
+
+		private Long code;
+
+		ErrorCodeEnum(Long code) {
+			this.code = code;
+		}
+
+		public Long getCode() {
+			return code;
+		}
+
+		public void setCode(Long code) {
+			this.code = code;
+		}
+	}
+
 	public Long getErrcode() {
 		return errcode;
 	}

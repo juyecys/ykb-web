@@ -3,7 +3,10 @@ package cn.com.yikangbao.service.wechat.accesstoken.impl;
 import cn.com.yikangbao.config.wechat.WechatConfigSecret;
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
+import cn.com.yikangbao.entity.wechat.callbackip.WechatCallBackIp;
+import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
+import cn.com.yikangbao.service.wechat.callbackip.WechatCallBackIpService;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Response;
@@ -28,6 +31,9 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
+	@Autowired
+	private WechatCallBackIpService wechatCallBackIpService;
+
 	@Override
 	public WechatAccessToken getAccessToken() {
 		WechatAccessToken wechatAccessToken = null;
@@ -44,6 +50,8 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 				if (accessToken != null && accessTokenExpired > 0) {
 					wechatAccessToken =  new WechatAccessToken(accessToken, accessTokenExpired);
 					logger.debug("get access token from redis success, access token:{} expired:{}",accessToken,accessTokenExpired);
+					wechatAccessToken = judgeAccessTokenActive(wechatAccessToken);
+
 				} else {
 					//logger.debug("Redis is not exists access token , start get lock to get access token from wechat.");
 					String mutexKeyValue = UUID.randomUUID().toString();
@@ -127,6 +135,27 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			logger.debug("access token had saved.");
 		}
 	}
+
+	/**
+	 * 由于授权微信权限给凡科, 故在此调用一个无限制次数的接口判断accessToken是否有效
+	 * @return
+	 */
+	private WechatAccessToken judgeAccessTokenActive(WechatAccessToken wechatAccessToken){
+		WechatCallBackIp wechatCallBackIp = null;
+		try {
+			wechatCallBackIp = wechatCallBackIpService.getWechatCallBackIp(wechatAccessToken);
+		} catch (IOException e) {
+			logger.error("error :{}", e);
+		}
+		if (wechatCallBackIp.getIpList() == null) {
+			Jedis jedis = jedisPool.getResource();
+			jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY);
+			logger.debug("wechat access token is not active, try to get from wechat");
+			return null;
+		}
+		return wechatAccessToken;
+	}
+
 	public static void main(String[] args) {
 		/*String url = "https://api.weixin.qq.com/cgi-bin/token";
 		try {

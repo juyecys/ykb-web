@@ -23,4 +23,12 @@ public class WechatScanEvent extends WechatBaseEvent {
     public void setTicket(String ticket) {
         this.ticket = ticket;
     }
+
+    @Override
+    public String toString() {
+        return "WechatScanEvent{" +
+                "eventKey='" + eventKey + '\'' +
+                ", ticket='" + ticket + '\'' +
+                '}';
+    }
 }

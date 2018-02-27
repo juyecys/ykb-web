@@ -37,7 +37,7 @@ public class WechatScanQRCodeEventListener  implements EventListener {
 
     @Override
     public void handleEvent(Event event){
-        logger.debug("处理扫码事件: {}",event);
+        logger.debug("处理扫描二维码事件: {}",event);
         Map<String, Object> properties = event.getProperties();
         String openId = properties.get("openId").toString();
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
@@ -54,7 +54,7 @@ public class WechatScanQRCodeEventListener  implements EventListener {
             logger.error("not find this channel qrcode, scene: {}", eventKey);
             return;
         }
-
+        logger.debug("find channel: {}", channel);
         try {
             if (channel.getSendChannelMessage()) {
                 wechatMessageService.pushChannelsMessage(openId, eventKey);

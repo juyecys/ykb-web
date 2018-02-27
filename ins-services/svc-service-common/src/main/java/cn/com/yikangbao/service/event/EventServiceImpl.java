@@ -88,12 +88,11 @@ public class EventServiceImpl implements EventService {
 				continue;
 			}
 			String eventType = splitted[1];
-			logger.debug("Found event type to scan {}", eventType);
+			//logger.debug("Found event type to scan {}", eventType);
 			Map<String, EventListener> listeners = eventTypeToListenersMap
 					.get(eventType);
 			if (listeners == null) {
-				logger.debug("No listener registered for this event type {}",
-						eventType);
+				//logger.debug("No listener registered for this event type {}", eventType);
 				continue;
 			}
 
