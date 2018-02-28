@@ -86,9 +86,9 @@ public class QianhaiServiceimpl implements QianhaiService {
         insure.setSign(PartnerSignUtils.getSign(map, PartnerSecretKeyConfig.getQianhaiSecretKeyFor()));
         String insureJson = mapper.writeValueAsString(insure);
         logger.debug("qian hai insure data:{}, url: {}", insureJson, QIAN_HAI_INSURE_URL);
-        OkHttpUtils.postString().url(QIAN_HAI_INSURE_URL).content(insureJson).build().execute();
-       /* logger.debug("qian hai insure result:{}", result);
-        CommonQianHai commonQianHai =  mapper.readValue(result,CommonQianHai.class);
+        String result =OkHttpUtils.postString().url(QIAN_HAI_INSURE_URL).content(insureJson).build().execute().body().string();
+        logger.debug("qian hai insure result:{}", result);
+        /*CommonQianHai commonQianHai =  mapper.readValue(result,CommonQianHai.class);
         if (commonQianHai.getCode() != QianHaiException.QianHaiErrorCode.SUCCESS.getCode()) {
             logger.error("qianhai error, error code:{}, error desc: {}", commonQianHai.getCode(), commonQianHai.getDesc());
             throw new QianHaiException(commonQianHai.getCode(), commonQianHai.getDesc());
@@ -104,9 +104,9 @@ public class QianhaiServiceimpl implements QianhaiService {
         order.setSign(PartnerSignUtils.getSign(map, PartnerSecretKeyConfig.getQianhaiSecretKeyFor()));
         String insureJson = mapper.writeValueAsString(order);
         logger.debug("qian hai order detail data:{}", insureJson);
-        OkHttpUtils.postString().url(QIAN_HAI_INSURE_URL).content(insureJson).build().execute();
-        /*logger.debug("qian hai order detail result:{}", result);
-        CommonQianHai commonQianHai =  mapper.readValue(result,CommonQianHai.class);
+        String result = OkHttpUtils.postString().url(QIAN_HAI_GET_ORDER_URL).content(insureJson).build().execute().body().string();
+        logger.debug("qian hai order detail result:{}", result);
+        /*CommonQianHai commonQianHai =  mapper.readValue(result,CommonQianHai.class);
         if (commonQianHai.getCode() != QianHaiException.QianHaiErrorCode.SUCCESS.getCode()) {
             logger.error("qianhai error, error code:{}, error desc: {}", commonQianHai.getCode(), commonQianHai.getDesc());
             throw new QianHaiException(commonQianHai.getCode(), commonQianHai.getDesc());
