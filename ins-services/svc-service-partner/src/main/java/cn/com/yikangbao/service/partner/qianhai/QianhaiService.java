@@ -9,6 +9,6 @@ import java.io.IOException;
 public interface QianhaiService {
     void createOrderByPartner(PartnerOrder partnerOrder);
     void updateOrderByPartner(PartnerOrder partnerOrder);
-    void sendOrder(QianHaiOrder insure) throws IOException, QianHaiException;
-    void getOrderDetail(QianHaiOrder order) throws IOException, QianHaiException;
+    void sendOrder(QianHaiOrder insure) throws IOException, QianHaiException, IllegalAccessException;
+    void getOrderDetail(QianHaiOrder order) throws IOException, QianHaiException, IllegalAccessException;
 }

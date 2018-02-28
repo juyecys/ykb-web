@@ -3,6 +3,8 @@ package cn.com.yikangbao.exception.wp;
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.exception.QianHaiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @ControllerAdvice
 public class WechatPublicExceptionAdvice {
+
+    private static Logger logger = LoggerFactory.getLogger(WechatPublicExceptionAdvice.class);
+
     @ExceptionHandler({WechatPublicException.class})
     @ResponseBody
     public ApiResult handlePartnerException(WechatPublicException e) {
@@ -28,6 +33,7 @@ public class WechatPublicExceptionAdvice {
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ApiResult handlePartnerException(Exception e) {
+        logger.error("error: {}", e);
         return new ApiResult(ApiCodes.STATUS_UNKNOWN_ERROR, "系统错误");
     }
 }

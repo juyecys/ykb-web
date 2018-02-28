@@ -1,7 +1,5 @@
 package cn.com.yikangbao.utils.partner;
 
-import cn.com.yikangbao.exception.partner.PartnerException;
-import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,34 +29,6 @@ public class PartnerSignUtils {
         logger.debug("before md5: {}", sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toLowerCase();
         return sign;
-    }
-
-    public static Boolean verifyPartnerRequest(HashMap<String, Object> params, String secretKey, String[] needParams ) throws PartnerException {
-        if (verifyNeedParam(params, needParams)) {
-            return verifySign(
-                    getSign(params, secretKey), (String) params.get("sign"));
-        }
-        throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
-    }
-
-    private static Boolean verifySign(String selfSign, String partnerSign) throws PartnerException {
-        logger.debug("partner sign: {}", partnerSign);
-        logger.debug("self sign: {}", selfSign);
-        if (StringUtil.isEmpty(partnerSign) || StringUtil.isEmpty(selfSign)) {
-            throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_SIGN);
-        } else if (partnerSign.equals(selfSign)) {
-            return true;
-        }
-        throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_SIGN);
-    }
-
-    private static Boolean verifyNeedParam(HashMap<String, Object> params, String[] needParams) throws PartnerException {
-        for (String needParam : needParams) {
-            if (params.get(needParam) == null) {
-                throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
-            }
-        }
-        return true;
     }
 
     public static void main(String[] args) {

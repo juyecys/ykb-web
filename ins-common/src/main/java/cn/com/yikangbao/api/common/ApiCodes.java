@@ -50,7 +50,6 @@ public class ApiCodes {
 	public static final int STATUS_WXAPI_PHONE_IS_REGISTER = 45007; // 手机已经注册
 	public static final int STATUS_WXAPI_REPEAT_CREATE_ORDER = 45010;// 重复下单
 	public static final int STATUS_WXAPI_VERIFYCODE_OVERTIME = 45011;// 验证码超时
-	public static final int STATUS_WXAPI_FAMILY_HAS_ONESELF = 45012;// 本人已经存在
 	public static final int STATUS_WXAPI_REGISTER_ERROR = 45014; // 注册失败
 	public static final int STATUS_WXAPI_REGISTER_IMG_CODE_ERROR = 45015; // 图文验证码错误
 	public static final int STATUS_WXAPI_WX_REGISTER_GET_VERIFYCODE_IP_NUM_ERROR = 45016; // 调用验证码ip次数

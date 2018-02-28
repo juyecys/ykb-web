@@ -6,7 +6,7 @@ import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.user.User;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.service.user.UserService;
-import cn.com.yikangbao.utils.common.MD5Util;
+import cn.com.yikangbao.untils.common.MD5Util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

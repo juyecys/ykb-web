@@ -35,6 +35,9 @@ public class Insure extends Base {
     @JsonProperty("order_amount")
     private Long orderAmount;
 
+    @JsonProperty("user_id")
+    private String userId;
+
     public Long getInsuranceAmount() {
         return insuranceAmount;
     }
@@ -75,6 +78,14 @@ public class Insure extends Base {
         this.orderAmount = orderAmount;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "Insure{" +
@@ -83,6 +94,7 @@ public class Insure extends Base {
                 ", hospitalName='" + hospitalName + '\'' +
                 ", hospitalId='" + hospitalId + '\'' +
                 ", orderAmount=" + orderAmount +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

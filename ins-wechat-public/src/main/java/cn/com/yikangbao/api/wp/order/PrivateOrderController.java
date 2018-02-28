@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = { "/ykb/wp/private/order" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/wp/private/order","/ykb/wp/public/order" }, produces = "application/json")
 public class PrivateOrderController {
     private static final Logger logger = LoggerFactory.getLogger(PrivateOrderController.class);
 

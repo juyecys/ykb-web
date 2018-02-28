@@ -1,6 +1,6 @@
 package cn.com.yikangbao.utils.partner;
 
-import cn.com.yikangbao.utils.common.MD5Util;
+import cn.com.yikangbao.untils.common.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;

@@ -1,5 +1,6 @@
 package cn.com.yikangbao.entity.qianhai;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +21,7 @@ public class CommonQianHai {
     private String desc;
 
     @JsonProperty("reqTime")
-    private Date reqTime;
+    private String reqTime;
 
     @JsonProperty("sign")
     private String sign;
@@ -63,11 +64,11 @@ public class CommonQianHai {
         this.desc = desc;
     }
 
-    public Date getReqTime() {
+    public String getReqTime() {
         return reqTime;
     }
 
-    public void setReqTime(Date reqTime) {
+    public void setReqTime(String reqTime) {
         this.reqTime = reqTime;
     }
 

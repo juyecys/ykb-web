@@ -1,4 +1,4 @@
-package cn.com.yikangbao.utils.common;
+package cn.com.yikangbao.untils.common;
 
 import java.security.MessageDigest;
 

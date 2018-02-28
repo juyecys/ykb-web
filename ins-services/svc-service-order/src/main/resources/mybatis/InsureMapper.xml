@@ -5,7 +5,7 @@
 	<insert id="create" parameterType="InsureM">
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
-			, hospital_id, hospital_name, insurance_amount, order_amount,
+			, hospital_id, hospital_name, insurance_amount, order_amount
 			, user_id, birthday)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
@@ -23,19 +23,19 @@
 				updated_by = #{updatedBy},
 			</if>
 			<if test="hospitalId != null">
-				hospital_id = #{hospitalId}
+				hospital_id = #{hospitalId},
 			</if>
 			<if test="hospitalName != null">
-				hospital_name = #{hospitalName}
+				hospital_name = #{hospitalName},
 			</if>
 			<if test="insuranceAmount != null">
-				insurance_amount = #{insuranceAmount}
+				insurance_amount = #{insuranceAmount},
 			</if>
 			<if test="orderAmount != null">
-				order_amount = #{orderAmount}
+				order_amount = #{orderAmount},
 			</if>
 			<if test="birthday != null">
-				birthday = #{birthday}
+				birthday = #{birthday},
 			</if>
 		</set>
 		WHERE id = #{id}

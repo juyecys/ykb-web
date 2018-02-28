@@ -19,6 +19,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
 public class Order extends Base{
 
+    @JsonProperty("name")
+    private String name;
+
     /**
      * 投保人姓名
      */
@@ -185,6 +188,27 @@ public class Order extends Base{
         private String description;
 
         OrderStatusEnum(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+    }
+
+    public enum RelationEnum {
+        SELF("本人")
+        ,SPOUSE("配偶")
+        ,RELATIVE("亲属")
+        ,OTHER("其他");
+
+        private String description;
+
+        RelationEnum(String description) {
             this.description = description;
         }
 
@@ -381,10 +405,19 @@ public class Order extends Base{
         this.reason = reason;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
-                "proposerName='" + proposerName + '\'' +
+                "name='" + name + '\'' +
+                ", proposerName='" + proposerName + '\'' +
                 ", proposerCredentialsType='" + proposerCredentialsType + '\'' +
                 ", proposerCredentialsNum='" + proposerCredentialsNum + '\'' +
                 ", proposerPhone='" + proposerPhone + '\'' +
@@ -400,9 +433,9 @@ public class Order extends Base{
                 ", orderNumber='" + orderNumber + '\'' +
                 ", userId='" + userId + '\'' +
                 ", status='" + status + '\'' +
-                ", insuranceStartDate='" + insuranceStartDate + '\'' +
+                ", insuranceStartDate=" + insuranceStartDate +
                 ", channel='" + channel + '\'' +
-                ", insuranceEndDate='" + insuranceEndDate + '\'' +
+                ", insuranceEndDate=" + insuranceEndDate +
                 ", policyEffectiveDate=" + policyEffectiveDate +
                 ", policyNumber='" + policyNumber + '\'' +
                 ", reason='" + reason + '\'' +

@@ -24,7 +24,7 @@ public class QianHaiOrder extends CommonQianHai{
     private String insuranceAmount;
 
     @JsonProperty("dateOfBirth")
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @JsonProperty("hospitalCode")
     private String hospitalCode;
@@ -50,11 +50,11 @@ public class QianHaiOrder extends CommonQianHai{
         this.insuranceAmount = insuranceAmount;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

@@ -1,6 +1,7 @@
 package cn.com.yikangbao.api.wp.insure;
 
 import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.entity.insure.Insure;
 import cn.com.yikangbao.service.insure.InsureService;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by jeysine on 2018/2/28.
  */
 @RestController
-@RequestMapping(value = { "/ykb/wp/private/insure" }, produces = "application/json")
+@RequestMapping(value = { "/ykb/wp/private/insure","/ykb/wp/public/insure" }, produces = "application/json")
 public class PrivateWPInsureController {
     private static final Logger logger = LoggerFactory.getLogger(PrivateWPInsureController.class);
 
@@ -26,7 +27,10 @@ public class PrivateWPInsureController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createInsure(@RequestBody Insure insure) throws Exception {
-        insureService.createOrUpdate(insure);
+        if (WechatContextHolder.getUserId() != null) {
+            insure.setUserId(WechatContextHolder.getUserId().toString());
+        }
+        insure = insureService.createOrUpdate(insure);
         return new ResponseEntity<>(ApiResult.success(insure), HttpStatus.OK);
     }
 }
