@@ -18,12 +18,7 @@
 
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-hospital</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-order</artifactId>
+            <artifactId>svc-service-partner</artifactId>
         </dependency>
 
         <dependency>

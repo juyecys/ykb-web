@@ -2,21 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.com.yikangbao.dao.insure.InsureDAO">
-	<!--<resultMap id="OrderResultMap" type="cn.com.yikangbao.entity.order.OrderDTO"
-		autoMapping="true">
-		<result column="id" jdbcType="VARCHAR" property="id" />
-		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
-		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
-		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
-		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
-		<result column="hospital_id" jdbcType="VARCHAR" property="hosptalId" />
-		<result column="hospital_name" jdbcType="VARCHAR" property="hosptalName" />
-		<result column="insurance_amount" jdbcType="BIGINT" property="insuranceAmount" />
-		<result column="order_amount" jdbcType="BIGINT" property="orderAmount" />
-		<result column="user_id" jdbcType="VARCHAR" property="userId" />
-		<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-	</resultMap>-->
-
 	<insert id="create" parameterType="InsureM">
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
@@ -37,21 +22,6 @@
 			<if test="updatedBy != null">
 				updated_by = #{updatedBy},
 			</if>
-			<if test="insuredName != null">
-				insured_name = #{insuredName}
-			</if>
-			<if test="insuredCredentialsType != null">
-				insured_credentials_type = #{insuredCredentialsType}
-			</if>
-			<if test="insuredCredentialsNum != null">
-				insured_credentials_num = #{insuredCredentialsNum}
-			</if>
-			<if test="insuredPhone != null">
-				insured_phone = #{insuredPhone}
-			</if>
-			<if test="relation != null">
-				relation = #{relation}
-			</if>
 			<if test="hospitalId != null">
 				hospital_id = #{hospitalId}
 			</if>
@@ -64,109 +34,50 @@
 			<if test="orderAmount != null">
 				order_amount = #{orderAmount}
 			</if>
-			<if test="orderNumber != null">
-				order_number = #{orderNumber}
-			</if>
-			<if test="userId != null">
-				user_id = #{userId}
-			</if>
-			<if test="status != null">
-				status = #{status}
-			</if>
-			<if test="insuranceStartDate != null">
-				insurance_start_date = #{insuranceStartDate}
-			</if>
-			<if test="insuranceEndDate != null">
-				insurance_end_date = #{insuranceEndDate}
+			<if test="birthday != null">
+				birthday = #{birthday}
 			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
 
-	<!--同步订单状态-->
-	<update id="synchronousOrderStatus" parameterType="InsureM">
-		UPDATE ykb_order
-		<set>
-			<if test="updatedDate != null">
-				updated_date = #{updatedDate},
-			</if>
-			<if test="updatedBy != null">
-				updated_by = #{updatedBy},
-			</if>
-			<if test="policyNumber != null">
-				policy_number = #{policyNumber},
-			</if>
-			<if test="status != null">
-				status = #{status}
-			</if>
-			<if test="reason != null">
-				reason = #{reason}
-			</if>
-		</set>
-		WHERE order_number = #{orderNumber}
-	</update>
-
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
-				and o.id = #{id}
-			</if>
-			<if test="orderNumber != null">
-				and o.order_number = #{orderNumber}
-			</if>
-			<if test="status != null">
-				and o.status = #{status}
-			</if>
-			<if test="proposerName != null">
-				and o.proposer_name = #{proposerName}
-			</if>
-			<if test="insuredName != null">
-				and o.insured_name = #{insuredName}
-			</if>
-			<if test="createdDateStart != null and createdDateEnd != null">
-				and o.created_date BETWEEN #{createdDateStart} and #{createdDateEnd}
+				and i.id = #{id}
 			</if>
 		</where>
 	</sql>
 
-	<sql id="from_order">
-		ykb_order o
+	<sql id="from_insure">
+		ykb_insure i
 	</sql>
 
 	<select id="findByConditionPage" resultType="InsureM">
 		SELECT
-		o.*
+		i.*
 		FROM
-		<include refid="from_order" />
+		<include refid="from_insure" />
 		<include refid="sql_where" />
-	    ORDER BY o.created_date DESC
+	    ORDER BY i.created_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="InsureM">
 		SELECT
-		o.*
+		i.*
 		FROM
-		<include refid="from_order" />
+		<include refid="from_insure" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
 	<select id="findByCondition" resultType="InsureM">
 		SELECT
-		o.*
+		i.*
 		FROM
-		<include refid="from_order" />
+		<include refid="from_insure" />
 		<include refid="sql_where" />
 	</select>
 
-	<!--需要同步状态的订单-->
-	<select id="findNeedSysByStatus" resultType="InsureM">
-		SELECT
-		o.order_number "order_id"
-		FROM
-		<include refid="from_order" />
-		WHERE
-		o.status in ('WAIT_CONFIRM','WAIT_CONFIRM','PAIED')
-	</select>
 </mapper>
 
