@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,9 @@ public class PartnerTimerTasks {
 	@Autowired
 	private OrderRecordService orderRecordService;
 
+	@Value("${qianhai.order.get.status}")
+	private String qianhaiOrderStatusUrl;
+
 	private static final ObjectMapper mapper = new ObjectMapper();
 
 	@Scheduled(cron = "0 0/1 * * * ?")
@@ -52,9 +56,7 @@ public class PartnerTimerTasks {
 					String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
 					data.put("sign", sign);
 					String dataJson = mapper.writeValueAsString(data);
-					String url = PartnerUrlConfig.getFullUrl(
-							PartnerUrlConfig.getQianhaiServerUrl(), PartnerUrlConfig.getQianhaiOrderUrl());
-					String resultJson = OkHttpUtils.postString().url(url).content(dataJson).build().execute().body().string();
+					String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
 					HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
 					newOrder = PartnerConvertUtils.convertOrder(resultMap);
 					if (!order.getStatus().equals(newOrder.getStatus())) {

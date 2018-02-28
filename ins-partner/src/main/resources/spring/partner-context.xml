@@ -34,6 +34,7 @@
 				<list>
 					<value>classpath*:common-dev.properties</value>
 					<value>classpath*:partner-dev.properties</value>
+					<value>classpath*:config-partner-dev.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
@@ -51,6 +52,7 @@
 				<list>
 					<value>classpath*:common-test.properties</value>
 					<value>classpath*:partner-test.properties</value>
+					<value>classpath*:config-partner-test.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
@@ -68,6 +70,7 @@
 				<list>
 					<value>classpath*:common-prod.properties</value>
 					<value>classpath*:partner-prod.properties</value>
+					<value>classpath*:config-partner-prod.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
