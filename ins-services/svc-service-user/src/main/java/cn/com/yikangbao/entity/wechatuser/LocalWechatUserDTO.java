@@ -64,7 +64,7 @@ public class LocalWechatUserDTO extends LocalWechatUser{
 
     @Override
     public String toString() {
-        return "LocalWechatUserDTO{" +
+        return super.toString() + "LocalWechatUserDTO{" +
                 "channels='" + channels + '\'' +
                 ", createdDateStart=" + createdDateStart +
                 ", createdDateEnd=" + createdDateEnd +

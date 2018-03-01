@@ -24,6 +24,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private WechatAuthAccessToken getAuthAccessToken(String url) throws IOException {
+        logger.info("get auth access token url: {}", url);
         Response response = OkHttpUtils.get().url(url)
                 .build().execute();
         String result = response.body().string();
@@ -34,6 +35,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
     @Override
     public WechatAuthAccessToken getAuthAccessTokenByCode(String code) throws IOException {
         String url = WechatConfigParams.WECHAT_GET_AUTH_ACCESSTOKEN_URL.replace("APPID", WechatConfigSecret.getWechatAppid())
+                .replace("SECRET", WechatConfigSecret.getWechatSecret())
                 .replace("APPSECRET", WechatConfigSecret.getWechatSecret()).replace("CODE", code);
         return getAuthAccessToken(url);
     }
