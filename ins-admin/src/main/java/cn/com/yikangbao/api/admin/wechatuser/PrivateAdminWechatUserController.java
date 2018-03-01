@@ -56,4 +56,13 @@ public class PrivateAdminWechatUserController {
         Page<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByConditionPage(wechatUser);
         return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> countUsers(LocalWechatUserDTO wechatUser) {
+        Integer count =  localWechatUserService.countUsers(wechatUser);
+        if (count == null) {
+            count = 0;
+        }
+        return new ResponseEntity<>(ApiResult.success(count), HttpStatus.OK);
+    }
 }

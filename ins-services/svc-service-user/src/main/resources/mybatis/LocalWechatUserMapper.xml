@@ -133,12 +133,6 @@
 			<if test="qrCodeScene != null">
 				and wu.qr_code_scene = #{qrCodeScene}
 			</if>
-            <if test="qrCodeScene != null">
-                and wu.qr_code_scene = #{qrCodeScene}
-            </if>
-            <if test="qrCodeScene != null">
-                and wu.qr_code_scene = #{qrCodeScene}
-            </if>
 			<if test="createdDateStart != null and createdDateEnd != null">
 				and wu.createdDate &lt;= createdDateStart AND wu.createdDate &gt;= createdDateEnd
 			</if>
@@ -197,9 +191,16 @@
 		<include refid="from_wechat_user" />
 		WHERE
 		wu.open_id IS NOT NULL
-		AND wu.nick_name IS NULL
+		AND wu.union_id IS NULL
 		AND wu.subscribe != 0
 		LIMIT 100
+	</select>
+
+	<select id="countUsers" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		<include refid="from_wechat_user" />
+		<include refid="sql_where_wu" />
 	</select>
 </mapper>
 

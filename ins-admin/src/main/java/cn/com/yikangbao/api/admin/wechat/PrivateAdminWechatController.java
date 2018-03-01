@@ -108,6 +108,7 @@ public class PrivateAdminWechatController {
             ChannelDTO channelDTO = new ChannelDTO();
             channelDTO.setId(channel.getId());
             channelDTO = channelService.findOneByCondition(channelDTO);
+            channelDTO.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channelDTO.getQrCodeUrl()));
             return new ResponseEntity<>(ApiResult.success(channelDTO), HttpStatus.OK);
         }
 
@@ -127,7 +128,6 @@ public class PrivateAdminWechatController {
 
             channel.setTicket(result.getTicket());
             channel.setQrCodeUrl(savePath);
-            channel.setScanTime(0);
             channel = channelService.create(channel);
             channel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channel.getQrCodeUrl()));
         } catch (IOException e) {

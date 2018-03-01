@@ -27,11 +27,6 @@ public class Channel extends Base {
      */
     @JsonProperty("scene")
     private String scene;
-    /**
-     * 扫描次数
-     */
-    @JsonProperty("scan_time")
-    private Integer scanTime;
 
     @JsonProperty("ticket")
     private String ticket;
@@ -67,14 +62,6 @@ public class Channel extends Base {
 
     public void setScene(String scene) {
         this.scene = scene;
-    }
-
-    public Integer getScanTime() {
-        return scanTime;
-    }
-
-    public void setScanTime(Integer scanTime) {
-        this.scanTime = scanTime;
     }
 
     public String getTicket() {
@@ -115,7 +102,6 @@ public class Channel extends Base {
                 "channels='" + channels + '\'' +
                 ", qrCodeUrl='" + qrCodeUrl + '\'' +
                 ", scene='" + scene + '\'' +
-                ", scanTime=" + scanTime +
                 ", ticket='" + ticket + '\'' +
                 ", sendChannelMessage=" + sendChannelMessage +
                 ", sendSubscribeMessage=" + sendSubscribeMessage +

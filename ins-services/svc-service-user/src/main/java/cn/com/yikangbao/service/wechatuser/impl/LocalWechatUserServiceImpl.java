@@ -37,4 +37,9 @@ public class LocalWechatUserServiceImpl extends BaseServiceImpl<LocalWechatUser,
     public void synchronousUser(LocalWechatUser wechatUser) {
         dao.synchronousUser(wechatUser);
     }
+
+    @Override
+    public Integer countUsers(LocalWechatUserDTO wechatUser) {
+        return dao.countUsers(wechatUser);
+    }
 }

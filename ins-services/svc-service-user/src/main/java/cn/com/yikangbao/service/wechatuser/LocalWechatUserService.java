@@ -13,4 +13,6 @@ import java.util.List;
 public interface LocalWechatUserService extends BaseService<LocalWechatUser, LocalWechatUserDTO> {
     List<LocalWechatUserDTO> findByUnsynchronous();
     void synchronousUser(LocalWechatUser wechatUser);
+
+    Integer countUsers(LocalWechatUserDTO wechatUser);
 }

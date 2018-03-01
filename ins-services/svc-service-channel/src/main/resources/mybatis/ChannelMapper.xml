@@ -12,7 +12,6 @@
 		<result column="channels" jdbcType="VARCHAR" property="channels" />
 		<result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
 		<result column="scene" jdbcType="VARCHAR" property="scene" />
-		<result column="scan_time" jdbcType="VARCHAR" property="scanTime" />
 		<result column="ticket" jdbcType="VARCHAR" property="ticket" />
 		<result column="send_channel_message" jdbcType="BOOLEAN" property="sendChannelMessage" />
 		<result column="send_subscribe_message" jdbcType="BOOLEAN" property="sendSubscribeMessage" />
@@ -22,10 +21,10 @@
 	<insert id="create" parameterType="ChannelM">
 		INSERT INTO
 			ykb_wechat_channel (id, created_by, created_date, updated_date, updated_by,
-			channels, qr_code_url, scene, scan_time, ticket, send_channel_message, send_subscribe_message, channel_group_id)
+			channels, qr_code_url, scene, ticket, send_channel_message, send_subscribe_message, channel_group_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{scanTime}, #{ticket}, #{sendChannelMessage}, #{sendSubscribeMessage}, #{channelGroupId})
+	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{ticket}, #{sendChannelMessage}, #{sendSubscribeMessage}, #{channelGroupId})
 	</insert>
 
 	<update id="update" parameterType="ChannelM">
@@ -39,9 +38,6 @@
 			</if>
 			<if test="updatedBy != null">
 				updated_by = #{updatedBy},
-			</if>
-			<if test="scanTime != null">
-				scan_time = #{scanTime},
 			</if>
 			<if test="sendChannelMessage != null">
 				send_channel_message = #{sendChannelMessage},

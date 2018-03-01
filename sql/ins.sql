@@ -1519,7 +1519,6 @@ CREATE TABLE "public"."ykb_wechat_qr_code" (
 "channels" varchar(255) COLLATE "default",
 "qr_code_url" varchar(255) COLLATE "default",
 "scene" varchar(100) COLLATE "default",
-"scan_time" int4,
 "ticket" varchar(255) COLLATE "default"
 )
 WITH (OIDS=FALSE)
