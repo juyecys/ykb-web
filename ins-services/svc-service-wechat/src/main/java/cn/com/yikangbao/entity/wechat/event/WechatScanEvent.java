@@ -26,7 +26,7 @@ public class WechatScanEvent extends WechatBaseEvent {
 
     @Override
     public String toString() {
-        return "WechatScanEvent{" +
+        return super.toString() + "WechatScanEvent{" +
                 "eventKey='" + eventKey + '\'' +
                 ", ticket='" + ticket + '\'' +
                 '}';

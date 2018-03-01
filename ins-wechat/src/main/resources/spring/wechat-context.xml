@@ -61,8 +61,8 @@
 			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
-					<value>classpath*:common-test.properties</value>
-					<value>classpath*:wechat-test.properties</value>
+					<value>file:${commonProperties}</value>
+					<value>file:${wcProperties}</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />

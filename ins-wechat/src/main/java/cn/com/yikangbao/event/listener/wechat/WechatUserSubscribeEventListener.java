@@ -60,34 +60,8 @@ public class WechatUserSubscribeEventListener implements EventListener{
         Date createdTime = DateUtils.toDate(((Integer)properties.get("createTime")).longValue());
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
 
-        LocalWechatUser old = null;
         try {
-            if (!StringUtil.isEmpty(eventKey)) {
-                eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
-            }
-            old = createOrUpdateWechatUser(openId, createdTime, eventKey);
-            if (!StringUtil.isEmpty(eventKey) && !StringUtil.isEmpty(old.getQrCodeScene())) {
-                ChannelDTO channel = new ChannelDTO();
-                channel.setScene(eventKey);
-                channel = channelService.findOneByCondition(channel);
-                if (channel == null) {
-                    logger.error("not find this channel qrcode, scene: {}", eventKey);
-                    return;
-                }
-                channel.setScanTime(channel.getScanTime() + 1);
-                channelService.update(channel);
-
-                if (channel.getSendSubscribeMessage()) {
-                    wechatMessageService.pushSubscribeMessage(openId);
-                }
-                if (channel.getSendChannelMessage()) {
-                    wechatMessageService.pushChannelsMessage(openId, eventKey);
-                }
-            }
-            if (StringUtil.isEmpty(eventKey)) {
-                wechatMessageService.pushSubscribeMessage(openId);
-
-            }
+            createOrUpdateWechatUser(openId, createdTime, eventKey);
         } catch (Exception e) {
             logger.error("error: {}",e);
         }

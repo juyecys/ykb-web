@@ -1,12 +1,15 @@
 package cn.com.yikangbao.service.wechat.event.impl;
 
+import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
+import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatBaseEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
+import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.event.EventService;
 import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
@@ -37,6 +40,9 @@ public class WechatEventServiceImpl implements WechatEventService {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private ChannelService channelService;
+
     private Logger logger = LoggerFactory.getLogger(WechatEventServiceImpl.class);
 
     @Override
@@ -61,6 +67,33 @@ public class WechatEventServiceImpl implements WechatEventService {
     @Override
     public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException {
         logger.debug("发布关注事件 subscribeEvent: {}",subscribeEvent);
+
+        String eventKey = subscribeEvent.getEventKey();
+        if (!StringUtil.isEmpty(eventKey)) {
+            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+        }
+
+        if (!StringUtil.isEmpty(eventKey)) {
+            ChannelDTO channel = new ChannelDTO();
+            channel.setScene(eventKey);
+            channel = channelService.findOneByCondition(channel);
+            if (channel == null) {
+                logger.error("not find this channel qrcode, scene: {}", eventKey);
+                return;
+            }
+            channel.setScanTime(channel.getScanTime() + 1);
+            channelService.update(channel);
+
+            if (channel.getSendSubscribeMessage()) {
+                wechatMessageService.pushSubscribeMessage(subscribeEvent.getFromUserName());
+            }
+            if (channel.getSendChannelMessage()) {
+                wechatMessageService.pushChannelsMessage(subscribeEvent.getFromUserName(), eventKey);
+            }
+        } else {
+            wechatMessageService.pushSubscribeMessage(subscribeEvent.getFromUserName());
+        }
+
         Event event = new Event();
         event.addProperty("openId", subscribeEvent.getFromUserName());
         event.addProperty("createTime", subscribeEvent.getCreateTime());
@@ -85,11 +118,27 @@ public class WechatEventServiceImpl implements WechatEventService {
     @Override
     public void processScanEvent(WechatScanEvent scanEvent) throws Exception {
         logger.debug("处理扫描二维码事件 scanEvent: {}",scanEvent);
-        Event event = new Event();
-        event.addProperty("eventKey", scanEvent.getEventKey());
-        event.addProperty("openId", scanEvent.getFromUserName());
-        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE);
-        eventService.publish(event);
+        String eventKey = scanEvent.getEventKey();
+        if (!StringUtil.isEmpty(eventKey)) {
+            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+        }
+
+        ChannelDTO channel = new ChannelDTO();
+        channel.setScene(eventKey);
+        channel = channelService.findOneByCondition(channel);
+
+        if (channel == null) {
+            logger.error("not find this channel qrcode, scene: {}", eventKey);
+            return;
+        }
+        logger.debug("find channel: {}", channel);
+        try {
+            if (channel.getSendChannelMessage()) {
+                wechatMessageService.pushChannelsMessage(scanEvent.getFromUserName(), eventKey);
+            }
+        } catch (IOException e) {
+            logger.error("error: {}",e);
+        }
     }
 
     @Override

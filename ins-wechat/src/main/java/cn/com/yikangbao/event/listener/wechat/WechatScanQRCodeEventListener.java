@@ -41,27 +41,5 @@ public class WechatScanQRCodeEventListener  implements EventListener {
         Map<String, Object> properties = event.getProperties();
         String openId = properties.get("openId").toString();
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
-
-        if (!StringUtil.isEmpty(eventKey)) {
-            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
-        }
-
-        ChannelDTO channel = new ChannelDTO();
-        channel.setScene(eventKey);
-        channel = channelService.findOneByCondition(channel);
-
-        if (channel == null) {
-            logger.error("not find this channel qrcode, scene: {}", eventKey);
-            return;
-        }
-        logger.debug("find channel: {}", channel);
-        try {
-            if (channel.getSendChannelMessage()) {
-                wechatMessageService.pushChannelsMessage(openId, eventKey);
-            }
-        } catch (IOException e) {
-            logger.error("error: {}",e);
-        }
-
     }
 }

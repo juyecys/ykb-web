@@ -38,7 +38,7 @@ public class BusinessEventsSubscriber {
 		try {
 			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE, wechatUserSubscribeEventListener);
 			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_USER_UNSUBSCRIBE, wechatUserUnSubscribeEventListener);
-			eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE, wechatScanQRCodeEventListener);
+			//eventService.subscribe(WechatEventConstant.EVENT_TYPE_WECHAT_SCAN_QR_CODE, wechatScanQRCodeEventListener);
 		} catch (EventServiceException e) {
 			logger.error("订阅业务事件失败！！ ", e);
 			throw new IllegalStateException();
