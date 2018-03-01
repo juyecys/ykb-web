@@ -28,12 +28,14 @@ public class PrivateAdminWechatUserController {
             ,@RequestParam(value = "channels", required = false) String channels
             ,@RequestParam(value = "channelGroupName", required = false) String channelGroupName
             ,@RequestParam(value = "province", required = false) String province
-            ,@RequestParam(value = "city", required = false) String city) {
+            ,@RequestParam(value = "city", required = false) String city
+            ,@RequestParam(value = "openId", required = false) String openId) {
         LocalWechatUserDTO wechatUser = new LocalWechatUserDTO();
         wechatUser.setChannels(channels);
         wechatUser.setChannelGroupName(channelGroupName);
         wechatUser.setProvince(province);
         wechatUser.setCity(city);
+        wechatUser.setOpenId(openId);
         if (!createdDateStart.isEmpty()) {
             wechatUser.setCreatedDateStart(DateUtils.stringToDate(createdDateStart));
             if (createdDateEnd.isEmpty()) {
