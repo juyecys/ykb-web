@@ -13,8 +13,9 @@
 	<!-- 使用multicast广播注册中心暴露服务地址 -->
 	<dubbo:registry address="${dubbo.registry.address}" />
 
-	<!-- <dubbo:monitor protocol="${dubbo.monitor.protocol}" /> -->
+	 <dubbo:monitor protocol="${dubbo.monitor.protocol}" />
 
-	<dubbo:reference id="wechatAuthServiceRPC" interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"/>
-	<dubbo:reference id="wechatUserServiceRPC" interface="cn.com.yikangbao.service.wechat.user.WechatUserService"/>
+	<dubbo:reference id="wechatAuthServiceRPC" timeout="3000" interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"/>
+	<dubbo:reference id="wechatUserServiceRPC" timeout="3000" interface="cn.com.yikangbao.service.wechat.user.WechatUserService"/>
+	<dubbo:reference id="wechatMessageServiceRPC" timeout="3000" interface="cn.com.yikangbao.service.wechat.message.WechatMessageService"/>
 </beans>
