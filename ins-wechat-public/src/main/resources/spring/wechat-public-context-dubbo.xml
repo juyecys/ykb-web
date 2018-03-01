@@ -15,6 +15,6 @@
 
 	<!-- <dubbo:monitor protocol="${dubbo.monitor.protocol}" /> -->
 
-	<dubbo:reference id="wechatAuthService" interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"/>
-	<dubbo:reference id="wechatUserService" interface="cn.com.yikangbao.service.wechat.user.WechatUserService"/>
+	<dubbo:reference id="wechatAuthServiceRPC" interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"/>
+	<dubbo:reference id="wechatUserServiceRPC" interface="cn.com.yikangbao.service.wechat.user.WechatUserService"/>
 </beans>
