@@ -5,6 +5,7 @@ import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,15 @@ public class PrivateAdminWechatUserController {
         wechatUser.setProvince(province);
         wechatUser.setCity(city);
         wechatUser.setOpenId(openId);
-        if (!createdDateStart.isEmpty()) {
+        if (!StringUtil.isEmpty(createdDateStart)) {
             wechatUser.setCreatedDateStart(DateUtils.stringToDate(createdDateStart));
-            if (createdDateEnd.isEmpty()) {
+            if (StringUtil.isEmpty(createdDateEnd)) {
                 wechatUser.setCreatedDateEnd(new Date());
             }
         }
-        if (!createdDateEnd.isEmpty()) {
+        if (!StringUtil.isEmpty(createdDateEnd)) {
             wechatUser.setCreatedDateEnd(DateUtils.stringToDate(createdDateEnd));
-            if (createdDateStart.isEmpty()) {
+            if (StringUtil.isEmpty(createdDateStart)) {
                 wechatUser.setCreatedDateStart(new Date());
             }
         }
