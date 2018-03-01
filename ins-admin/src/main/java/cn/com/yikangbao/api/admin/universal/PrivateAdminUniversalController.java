@@ -5,6 +5,7 @@ import cn.com.yikangbao.constants.AliyunOssPath;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class PrivateAdminUniversalController {
         String url = AliyunOssPath.MESSAGE_FILEPATH;
         try {
             InputStream inputStream = file.getInputStream();
-            url = url + file.getOriginalFilename() + "_" + System.currentTimeMillis() + ".jpg";
+            url = url + StringUtil.random(9) + "_" + System.currentTimeMillis() + ".jpg";
             aliyunContentStorageService.store(url, inputStream, file.getContentType());
         } catch (IOException | AliyunContentStorageException e) {
             logger.error("error: {}", e);
