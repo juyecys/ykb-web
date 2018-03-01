@@ -102,6 +102,14 @@ public class PrivateAdminWechatController {
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createOrUpdateQRCode(@RequestBody Channel channel) {
+        if (channel.getSendChannelMessage() == null) {
+            channel.setSendChannelMessage(false);
+        }
+
+        if (channel.getSendSubscribeMessage() == null) {
+            channel.setSendSubscribeMessage(false);
+        }
+
         if (channel.getId() != null) {
             channelService.update(channel);
 
@@ -128,6 +136,7 @@ public class PrivateAdminWechatController {
 
             channel.setTicket(result.getTicket());
             channel.setQrCodeUrl(savePath);
+
             channel = channelService.create(channel);
             channel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channel.getQrCodeUrl()));
         } catch (IOException e) {

@@ -131,17 +131,9 @@ public class WechatEventServiceImpl implements WechatEventService {
         }
         logger.debug("find channel: {}", channel);
         try {
-            if (!StringUtil.isEmpty(eventKey)) {
-                if (channel.getSendSubscribeMessage()) {
-                    wechatMessageService.pushSubscribeMessage(scanEvent.getFromUserName());
-                }
-                if (channel.getSendChannelMessage()) {
-                    wechatMessageService.pushChannelsMessage(scanEvent.getFromUserName(), eventKey);
-                }
-            } else {
-                wechatMessageService.pushSubscribeMessage(scanEvent.getFromUserName());
+            if (channel.getSendChannelMessage()) {
+                wechatMessageService.pushChannelsMessage(scanEvent.getFromUserName(), eventKey);
             }
-
         } catch (IOException e) {
             logger.error("error: {}",e);
         }

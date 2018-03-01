@@ -50,9 +50,9 @@
 			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
-					<value>classpath*:common-test.properties</value>
-					<value>classpath*:partner-test.properties</value>
-					<value>classpath*:config-partner-test.properties</value>
+					<value>file:${commonProperties}</value>
+					<value>file:${partnerProperties}</value>
+					<value>file:${configPartnerProperties}</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />

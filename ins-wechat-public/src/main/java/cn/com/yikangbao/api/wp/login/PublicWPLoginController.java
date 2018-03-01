@@ -43,7 +43,7 @@ public class PublicWPLoginController {
             Enumeration<String> parameters = request.getParameterNames();
             while (parameters.hasMoreElements()) {
                 String paramName = (String) parameters.nextElement();
-                if (!paramName.equals("code") && !paramName.equals("cys_url")) {
+                if (!paramName.equals("code") && !paramName.equals("ykb_url")) {
                     String[] values = request.getParameterValues(paramName);
                     nextYkbUrl.append("&").append(paramName).append("=").append(values[0]);
                 }
