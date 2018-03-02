@@ -40,7 +40,6 @@ public class AdminAuthEndpointFilter extends GenericFilterBean {
                 userName = principal.toString();
             }
         }
-        logger.debug("user name: {}", userName);
         CommonContextHolder.setUserName(userName);
         chain.doFilter(request, response);
     }
