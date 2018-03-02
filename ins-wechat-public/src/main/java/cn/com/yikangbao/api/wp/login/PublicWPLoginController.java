@@ -55,15 +55,20 @@ public class PublicWPLoginController {
             String openid = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
             if (openid == null) {
                 wechatAuthAccessToken = wechatAuthServiceRPC.getAuthAccessTokenByCode(code);
-                LocalWechatUserDTO user = new LocalWechatUserDTO();
-                user.setOpenId(wechatAuthAccessToken.getOpenId());
-                user = localWechatUserService.findOneByCondition(user);
-                logger.debug("user login success: {}", user.toString());
-                request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
-                request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
+                if (wechatAuthAccessToken.getOpenId() != null) {
+                    LocalWechatUserDTO user = new LocalWechatUserDTO();
+                    user.setOpenId(wechatAuthAccessToken.getOpenId());
+                    user = localWechatUserService.findOneByCondition(user);
+                    logger.debug("user login success: {}", user.toString());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
 
-                request.getSession().setAttribute(WechatPublicContants.SESSION_USERID, user.getId());
-                request.getSession().setAttribute(WechatPublicContants.SESSION_UNIONID, user.getUnionId());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_USERID, user.getId());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_UNIONID, user.getUnionId());
+                } else {
+                    logger.error("failed to get wechat auth accessToken");
+                }
+
             }
             response.sendRedirect(nextYkbUrl.toString());
         } catch (IOException e) {

@@ -40,7 +40,7 @@
 
 	<dubbo:service
 			interface="cn.com.yikangbao.service.wechat.auth.WechatAuthService"
-			ref="wechatAuthServiceRPC" timeout="3000"/>
+			ref="wechatAuthServiceRPC" timeout="3000" retries="0"/>
 	<bean id="wechatAuthServiceRPC"
 		  class="cn.com.yikangbao.service.wechat.auth.impl.WechatAuthServiceImpl" />
 
