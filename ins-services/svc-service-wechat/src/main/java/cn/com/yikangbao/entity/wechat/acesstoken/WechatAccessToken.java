@@ -3,11 +3,14 @@ package cn.com.yikangbao.entity.wechat.acesstoken;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * 调用微信接口所需的accesstoken
  */
-public class WechatAccessToken extends WechatCommonResult{
+public class WechatAccessToken extends WechatCommonResult implements Serializable{
 
+	private static final long serialVersionUID = -7199898984637839010L;
 	@JsonProperty("access_token")
 	private String accessToken;
 

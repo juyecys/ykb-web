@@ -3,11 +3,14 @@ package cn.com.yikangbao.entity.wechat.auth;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Created by jeysine on 2018/2/8.
  */
-public class WechatAuthAccessToken extends WechatAccessToken {
+public class WechatAuthAccessToken extends WechatAccessToken implements Serializable {
 
+    private static final long serialVersionUID = 554601114357964177L;
     /**
      * 用户刷新accesstoken
      */
@@ -25,6 +28,9 @@ public class WechatAuthAccessToken extends WechatAccessToken {
      */
     @JsonProperty("scope")
     private String scope;
+
+    @JsonProperty("unionid")
+    private String unionId;
 
     public String getRefreshToken() {
         return refreshToken;
@@ -50,12 +56,17 @@ public class WechatAuthAccessToken extends WechatAccessToken {
         this.scope = scope;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     @Override
     public String toString() {
-        return "WechatAuthAccessToken{" +
+        return super.toString() +  "WechatAuthAccessToken{" +
                 "refreshToken='" + refreshToken + '\'' +
                 ", openId='" + openId + '\'' +
                 ", scope='" + scope + '\'' +
+                ", unionId='" + unionId + '\'' +
                 '}';
     }
 }
