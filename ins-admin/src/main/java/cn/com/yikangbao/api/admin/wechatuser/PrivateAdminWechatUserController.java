@@ -24,38 +24,36 @@ public class PrivateAdminWechatUserController {
     private LocalWechatUserService localWechatUserService;
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getUser(@RequestParam(value = "createdDateEnd", required = false) String createdDateEnd
-            ,@RequestParam(value = "createdDateStart", required = false) String createdDateStart
+    public ResponseEntity<ApiResult> getUser(LocalWechatUserDTO wechatUser) {
+        List<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByCondition(wechatUser);
+        return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getUserPage(@RequestParam(value = "subscribeDateEnd", required = false) String subscribeDateEnd
+            ,@RequestParam(value = "subscribeDateStart", required = false) String subscribeDateStart
             ,@RequestParam(value = "channels", required = false) String channels
             ,@RequestParam(value = "channelGroupName", required = false) String channelGroupName
             ,@RequestParam(value = "province", required = false) String province
             ,@RequestParam(value = "city", required = false) String city
-            ,@RequestParam(value = "openId", required = false) String openId) {
+            ,@RequestParam(value = "openId", required = false) String openId
+            ,@RequestParam(value = "pageSize", required = false) Integer pageSize
+            ,@RequestParam(value = "nowPage", required = false) Integer nowPage) {
         LocalWechatUserDTO wechatUser = new LocalWechatUserDTO();
         wechatUser.setChannels(channels);
         wechatUser.setChannelGroupName(channelGroupName);
         wechatUser.setProvince(province);
         wechatUser.setCity(city);
         wechatUser.setOpenId(openId);
-        if (!StringUtil.isEmpty(createdDateStart)) {
-            wechatUser.setCreatedDateStart(DateUtils.stringToDate(createdDateStart));
-            if (StringUtil.isEmpty(createdDateEnd)) {
-                wechatUser.setCreatedDateEnd(new Date());
-            }
+        wechatUser.setPage(new Page());
+        wechatUser.getPage().setNowPage(nowPage == null? 1: nowPage);
+        wechatUser.getPage().setPageSize(pageSize == null? 10: pageSize);
+        if (!StringUtil.isEmpty(subscribeDateStart)) {
+            wechatUser.setSubscribeDateStart(DateUtils.stringToDate(subscribeDateStart));
         }
-        if (!StringUtil.isEmpty(createdDateEnd)) {
-            wechatUser.setCreatedDateEnd(DateUtils.stringToDate(createdDateEnd));
-            if (StringUtil.isEmpty(createdDateStart)) {
-                wechatUser.setCreatedDateStart(new Date());
-            }
+        if (!StringUtil.isEmpty(subscribeDateEnd)) {
+            wechatUser.setSubscribeDateEnd(DateUtils.stringToDate(subscribeDateEnd));
         }
-
-        List<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByCondition(wechatUser);
-        return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getUserPage(LocalWechatUserDTO wechatUser) {
         Page<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByConditionPage(wechatUser);
         return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
     }

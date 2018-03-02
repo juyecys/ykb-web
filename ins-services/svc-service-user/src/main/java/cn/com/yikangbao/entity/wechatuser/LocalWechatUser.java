@@ -1,6 +1,7 @@
 package cn.com.yikangbao.entity.wechatuser;
 
 import cn.com.yikangbao.entity.common.Base;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,6 +58,7 @@ public class LocalWechatUser extends Base{
     private String remark;
 
     @JsonProperty("subscribe_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date subscribeTime;
 
     public String getNickName() {

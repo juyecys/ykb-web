@@ -20,12 +20,12 @@ public class LocalWechatUserDTO extends LocalWechatUser{
     private String channels;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("created_date_start")
-    private Date createdDateStart;
+    @JsonProperty("subscribe_date_start")
+    private Date subscribeDateStart;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("created_date_end")
-    private Date createdDateEnd;
+    @JsonProperty("subscribe_date_end")
+    private Date subscribeDateEnd;
 
     @JsonProperty("channel_group_name")
     private String channelGroupName;
@@ -38,20 +38,20 @@ public class LocalWechatUserDTO extends LocalWechatUser{
         this.channels = channels;
     }
 
-    public Date getCreatedDateStart() {
-        return createdDateStart;
+    public Date getSubscribeDateStart() {
+        return subscribeDateStart;
     }
 
-    public void setCreatedDateStart(Date createdDateStart) {
-        this.createdDateStart = createdDateStart;
+    public void setSubscribeDateStart(Date subscribeDateStart) {
+        this.subscribeDateStart = subscribeDateStart;
     }
 
-    public Date getCreatedDateEnd() {
-        return createdDateEnd;
+    public Date getSubscribeDateEnd() {
+        return subscribeDateEnd;
     }
 
-    public void setCreatedDateEnd(Date createdDateEnd) {
-        this.createdDateEnd = createdDateEnd;
+    public void setSubscribeDateEnd(Date subscribeDateEnd) {
+        this.subscribeDateEnd = subscribeDateEnd;
     }
 
     public String getChannelGroupName() {
@@ -66,8 +66,6 @@ public class LocalWechatUserDTO extends LocalWechatUser{
     public String toString() {
         return super.toString() + "LocalWechatUserDTO{" +
                 "channels='" + channels + '\'' +
-                ", createdDateStart=" + createdDateStart +
-                ", createdDateEnd=" + createdDateEnd +
                 ", channelGroupName='" + channelGroupName + '\'' +
                 '}';
     }

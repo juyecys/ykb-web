@@ -59,7 +59,9 @@ public class WechatUserSubscribeEventListener implements EventListener{
         String openId = properties.get("openId").toString();
         Date createdTime = DateUtils.toDate(((Integer)properties.get("createTime")).longValue());
         String eventKey = properties.get("eventKey") == null ? null: properties.get("eventKey").toString();
-
+        if (!StringUtil.isEmpty(eventKey)) {
+            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+        }
         try {
             createOrUpdateWechatUser(openId, createdTime, eventKey);
         } catch (Exception e) {

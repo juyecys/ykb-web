@@ -133,17 +133,26 @@
 			<if test="qrCodeScene != null">
 				and wu.qr_code_scene = #{qrCodeScene}
 			</if>
-			<if test="createdDateStart != null and createdDateEnd != null">
-				and wu.createdDate &lt;= createdDateStart AND wu.createdDate &gt;= createdDateEnd
+			<if test="subscribeDateStart == null and subscribeDateEnd != null">
+				and wu.subscribe_time &lt;= #{subscribeDateEnd}
+			</if>
+			<if test="subscribeDateStart != null and subscribeDateEnd == null">
+				and wu.subscribe_time &gt;= #{subscribeDateStart}
+			</if>
+			<if test="subscribeDateStart != null and subscribeDateEnd != null">
+				and wu.subscribe_time &gt;= #{subscribeDateStart} AND wu.subscribe_time &lt;= #{subscribeDateEnd}
 			</if>
             <if test="channelGroupName != null">
-                and wcg.name LIKE '%${channelGroupName}%'
+                and wcg.name = #{channelGroupName}
             </if>
+			<if test="channels != null">
+				and wc.channels = #{channels}
+			</if>
             <if test="city != null">
-                and wu.city = #{city},
+                and wu.city = #{city}
             </if>
             <if test="province != null">
-                and wu.province = #{province},
+                and wu.province = #{province}
             </if>
 		</where>
 	</sql>
