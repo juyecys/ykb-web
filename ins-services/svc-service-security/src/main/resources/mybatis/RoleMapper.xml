@@ -24,8 +24,9 @@
 
 	<update id="update" parameterType="RoleM">
 		UPDATE ykb_role SET
-		id = #{id} , name = #{name}, description = #{description}, is_active = #{isActive}, code = #{code}, created_by = #{createdBy}, created_date = #{createdDate}
+		name = #{name}, description = #{description}, is_active = #{isActive}, code = #{code}
 		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+		where id = #{id}
 	</update>
 
 

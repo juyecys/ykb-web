@@ -4,7 +4,6 @@ import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.config.partner.ResultCode;
 import cn.com.yikangbao.entity.common.Page;
-import cn.com.yikangbao.entity.hospital.Hospital;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
 import cn.com.yikangbao.entity.partner.PartnerOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
@@ -48,8 +47,8 @@ public class QianHaiApiController {
         String[] needParams = new String[]{
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
-                ,"hosipitalId","hosipitalName","insuranceAmount","orderAmount","questionnaire"
-                ,"orderNumber","createdDate","userId","status","insuranceStartDate","insuranceEndDate"
+                ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
+                ,"orderNumber","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
 
         try {
@@ -79,7 +78,7 @@ public class QianHaiApiController {
         String[] needParams = new String[]{
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
-                ,"hosipitalId","hosipitalName","insuranceAmount","orderAmount","questionnaire"
+                ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
                 ,"orderNumber","createdDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
         updatePartnerOrder(partnerOrder, needParams);

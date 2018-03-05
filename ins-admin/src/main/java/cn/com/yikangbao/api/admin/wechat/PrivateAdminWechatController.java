@@ -113,9 +113,7 @@ public class PrivateAdminWechatController {
         if (channel.getId() != null) {
             channelService.update(channel);
 
-            ChannelDTO channelDTO = new ChannelDTO();
-            channelDTO.setId(channel.getId());
-            channelDTO = channelService.findOneByCondition(channelDTO);
+            ChannelDTO channelDTO = findChannel(channel);
             channelDTO.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channelDTO.getQrCodeUrl()));
             return new ResponseEntity<>(ApiResult.success(channelDTO), HttpStatus.OK);
         }
@@ -138,7 +136,7 @@ public class PrivateAdminWechatController {
             channel.setQrCodeUrl(savePath);
 
             channel = channelService.create(channel);
-            channel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channel.getQrCodeUrl()));
+
         } catch (IOException e) {
             logger.error("transform wechatQrCode:{} to json faild: {}", wechatQRCode, e);
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
@@ -146,7 +144,9 @@ public class PrivateAdminWechatController {
             logger.error("transfer wechatQrCode:{}, ticket:{}  to aliyun oss faild: {}", wechatQRCode, result.getTicket(), e);
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_UNKNOWN_ERROR), HttpStatus.OK);
         }
-        return new ResponseEntity<>(ApiResult.success(channel), HttpStatus.OK);
+        ChannelDTO channelDTO = findChannel(channel);
+        channelDTO.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(channel.getQrCodeUrl()));
+        return new ResponseEntity<>(ApiResult.success(channelDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/qrcode", method = RequestMethod.GET)
@@ -188,5 +188,10 @@ public class PrivateAdminWechatController {
     }
 
 
-
+    private ChannelDTO findChannel(Channel channel) {
+        ChannelDTO channelDTO = new ChannelDTO();
+        channelDTO.setId(channel.getId());
+        channelDTO = channelService.findOneByCondition(channelDTO);
+        return channelDTO;
+    }
 }

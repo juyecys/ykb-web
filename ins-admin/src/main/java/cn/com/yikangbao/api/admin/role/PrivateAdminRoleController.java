@@ -1,6 +1,7 @@
-package cn.com.yikangbao.api.admin.authority;
+package cn.com.yikangbao.api.admin.role;
 
 import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.role.Role;
 import cn.com.yikangbao.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,14 @@ public class PrivateAdminRoleController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getRoleList(Role role) {
-        List<Role> roleList = roleService.findByCondition(new Role());
-        return new ResponseEntity<>(ApiResult.success(roleList), HttpStatus.OK);
+    public ResponseEntity<ApiResult> getPage(Role role) {
+        Page<Role> page = roleService.findByConditionPage(role);
+        return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getList(Role role) {
+        List<Role> list = roleService.findByCondition(role);
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
 }

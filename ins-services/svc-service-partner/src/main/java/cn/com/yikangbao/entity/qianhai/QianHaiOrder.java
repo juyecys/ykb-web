@@ -32,7 +32,16 @@ public class QianHaiOrder extends CommonQianHai{
     @JsonProperty("trialPremium")
     private String trialPremium;
 
+    @JsonProperty("orderId")
+    private String orderId;
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getUserId() {
         return userId;
@@ -76,12 +85,13 @@ public class QianHaiOrder extends CommonQianHai{
 
     @Override
     public String toString() {
-        return super.toString() + "InsureQianHai{" +
+        return "QianHaiOrder{" +
                 "userId='" + userId + '\'' +
                 ", insuranceAmount='" + insuranceAmount + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", hospitalCode='" + hospitalCode + '\'' +
                 ", trialPremium='" + trialPremium + '\'' +
+                ", orderId='" + orderId + '\'' +
                 '}';
     }
 }

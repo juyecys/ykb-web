@@ -1,8 +1,7 @@
-package cn.com.yikangbao.exception.partner;
+package cn.com.yikangbao.exception;
 
 import cn.com.yikangbao.api.common.ApiResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.com.yikangbao.exception.partner.PartnerException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

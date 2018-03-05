@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.menu.MenuDAO">
+
+	<insert id="create" parameterType="MenuM">
+		INSERT INTO
+			ykb_menu (id, created_by, created_date, updated_date, updated_by
+			, name, code, sequence, is_parent_menu, resource_id, resource
+			, parent_menu_code)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{name}, #{code}, #{sequence}, #{isParentMenu}, #{resourceId}, #{resrouce}
+	  		, #{parentMenuCode})
+	</insert>
+
+	<update id="update" parameterType="MenuM">
+		UPDATE ykb_menu SET
+		updated_date = #{updatedDate} , updated_by = #{updatedBy}, name = #{name},
+		, sequence = #{sequence}, is_parent_menu =  #{isParentMenu}, resource_id =  #{resourceId}, resource =  #{resource}, parent_menu_code =  #{parentMenuCode}
+	</update>
+
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and m.id = #{id}
+			</if>
+			<if test="sequence != null">
+				and m.sequence = #{sequence}
+			</if>
+			<if test="isParentMenu != null">
+				and m.is_parent_menu = #{isParentMenu}
+			</if>
+			<if test="resourceId != null">
+				and m.resource_id = #{resourceId}
+			</if>
+			<if test="resource != null">
+				and m.resource = #{resource}
+			</if>
+			<if test="parentMenuCode != null">
+				and m.parent_menu_code = #{parentMenuCode}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_menu">
+		FROM ykb_menu m
+	</sql>
+
+	<select id="findByConditionPage" resultType="MenuM">
+		SELECT
+			m.*
+		<include refid="from_menu" />
+		<include refid="sql_where" />
+	</select>
+
+	<select id="findByCondition" resultType="MenuM">
+		SELECT  *
+		<include refid="from_menu" />
+	</select>
+
+	<select id="findOneByCondition" resultType="MenuM">
+		SELECT  *
+		<include refid="from_menu" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+</mapper>
+

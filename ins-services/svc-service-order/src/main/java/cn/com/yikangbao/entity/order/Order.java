@@ -25,49 +25,49 @@ public class Order extends Base{
     /**
      * 投保人姓名
      */
-    @JsonProperty("proposer_name")
+    @JsonProperty("proposerName")
     private String proposerName;
 
     /**
      * 投保人证件类型
      */
-    @JsonProperty("proposer_credentials_type")
+    @JsonProperty("proposerCredentialsType")
     private String proposerCredentialsType;
 
     /**
      * 投保人证件号码
      */
-    @JsonProperty("proposer_credentials_num")
+    @JsonProperty("proposerCredentialsNum")
     private String proposerCredentialsNum;
 
     /**
      * 投保人手机号码
      */
-    @JsonProperty("proposer_phone")
+    @JsonProperty("proposerPhone")
     private String proposerPhone;
 
     /**
      * 被保人项目
      */
-    @JsonProperty("insured_name")
+    @JsonProperty("insuredName")
     private String insuredName;
 
     /**
      * 被保人证件类型
      */
-    @JsonProperty("insured_credentials_type")
+    @JsonProperty("insuredCredentialsType")
     private String insuredCredentialsType;
 
     /**
      * 被保人证件号码
      */
-    @JsonProperty("insured_credentials_num")
+    @JsonProperty("insuredCredentialsNum")
     private String insuredCredentialsNum;
 
     /**
      * 被保人手机号码
      */
-    @JsonProperty("insured_phone")
+    @JsonProperty("insuredPhone")
     private String insuredPhone;
 
     /**
@@ -79,37 +79,37 @@ public class Order extends Base{
     /**
      * 医院id
      */
-    @JsonProperty("hospital_id")
+    @JsonProperty("hospitalId")
     private String hospitalId;
 
     /**
      * 医院名字
      */
-    @JsonProperty("hospital_name")
+    @JsonProperty("hospitalName")
     private String hospitalName;
 
     /**
      * 保障金额
      */
-    @JsonProperty("insurance_amount")
+    @JsonProperty("insuranceAmount")
     private Long insuranceAmount;
 
     /**
      * 保费
      */
-    @JsonProperty("order_amount")
+    @JsonProperty("orderAmount")
     private Long orderAmount;
 
     /**
      * 订单号
      */
-    @JsonProperty("order_number")
+    @JsonProperty("orderNumber")
     private String orderNumber;
 
     /**
      * 用户id
      */
-    @JsonProperty("user_id")
+    @JsonProperty("userId")
     private String userId;
 
     /**
@@ -122,7 +122,7 @@ public class Order extends Base{
      * 保障期限开始时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("insurance_start_date")
+    @JsonProperty("insuranceStartDate")
     private Date insuranceStartDate;
 
     @JsonProperty("channel")
@@ -131,20 +131,20 @@ public class Order extends Base{
      * 保障期限结束时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("insurance_end_date")
+    @JsonProperty("insuranceEndDate")
     private Date insuranceEndDate;
 
     /**
      * 保单生效时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("policy_effective_date")
+    @JsonProperty("policyEffectiveDate")
     private Date policyEffectiveDate;
 
     /**
      * 保单号
      */
-    @JsonProperty("policy_number")
+    @JsonProperty("policyNumber")
     private String policyNumber;
 
     /**
@@ -154,7 +154,7 @@ public class Order extends Base{
     private String reason;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("order_date")
+    @JsonProperty("orderDate")
     private Date orderDate;
 
 

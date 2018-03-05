@@ -25,7 +25,9 @@ public class QuestionnaireServiceImpl extends BaseServiceImpl<Questionnaire, Que
 
     @Override
     public void createByList(List<Questionnaire> list) {
-        dao.createByList(list);
+        for (Questionnaire one: list) {
+            dao.create(one);
+        }
     }
 
     @Override

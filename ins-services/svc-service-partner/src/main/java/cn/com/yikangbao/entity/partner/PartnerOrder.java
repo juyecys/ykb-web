@@ -50,7 +50,7 @@ public class PartnerOrder extends Order {
 
     @Override
     public String toString() {
-        return "PartnerOrder{" +
+        return super.toString() + "PartnerOrder{" +
                 "sign='" + sign + '\'' +
                 ", questionnaireList=" + questionnaireList +
                 ", statusDate=" + statusDate +

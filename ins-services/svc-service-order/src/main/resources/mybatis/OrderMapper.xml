@@ -164,7 +164,7 @@
 	<!--需要同步状态的订单-->
 	<select id="findNeedSysByStatus" resultType="OrderQM">
 		SELECT
-		o.order_number "order_id"
+		o.order_number, status
 		FROM
 		<include refid="from_order" />
 		WHERE

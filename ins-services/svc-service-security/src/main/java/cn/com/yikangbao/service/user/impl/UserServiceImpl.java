@@ -4,6 +4,7 @@ package cn.com.yikangbao.service.user.impl;
 import cn.com.yikangbao.dao.userrole.UserRoleDAO;
 import cn.com.yikangbao.entity.user.User;
 import cn.com.yikangbao.entity.user.UserDTO;
+import cn.com.yikangbao.entity.userrole.UserRole;
 import cn.com.yikangbao.entity.userrole.UserRoleDTO;
 import cn.com.yikangbao.service.common.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO> implements U
         user.setGrantedAuthorities(list);
         return user;
     }
-
     @Override
-    public User findOneByCondition(User user) {
-        return dao.findOneByCondition(user);
+    public User createOrUpdate(User entity) throws Exception {
+        if (entity.getId() == null) {
+            UserRole userRole = new UserRole();
+            //userRole.setRoleId(entity.getR);
+            return create(entity);
+        }
+        return update(entity);
     }
 }

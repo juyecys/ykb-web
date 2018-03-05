@@ -2,24 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.com.yikangbao.dao.user.UserDAO">
-	<resultMap id="UserResultMap" type="cn.com.yikangbao.entity.user.UserDTO"
-		autoMapping="true">
-		<result column="id" jdbcType="VARCHAR" property="id" />
-		<result column="name" jdbcType="VARCHAR" property="name" />
-		<result column="password" jdbcType="VARCHAR" property="password" />
-		<result column="is_active" jdbcType="BOOLEAN" property="isActive" />
-		<result column="type" jdbcType="VARCHAR" property="type" />
-		<result column="description" jdbcType="VARCHAR" property="description" />
-		<result column="expire_date" jdbcType="TIMESTAMP" property="expireDate" />
-		<result column="enabled" jdbcType="BOOLEAN" property="enabled" />
-		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
-		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
-		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
-		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
-		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
-		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
-
-	</resultMap>
 
 	<insert id="create" parameterType="UserM">
 		INSERT INTO
@@ -49,20 +31,32 @@
 		ykb_user u
 	</sql>
 
-	<select id="findByConditionPage" resultMap="UserResultMap">
+	<sql id="join_user_role">
+		LEFT JOIN ykb_user_role ur ON u.id = ur.user_id
+	</sql>
+
+	<sql id="join_role">
+		LEFT JOIN ykb_role r ON ur.role_id = r.id
+	</sql>
+
+	<select id="findByConditionPage" resultType="UserQM">
 		SELECT
-			u.*
+			u.*, r.name "roleName", r.id "roleId"
 		FROM
 		<include refid="from_user" />
+		<include refid="join_user_role" />
+		<include refid="join_role" />
 		<include refid="sql_where" />
 	    ORDER BY u.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultMap="UserResultMap">
+	<select id="findOneByCondition" resultType="UserQM">
 		SELECT
-		u.*
+			u.*, r.name "roleName", r.id "roleId"
 		FROM
 		<include refid="from_user" />
+		<include refid="join_user_role" />
+		<include refid="join_role" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>

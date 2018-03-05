@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.user;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,23 +19,30 @@ import java.util.List;
 
 @Alias("UserM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User extends Base implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 2365710743943212401L;
 
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("password")
     private String password;
 
+    @JsonProperty("is_active")
     private Boolean isActive;
 
+    @JsonProperty("type")
     private String type;
 
+    @JsonProperty("description")
     private String description;
 
+    @JsonProperty("expire_date")
     private Date expireDate;
 
+    @JsonProperty("enabled")
     private Boolean enabled;
 
     List<GrantedAuthority> grantedAuthorities;

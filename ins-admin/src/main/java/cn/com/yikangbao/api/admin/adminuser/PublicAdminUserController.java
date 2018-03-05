@@ -1,13 +1,11 @@
-package cn.com.yikangbao.api.admin.login;
+package cn.com.yikangbao.api.admin.adminuser;
 
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
-import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.user.User;
-import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
+import cn.com.yikangbao.entity.user.UserDTO;
 import cn.com.yikangbao.service.user.UserService;
 import cn.com.yikangbao.untils.common.MD5Util;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +33,10 @@ public class PublicAdminUserController {
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(PublicAdminUserController.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    private Logger logger = LoggerFactory.getLogger(PublicAdminUserController.class);
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> login(@RequestBody User user, HttpServletRequest request) {
@@ -46,7 +44,9 @@ public class PublicAdminUserController {
         if (password == null || user.getName() == null) {
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_INVALID_PARAMETER, "用户名或者密码不能为空"), HttpStatus.OK);
         }
-        user = userService.findOneByCondition(user);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName(user.getName());
+        user = userService.findOneByCondition(userDTO);
         if (user == null) {
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_NOT_FOUND, "不存在该用户"), HttpStatus.OK);
         }
@@ -61,27 +61,5 @@ public class PublicAdminUserController {
             return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
         }
         return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_WRONG_OLD_PASSWORD, "密码错误"), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> test(User user, HttpServletRequest request) {
-
-        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
-    }
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> createMessage(@RequestBody LocalWechatUser message) {
-        return new ResponseEntity<>(ApiResult.success(message), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> createMessage(@RequestBody Message message2) {
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = null;
-        /*try {
-             message = mapper.readValue(result, Message.class);
-        } catch (IOException e) {
-            logger.error("error: {}", e);
-        }*/
-        return new ResponseEntity<>(ApiResult.success(message), HttpStatus.OK);
     }
 }

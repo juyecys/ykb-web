@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Alias("AuthorityM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Authority extends Base implements Serializable{
 
     private static final long serialVersionUID = 1994186453740994244L;

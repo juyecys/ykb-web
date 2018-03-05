@@ -23,10 +23,11 @@
 	</insert>
 
 	<insert id="createByList" parameterType="java.util.List">
-		INSERT INTO ykb_order_questionnaire
-		(id, created_by, created_date, updated_date, updated_by,answer, order_id)
-		VALUES
+
 		<foreach collection="list" item="item" index="index" open="(" close=")" separator="union all" >
+			INSERT INTO ykb_order_questionnaire
+			(id, created_by, created_date, updated_date, updated_by,answer, order_id)
+			VALUES
 			(#{item.id}, #{item.createdBy}, #{item.createdDate}, #{item.updatedDate}, #{item.updatedBy}
 			, #{item.answer}, #{item.orderId})
 		</foreach>

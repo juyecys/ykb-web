@@ -1,14 +1,22 @@
 package cn.com.yikangbao.entity.user;
 
-import cn.com.yikangbao.entity.common.Page;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
+@Alias("UserQM")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserDTO extends User implements Serializable {
     private static final long serialVersionUID = 3930220600362884579L;
 
+    @JsonProperty("role_id")
     private String roleId;
 
+    @JsonProperty("role_name")
     private String roleName;
 
     public String getRoleId() {
@@ -27,4 +35,11 @@ public class UserDTO extends User implements Serializable {
         this.roleName = roleName;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "UserDTO{" +
+                "roleId='" + roleId + '\'' +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
 }

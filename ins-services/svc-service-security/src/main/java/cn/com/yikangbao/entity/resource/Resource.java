@@ -21,6 +21,10 @@ public class Resource extends Base implements Serializable {
     private String resource;
     private String description;
 
+    public static enum TypeEnum {
+        MENU
+    }
+
 
     public String getName() {
         return name;

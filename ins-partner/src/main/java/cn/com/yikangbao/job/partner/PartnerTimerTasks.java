@@ -5,6 +5,7 @@ import cn.com.yikangbao.config.partner.PartnerUrlConfig;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
+import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.job.DistributedExclusiveTask;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
@@ -49,10 +50,11 @@ public class PartnerTimerTasks {
 		logger.info("need synchronous order: {}", orders);
 		Order newOrder = null;
 		OrderRecord orderRecord = null;
+		HashMap<String, Object> data = new HashMap<>();
 		if (!orders.isEmpty()) {
 			for (OrderDTO order: orders) {
 				try {
-					HashMap<String, Object> data = MapUtils.getMap(order, OrderDTO.class);
+					data.put("orderId", order.getOrderNumber());
 					String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
 					data.put("sign", sign);
 					String dataJson = mapper.writeValueAsString(data);

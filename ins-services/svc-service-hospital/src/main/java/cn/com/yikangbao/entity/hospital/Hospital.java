@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.hospital;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 /**
@@ -12,20 +13,28 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
 public class Hospital extends Base {
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("address")
     private String address;
 
+    @JsonProperty("phone_number")
     private String phoneNumber;
 
+    @JsonProperty("type")
     private String type;
 
+    @JsonProperty("status")
     private String status;
 
+    @JsonProperty("technique")
     private String technique;
 
+    @JsonProperty("level")
     private String level;
 
+    @JsonProperty("province_id")
     private String provinceId;
 
     public static enum LevelEnum {
