@@ -4,6 +4,7 @@ import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
+import cn.com.yikangbao.entity.qianhai.QianHaiActionType;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.service.order.OrderService;
@@ -92,6 +93,7 @@ public class QianhaiServiceimpl implements QianhaiService {
                 try {
                     data.put("orderId", order.getOrderNumber());
                     data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
+                    data.put("actionType", QianHaiActionType.ENTRY.getValue());
                     String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
                     data.put("sign", sign);
                     String dataJson = mapper.writeValueAsString(data);

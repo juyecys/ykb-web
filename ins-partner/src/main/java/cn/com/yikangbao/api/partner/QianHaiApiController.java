@@ -5,6 +5,7 @@ import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
+import cn.com.yikangbao.entity.qianhai.QianHaiActionType;
 import cn.com.yikangbao.entity.qianhai.QianHaiHospital;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
@@ -18,6 +19,9 @@ import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
 import cn.com.yikangbao.utils.partner.PartnerSignUtils;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -167,9 +171,11 @@ public class QianHaiApiController {
     @RequestMapping(value = "/order/getStatus", method = RequestMethod.GET)
     public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("orderId", qianHaiOrder.getOrderNumber());
         data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
+        data.put("actionType", QianHaiActionType.ENTRY.getValue());
         String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
         data.put("sign", sign);
 
