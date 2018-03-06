@@ -4,7 +4,6 @@ import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
-import cn.com.yikangbao.entity.qianhai.QianHaiActionType;
 import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
@@ -15,9 +14,8 @@ import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
-import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
-import cn.com.yikangbao.utils.partner.PartnerOrderUtils;
 import cn.com.yikangbao.utils.partner.PartnerSignUtils;
+import cn.com.yikangbao.utils.partner.QianHaiOrderUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +55,7 @@ public class QianhaiServiceimpl implements QianhaiService {
     @Override
     public void createOrderByPartner(QianHaiOrder qianHaiOrder) {
         logger.debug("create partner order: {}", qianHaiOrder);
-        Order order = PartnerOrderUtils.transformPartnerOrder(qianHaiOrder);
+        Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         order.setChannel(Order.ChannelEnum.QIAN_HAI.name());
         order.setName("试管婴儿保险");
         logger.debug("create order: {}", order);
@@ -71,7 +69,7 @@ public class QianhaiServiceimpl implements QianhaiService {
     @Override
     public void updateOrderByPartner(QianHaiOrder qianHaiOrder) {
         logger.debug("update partner order: {}", qianHaiOrder);
-        Order order = PartnerOrderUtils.transformPartnerOrder(qianHaiOrder);
+        Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         logger.debug("update order: {}", order);
         orderService.synchronousOrderStatus(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
@@ -106,8 +104,11 @@ public class QianhaiServiceimpl implements QianhaiService {
                     String resultJson = OkHttpUtils.get().url(url).build().execute().body().string();
                     logger.debug("synchronous qianhai order status result: {}", resultJson);
                     HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
-                    newOrder = PartnerConvertUtils.convertOrder(resultMap);
-                    if (!order.getStatus().equals(newOrder.getStatus())) {
+                    newOrder = QianHaiOrderUtils.convertOrder(resultMap);
+                    if (newOrder.getStatus() != null) {
+                        newOrder.setStatus(QianHaiOrderUtils.transformQianHaiOrderStatus(newOrder.getStatus()));
+                    }
+                    if (newOrder.getStatus() != null && !order.getStatus().equals(newOrder.getStatus())) {
                         orderService.synchronousOrderStatus(newOrder);
                         orderRecord = new OrderRecord();
                         orderRecord.setOrderNumber(newOrder.getOrderNumber());

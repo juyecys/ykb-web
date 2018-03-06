@@ -182,7 +182,7 @@ public class Order extends Base{
         ,AUDIT_NOT_THROUGH("审核不通过")
         ,PAIED("已支付")
         ,OVERTIME_PAIED("超时未支付")
-        ,EFFECTIVE("已生效")
+        ,UNDERWRITE("已承保")
         ,END("结束");
 
         private String description;
