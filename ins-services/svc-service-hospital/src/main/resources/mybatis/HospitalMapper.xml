@@ -22,9 +22,9 @@
 
 	<insert id="create" parameterType="HospitalM">
 		INSERT INTO
-			ykb_hospital (id, created_by, created_date, updated_date, updated_by, name, address, phone_number, type, status, technique, level, province_id)
+			ykb_hospital (id, created_by, created_date, updated_date, updated_by, name, address, phone_number, type, status, technique, level, province_id, province_name)
 	  	VALUES
-	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{name}, #{address}, #{phoneNumber}, #{type}, #{status}, #{technique}, #{level}, #{provinceId})
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{name}, #{address}, #{phoneNumber}, #{type}, #{status}, #{technique}, #{level}, #{provinceId}, #{provinceName})
 	</insert>
 
 	<update id="update" parameterType="HospitalM">
@@ -59,6 +59,9 @@
 			</if>
 			<if test="provinceId != null">
 				province_id = #{provinceId},
+			</if>
+			<if test="provinceName != null">
+				province_name = #{provinceName},
 			</if>
 		</set>
 		WHERE id = #{id}

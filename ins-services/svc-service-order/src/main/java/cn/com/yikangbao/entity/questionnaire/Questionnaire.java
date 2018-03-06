@@ -22,7 +22,7 @@ public class Questionnaire extends Base{
     /**
      * 订单id
      */
-    @JsonProperty("order_id")
+    @JsonProperty("orderId")
     private String orderId;
 
     public String getAnswer() {

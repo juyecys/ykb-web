@@ -1,97 +1,59 @@
 package cn.com.yikangbao.entity.qianhai;
 
+import cn.com.yikangbao.entity.order.Order;
+import cn.com.yikangbao.entity.questionnaire.Questionnaire;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by jeysine on 2018/2/28.
- */
-
-/**
- * 用于与前海交互
+ * Created by jeysine on 2018/2/1.
+ * 用于与第三发交互
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
-public class QianHaiOrder extends CommonQianHai{
+public class QianHaiOrder extends Order {
 
-    @JsonProperty("userId")
-    private String userId;
+    private String sign;
 
-    @JsonProperty("insuranceAmount")
-    private String insuranceAmount;
+    private List<Questionnaire> questionnaireList;
 
-    @JsonProperty("dateOfBirth")
-    private String dateOfBirth;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date statusDate;
 
-    @JsonProperty("hospitalCode")
-    private String hospitalCode;
-
-    @JsonProperty("trialPremium")
-    private String trialPremium;
-
-    @JsonProperty("orderId")
-    private String orderId;
-
-    public String getOrderId() {
-        return orderId;
+    public String getSign() {
+        return sign;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
-    public String getUserId() {
-        return userId;
+    public List<Questionnaire> getQuestionnaireList() {
+        return questionnaireList;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setQuestionnaireList(List<Questionnaire> questionnaireList) {
+        this.questionnaireList = questionnaireList;
     }
 
-    public String getInsuranceAmount() {
-        return insuranceAmount;
+    public Date getStatusDate() {
+        return statusDate;
     }
 
-    public void setInsuranceAmount(String insuranceAmount) {
-        this.insuranceAmount = insuranceAmount;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getHospitalCode() {
-        return hospitalCode;
-    }
-
-    public void setHospitalCode(String hospitalCode) {
-        this.hospitalCode = hospitalCode;
-    }
-
-    public String getTrialPremium() {
-        return trialPremium;
-    }
-
-    public void setTrialPremium(String trialPremium) {
-        this.trialPremium = trialPremium;
+    public void setStatusDate(Date statusDate) {
+        this.statusDate = statusDate;
     }
 
     @Override
     public String toString() {
-        return "QianHaiOrder{" +
-                "userId='" + userId + '\'' +
-                ", insuranceAmount='" + insuranceAmount + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", hospitalCode='" + hospitalCode + '\'' +
-                ", trialPremium='" + trialPremium + '\'' +
-                ", orderId='" + orderId + '\'' +
+        return super.toString() + "PartnerOrder{" +
+                "sign='" + sign + '\'' +
+                ", questionnaireList=" + questionnaireList +
+                ", statusDate=" + statusDate +
                 '}';
     }
 }

@@ -2,10 +2,9 @@ package cn.com.yikangbao.api.partner;
 
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
-import cn.com.yikangbao.config.partner.ResultCode;
-import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
-import cn.com.yikangbao.entity.partner.PartnerOrder;
+import cn.com.yikangbao.entity.qianhai.QianHaiHospital;
+import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.exception.partner.PartnerException;
 import cn.com.yikangbao.service.hospital.HospitalService;
@@ -37,10 +36,10 @@ public class QianHaiApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public ApiResult createOrder(@RequestBody PartnerOrder partnerOrder) throws PartnerException {
-        logger.info("receive qianhai order: {}", partnerOrder);
+    public ApiResult createOrder(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+        logger.info("receive qianhai order: {}", qianHaiOrder);
 
-        if (partnerOrder == null) {
+        if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
         }
 
@@ -52,7 +51,7 @@ public class QianHaiApiController {
         };
 
         try {
-            HashMap<String, Object> data = MapUtils.getMap(partnerOrder, PartnerOrder.class);
+            HashMap<String, Object> data = MapUtils.getMap(qianHaiOrder, QianHaiOrder.class);
 
             if (data == null) {
                 logger.error("partner order map is empty\n\n");
@@ -67,44 +66,44 @@ public class QianHaiApiController {
             throw e;
         }
 
-        qianhaiService.createOrderByPartner(partnerOrder);
+        qianhaiService.createOrderByPartner(qianHaiOrder);
 
         return ApiResult.success();
     }
 
     @RequestMapping(value = "/order/update", method = RequestMethod.POST)
-    public ApiResult updateOrder(@RequestBody PartnerOrder partnerOrder) throws PartnerException {
-        logger.info("receive qianhai order: {}", partnerOrder);
+    public ApiResult updateOrder(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+        logger.info("receive qianhai order: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
                 ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
                 ,"orderNumber","createdDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
-        updatePartnerOrder(partnerOrder, needParams);
+        updatePartnerOrder(qianHaiOrder, needParams);
 
         return ApiResult.success();
     }
 
     @RequestMapping(value = "/order/status", method = RequestMethod.POST)
-    public ApiResult updateOrderStatus(@RequestBody PartnerOrder partnerOrder) throws PartnerException {
-        logger.info("receive qianhai order: {}", partnerOrder);
+    public ApiResult updateOrderStatus(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+        logger.info("receive qianhai order: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","orderNumber","status","statusDate"
         };
-        updatePartnerOrder(partnerOrder, needParams);
+        updatePartnerOrder(qianHaiOrder, needParams);
 
         return ApiResult.success();
     }
     @RequestMapping(value = "/hospital", method = RequestMethod.GET)
-    public ApiResult findHospital(HospitalDTO hospital) throws PartnerException {
-        logger.info("receive qianhai hospital: {}", hospital);
+    public ApiResult findHospital(QianHaiHospital qianHaiHospital) throws PartnerException {
+        logger.info("receive qianhai qianHaiHospital: {}", qianHaiHospital);
         String[] needParams = new String[]{
                 "sign"
         };
         HashMap<String, Object> data = null;
         try {
-            data = MapUtils.getMap(hospital, HospitalDTO.class);
+            data = MapUtils.getMap(qianHaiHospital, QianHaiHospital.class);
             if (data == null) {
                 logger.error("partner order map is empty\n\n");
                 throw new PartnerException(PartnerException.PartnerErrorCode.ERROR);
@@ -117,24 +116,18 @@ public class QianHaiApiController {
             logger.error("error code: {}, error msg: {}, exception: {}", e.getErrorCode().getCode(), e.getErrorCode().getDesc(), e);
             throw e;
         }
-        List<HospitalDTO> hospitalDTOList = hospitalService.findForPartner(hospital);
+        List<HospitalDTO> hospitalDTOList = hospitalService.findForPartner(new HospitalDTO());
         logger.info("hospital: {}", hospitalDTOList);
         return ApiResult.success(hospitalDTOList);
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public ApiResult test() throws PartnerException {
-        Page<HospitalDTO> page = hospitalService.findByConditionPage(new HospitalDTO());
-        return ApiResult.build(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getDesc(), page);
-    }
-
-    private void updatePartnerOrder(PartnerOrder partnerOrder, String[] needParams) throws PartnerException {
-        if (partnerOrder == null) {
+    private void updatePartnerOrder(QianHaiOrder qianHaiOrder, String[] needParams) throws PartnerException {
+        if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
         }
 
         try {
-            HashMap<String, Object> data = MapUtils.getMap(partnerOrder, PartnerOrder.class);
+            HashMap<String, Object> data = MapUtils.getMap(qianHaiOrder, QianHaiOrder.class);
             if (data == null) {
                 logger.error("partner order map is empty\n\n");
                 throw new PartnerException(PartnerException.PartnerErrorCode.ERROR);
@@ -148,7 +141,7 @@ public class QianHaiApiController {
             logger.error("error code: {}, error msg: {}, exception: {}", e.getErrorCode().getCode(), e.getErrorCode().getDesc(), e);
             throw e;
         }
-        qianhaiService.updateOrderByPartner(partnerOrder);
+        qianhaiService.updateOrderByPartner(qianHaiOrder);
     }
 
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -174,10 +167,10 @@ public class QianHaiApiController {
         questionnaireList.add(questionnaire);
         hashMap.put("questionnaireList", questionnaireList);
 
-        PartnerOrder partnerOrder = (PartnerOrder) MapUtils.getObject(hashMap, PartnerOrder.class, MapUtils.FirstOneCaseEnum.LOWER);
-        System.out.println(partnerOrder);
+        QianHaiOrder qianHaiOrder = (QianHaiOrder) MapUtils.getObject(hashMap, QianHaiOrder.class, MapUtils.FirstOneCaseEnum.LOWER);
+        System.out.println(qianHaiOrder);
 
-        HashMap hashMap1 = MapUtils.getMap(partnerOrder, PartnerOrder.class);
+        HashMap hashMap1 = MapUtils.getMap(qianHaiOrder, QianHaiOrder.class);
         MapUtils.filterPageForMap(hashMap1);
         System.out.println(hashMap1);
     }

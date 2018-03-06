@@ -6,11 +6,11 @@
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount
-			, user_id, birthday)
+			, user_id, birthday, user_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday})
+	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{userId})
 	</insert>
 
 	<update id="update" parameterType="InsureM">

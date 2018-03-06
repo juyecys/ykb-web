@@ -37,6 +37,9 @@ public class Hospital extends Base {
     @JsonProperty("provinceId")
     private String provinceId;
 
+    @JsonProperty("provinceName")
+    private String provinceName;
+
     public static enum LevelEnum {
         FIRST_A("一甲"),SECOND_A("二甲"),THIRD_A("三甲")
         ,FIRST_B("一乙"),SECOND_B("二乙"),THIRD_B("三乙"),
@@ -157,6 +160,14 @@ public class Hospital extends Base {
         this.provinceId = provinceId;
     }
 
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
     @Override
     public String toString() {
         return "Hospital{" +
@@ -168,6 +179,7 @@ public class Hospital extends Base {
                 ", technique='" + technique + '\'' +
                 ", level='" + level + '\'' +
                 ", provinceId='" + provinceId + '\'' +
+                ", provinceName='" + provinceName + '\'' +
                 '}';
     }
 }
