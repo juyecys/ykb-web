@@ -16,10 +16,10 @@
 	<insert id="create" parameterType="QuestionnaireM">
 		INSERT INTO
 			ykb_order_questionnaire (id, created_by, created_date, updated_date, updated_by,
-			answer, order_id)
+			answer, order_id, question_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{answer}, #{orderId})
+	  		, #{answer}, #{orderId}, #{questionId})
 	</insert>
 
 	<insert id="createByList" parameterType="java.util.List">

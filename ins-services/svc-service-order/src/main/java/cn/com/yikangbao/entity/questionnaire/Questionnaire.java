@@ -25,6 +25,9 @@ public class Questionnaire extends Base{
     @JsonProperty("orderId")
     private String orderId;
 
+    @JsonProperty("questionId")
+    private String questionId;
+
     public String getAnswer() {
         return answer;
     }
@@ -40,11 +43,21 @@ public class Questionnaire extends Base{
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
     @Override
     public String toString() {
-        return "Questionnaire{" +
+        return "{" +
                 "answer='" + answer + '\'' +
-                ", orderId='" + orderId + '\'' +
+                ", questionId='" + questionId + '\'' +
                 '}';
     }
+
 }
