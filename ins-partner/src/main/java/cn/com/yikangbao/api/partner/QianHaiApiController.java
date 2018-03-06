@@ -58,7 +58,7 @@ public class QianHaiApiController {
     @Autowired
     private OrderRecordService orderRecordService;
 
-    private String qianhaiOrderStatusUrl="http://wxsaleuat.qhins.com/wcthl/third/entry/ykb/tubebaby/orderStatus/?actionType=ACTION_TYPE&sign=SIGN&orderId=ORDER_ID&reqTime=REQTIME";
+    private String qianhaiOrderStatusUrl="http://wxsaleuat.qhins.com/wcthl/third/entry/ykb/tubebaby/orderStatus?actionType=ACTION_TYPE&sign=SIGN&orderId=ORDER_ID&reqTime=REQTIME";
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
