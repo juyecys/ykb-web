@@ -78,7 +78,7 @@ public class QianHaiApiController {
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
                 ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
-                ,"orderNumber","createdDate","userId","status","insuranceStartDate","insuranceEndDate"
+                ,"orderNumber","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
         updatePartnerOrder(qianHaiOrder, needParams);
 
