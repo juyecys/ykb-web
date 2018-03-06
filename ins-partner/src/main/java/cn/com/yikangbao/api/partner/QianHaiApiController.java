@@ -11,6 +11,7 @@ import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.exception.partner.PartnerException;
 import cn.com.yikangbao.service.hospital.HospitalService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
+import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -160,9 +162,10 @@ public class QianHaiApiController {
         logger.info("receive qianhai order: {}", qianHaiOrder);
         HashMap<String, Object> data = new HashMap<>();
         data.put("orderId", qianHaiOrder.getOrderNumber());
-
+        data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
         String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
         data.put("sign", sign);
+
         ObjectMapper mapper = new ObjectMapper();
         String dataJson = mapper.writeValueAsString(data);
         logger.debug("start to synchronous qianhai order status: {}", dataJson);

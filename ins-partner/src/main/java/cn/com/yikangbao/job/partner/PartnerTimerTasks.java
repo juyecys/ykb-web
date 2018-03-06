@@ -7,6 +7,7 @@ import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.job.DistributedExclusiveTask;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
+import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
 import cn.com.yikangbao.utils.partner.PartnerSignUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class PartnerTimerTasks {
 			for (OrderDTO order: orders) {
 				try {
 					data.put("orderId", order.getOrderNumber());
+					data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
 					String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
 					data.put("sign", sign);
 					String dataJson = mapper.writeValueAsString(data);
