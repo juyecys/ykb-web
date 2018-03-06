@@ -94,6 +94,9 @@ public class MapUtils {
                     if (param == null) {
                         continue;
                     }
+                    if (field.getType().getCanonicalName().equals("java.util.Date")) {
+                        param = DateUtils.format((Date) param,"yyyy-MM-dd HH:mm:ss");
+                    }
                     hashMap.put(field.getName(), param);
                 }
             }
