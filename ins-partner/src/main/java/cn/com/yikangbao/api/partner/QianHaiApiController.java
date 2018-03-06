@@ -117,7 +117,7 @@ public class QianHaiApiController {
             throw e;
         }
         List<HospitalDTO> hospitalDTOList = hospitalService.findForPartner(new HospitalDTO());
-        logger.info("hospital: {}", hospitalDTOList);
+        //logger.info("hospital: {}", hospitalDTOList);
         return ApiResult.success(hospitalDTOList);
     }
 
