@@ -5,7 +5,8 @@ package cn.com.yikangbao.entity.qianhai;
  */
 public enum QianHaiActionType {
     ENTRY("entry"),
-    ORDER_DETAIL("orderDetail");
+    ORDER_DETAIL("orderDetail"),
+    ORDER_STATUS("orderStatus");
 
     private String value;
 

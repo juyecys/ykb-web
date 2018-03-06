@@ -5,6 +5,7 @@ import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiActionType;
+import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.service.order.OrderService;
@@ -12,6 +13,7 @@ import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
 import cn.com.yikangbao.untils.common.DateUtils;
+import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
 import cn.com.yikangbao.utils.partner.PartnerOrderUtils;
@@ -89,16 +91,19 @@ public class QianhaiServiceimpl implements QianhaiService {
         OrderRecord orderRecord = null;
         HashMap<String, Object> data = new HashMap<>();
         if (!orders.isEmpty()) {
+            QianHaiGetOrderStatusReq req = new QianHaiGetOrderStatusReq();
             for (OrderDTO order: orders) {
                 try {
-                    data.put("orderId", order.getOrderNumber());
-                    data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
-                    data.put("actionType", QianHaiActionType.ENTRY.getValue());
+                    req.setOrderId(order.getOrderNumber());
+                    req.setReqTime(DateUtils.format(new Date(), "yyyyMMddHHmmss"));
+                    data = MapUtils.getMap(req, QianHaiGetOrderStatusReq.class);
                     String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
                     data.put("sign", sign);
-                    String dataJson = mapper.writeValueAsString(data);
-                    logger.debug("start to synchronous qianhai order status: {}", dataJson);
-                    String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
+                    String url = qianhaiOrderStatusUrl.replace("ACTION_TYPE", req.getActionType())
+                            .replace("SIGN", sign).replace("ORDER_ID", req.getOrderId())
+                            .replace("REQTIME", req.getReqTime());
+                    logger.debug("start to synchronous qianhai order status: {}", url);
+                    String resultJson = OkHttpUtils.get().url(url).build().execute().body().string();
                     logger.debug("synchronous qianhai order status result: {}", resultJson);
                     HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
                     newOrder = PartnerConvertUtils.convertOrder(resultMap);
@@ -125,4 +130,5 @@ public class QianhaiServiceimpl implements QianhaiService {
         orderRecord.setStatus(order.getStatus());
         orderRecordService.create(orderRecord);
     }
+
 }

@@ -6,6 +6,7 @@ import cn.com.yikangbao.entity.hospital.HospitalDTO;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiActionType;
+import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiHospital;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
@@ -14,6 +15,7 @@ import cn.com.yikangbao.service.hospital.HospitalService;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
+import cn.com.yikangbao.service.partner.qianhai.impl.QianhaiServiceimpl;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
@@ -56,7 +58,7 @@ public class QianHaiApiController {
     @Autowired
     private OrderRecordService orderRecordService;
 
-    private String qianhaiOrderStatusUrl="http://wxsaleuat.qhins.com/wcthl/third/entry/ykb/tubebaby/orderStatus/";
+    private String qianhaiOrderStatusUrl="http://wxsaleuat.qhins.com/wcthl/third/entry/ykb/tubebaby/orderStatus/?actionType=ACTION_TYPE&sign=SIGN&orderId=ORDER_ID&reqTime=REQTIME";
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
@@ -172,17 +174,19 @@ public class QianHaiApiController {
     public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
 
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("orderId", qianHaiOrder.getOrderNumber());
-        data.put("reqTime", DateUtils.format(new Date(), "yyyyMMddHHmmss"));
-        data.put("actionType", QianHaiActionType.ENTRY.getValue());
+        QianHaiGetOrderStatusReq req = new QianHaiGetOrderStatusReq();
+        HashMap<String, Object> data = null;
+        req.setOrderId(qianHaiOrder.getOrderNumber());
+        req.setReqTime(DateUtils.format(new Date(), "yyyyMMddHHmmss"));
+        data = MapUtils.getMap(req, QianHaiGetOrderStatusReq.class);
         String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
         data.put("sign", sign);
-
+        String url = qianhaiOrderStatusUrl.replace("ACTION_TYPE", req.getActionType())
+                .replace("SIGN", sign).replace("ORDER_ID", req.getOrderId())
+                .replace("REQTIME", req.getReqTime());
         ObjectMapper mapper = new ObjectMapper();
-        String dataJson = mapper.writeValueAsString(data);
-        logger.debug("start to synchronous qianhai order status: {}, url:{}", dataJson,qianhaiOrderStatusUrl);
-        String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
+        logger.debug("start to synchronous qianhai order status: {}", url);
+        String resultJson = OkHttpUtils.get().url(url).build().execute().body().string();
         logger.debug("synchronous qianhai order status result: {}", resultJson);
         HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
         Order newOrder = PartnerConvertUtils.convertOrder(resultMap);
