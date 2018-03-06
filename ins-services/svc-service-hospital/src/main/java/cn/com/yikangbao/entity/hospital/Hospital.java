@@ -19,7 +19,7 @@ public class Hospital extends Base {
     @JsonProperty("address")
     private String address;
 
-    @JsonProperty("phone_number")
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
 
     @JsonProperty("type")
@@ -34,7 +34,7 @@ public class Hospital extends Base {
     @JsonProperty("level")
     private String level;
 
-    @JsonProperty("province_id")
+    @JsonProperty("provinceId")
     private String provinceId;
 
     public static enum LevelEnum {

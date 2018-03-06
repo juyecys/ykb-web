@@ -15,7 +15,7 @@ public class HospitalDTO extends Hospital {
     @JsonProperty("sign")
     private String sign;
 
-    @JsonProperty("province_name")
+    @JsonProperty("provinceName")
     private String provinceName;
 
     public String getProvinceName() {
