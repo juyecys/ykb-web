@@ -5,4 +5,5 @@ import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 public interface QianhaiService {
     void createOrderByPartner(QianHaiOrder partnerOrder);
     void updateOrderByPartner(QianHaiOrder partnerOrder);
+    void synchronousOrderStatus();
 }

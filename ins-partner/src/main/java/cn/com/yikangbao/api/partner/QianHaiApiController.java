@@ -10,6 +10,8 @@ import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.exception.partner.PartnerException;
 import cn.com.yikangbao.service.hospital.HospitalService;
+import cn.com.yikangbao.service.order.OrderService;
+import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
@@ -44,8 +46,13 @@ public class QianHaiApiController {
     @Autowired
     private HospitalService hospitalService;
 
-    @Value("${qianhai.order.get.status}")
-    private String qianhaiOrderStatusUrl;
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderRecordService orderRecordService;
+
+    private String qianhaiOrderStatusUrl="http://wxsaleuat.qhins.com/wcthl/third/entry/ykb/tubebaby/orderStatus/";
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
@@ -158,7 +165,7 @@ public class QianHaiApiController {
     }
 
     @RequestMapping(value = "/order/getStatus", method = RequestMethod.GET)
-    public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws PartnerException, IOException {
+    public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
         HashMap<String, Object> data = new HashMap<>();
         data.put("orderId", qianHaiOrder.getOrderNumber());
@@ -168,11 +175,18 @@ public class QianHaiApiController {
 
         ObjectMapper mapper = new ObjectMapper();
         String dataJson = mapper.writeValueAsString(data);
-        logger.debug("start to synchronous qianhai order status: {}", dataJson);
+        logger.debug("start to synchronous qianhai order status: {}, url:{}", dataJson,qianhaiOrderStatusUrl);
         String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
         logger.debug("synchronous qianhai order status result: {}", resultJson);
         HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
         Order newOrder = PartnerConvertUtils.convertOrder(resultMap);
+        OrderRecord orderRecord = null;
+        orderService.synchronousOrderStatus(newOrder);
+        orderRecord = new OrderRecord();
+        orderRecord.setOrderNumber(newOrder.getOrderNumber());
+        orderRecord.setStatus(newOrder.getStatus());
+        orderRecordService.createOrUpdate(orderRecord);
+
         return ApiResult.success(newOrder);
     }
 
