@@ -24,6 +24,9 @@ public class QianHaiOrder extends Order {
     @JsonProperty("questionnaireList")
     private List<Questionnaire> questionnaireList;
 
+    @JsonProperty("reqTime")
+    private String reqTime;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("statusDate")
     private Date statusDate;
@@ -52,36 +55,12 @@ public class QianHaiOrder extends Order {
         this.statusDate = statusDate;
     }
 
-    public class QianhaiQuestionaire{
-        @JsonProperty("answer")
-        private String answer;
+    public String getReqTime() {
+        return reqTime;
+    }
 
-        @JsonProperty("questionId")
-        private String questionId;
-
-        public String getAnswer() {
-            return answer;
-        }
-
-        public void setAnswer(String answer) {
-            this.answer = answer;
-        }
-
-        public String getQuestionId() {
-            return questionId;
-        }
-
-        public void setQuestionId(String questionId) {
-            this.questionId = questionId;
-        }
-
-        @Override
-        public String toString() {
-            return "{" +
-                    "answer='" + answer + '\'' +
-                    ", questionId='" + questionId + '\'' +
-                    '}';
-        }
+    public void setReqTime(String reqTime) {
+        this.reqTime = reqTime;
     }
 
     @Override

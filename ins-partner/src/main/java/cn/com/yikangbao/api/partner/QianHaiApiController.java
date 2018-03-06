@@ -3,6 +3,8 @@ package cn.com.yikangbao.api.partner;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
+import cn.com.yikangbao.entity.order.Order;
+import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiHospital;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
@@ -10,15 +12,21 @@ import cn.com.yikangbao.exception.partner.PartnerException;
 import cn.com.yikangbao.service.hospital.HospitalService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.untils.common.MapUtils;
+import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
+import cn.com.yikangbao.utils.partner.PartnerConvertUtils;
 import cn.com.yikangbao.utils.partner.PartnerSignUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,6 +41,9 @@ public class QianHaiApiController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Value("${qianhai.order.get.status}")
+    private String qianhaiOrderStatusUrl;
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
@@ -142,6 +153,24 @@ public class QianHaiApiController {
             throw e;
         }
         qianhaiService.updateOrderByPartner(qianHaiOrder);
+    }
+
+    @RequestMapping(value = "/order/getStatus", method = RequestMethod.GET)
+    public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws PartnerException, IOException {
+        logger.info("receive qianhai order: {}", qianHaiOrder);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("orderId", qianHaiOrder.getOrderNumber());
+
+        String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
+        data.put("sign", sign);
+        ObjectMapper mapper = new ObjectMapper();
+        String dataJson = mapper.writeValueAsString(data);
+        logger.debug("start to synchronous qianhai order status: {}", dataJson);
+        String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
+        logger.debug("synchronous qianhai order status result: {}", resultJson);
+        HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
+        Order newOrder = PartnerConvertUtils.convertOrder(resultMap);
+        return ApiResult.success(newOrder);
     }
 
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
