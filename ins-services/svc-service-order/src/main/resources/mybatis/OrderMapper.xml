@@ -168,7 +168,7 @@
 		FROM
 		<include refid="from_order" />
 		WHERE
-		o.status in ('WAIT_CONFIRM','WAIT_CONFIRM','PAIED')
+		o.status in ('WAIT_CONFIRM','WAIT_PAIED','PAIED')
 	</select>
 </mapper>
 

@@ -15,6 +15,13 @@ public class PartnerSignUtils {
     private static final Logger logger = LoggerFactory.getLogger(PartnerSignUtils.class);
 
     public static String getSign(HashMap<String, Object> params, String secretKey) {
+        if (params.get("sign") != null) {
+            params.remove("sign");
+        }
+        if (params.get("actionType") != null) {
+            params.remove("actionType");
+        }
+
         SortedMap<String, Object> requestParams = new TreeMap<>(params);
         Set es = requestParams.entrySet();
         Iterator it = es.iterator();
@@ -22,10 +29,8 @@ public class PartnerSignUtils {
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             String k = (String) entry.getKey();
-            if (!"sign".equals(k)) {
-                Object v = entry.getValue().toString();
-                sb.append(k + v);
-            }
+            Object v = entry.getValue().toString();
+            sb.append(k + v);
         }
         sb.append(secretKey);
         logger.debug("before md5: {}", sb.toString());

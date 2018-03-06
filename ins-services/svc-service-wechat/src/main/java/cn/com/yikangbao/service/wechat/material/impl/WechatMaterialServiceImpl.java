@@ -4,6 +4,7 @@ import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
+import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.disk.DiskFileItem;
@@ -35,7 +36,13 @@ public class WechatMaterialServiceImpl implements WechatMaterialService {
         String url = WechatConfigParams.WECHAT_ADD_MATERIAL.replace("ACCESS_TOKEN", wechatAccessTokenService.getAccessToken().getAccessToken())
                 .replace("TYPE", type);
         logger.info("create forever material url:{}", url);
-        String result = OkHttpUtils.post().url(url).addFile("media","454352.jpg", file).build().execute().body().string();
+        int extra = multipartFile.getOriginalFilename().lastIndexOf('.');
+        String fileName = null;
+        if ((extra >-1) && (extra < (multipartFile.getOriginalFilename().length() - 1))) {
+            fileName = multipartFile.getOriginalFilename().substring(extra + 1);
+        }
+
+        String result = OkHttpUtils.post().url(url).addFile("media",fileName, file).build().execute().body().string();
         logger.info("create forever material result: {}", result);
         return mapper.readValue(result, WechatMaterial.class);
     }

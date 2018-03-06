@@ -118,6 +118,7 @@ public class WechatMessageServiceImpl implements WechatMessageService {
                 pushTextMessage(openId, message.getContent());
                 break;
             case IMAGE:
+                pushImageMessage(openId, message.getMediaId());
                 break;
             case MUSIC:
                 break;
