@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Alias("OrderM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY )
+@JsonInclude(JsonInclude.Include.NON_NULL )
 public class Order extends Base{
 
     @JsonProperty("name")

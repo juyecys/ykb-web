@@ -15,7 +15,7 @@ import java.util.List;
  * 用于与第三发交互
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY )
+@JsonInclude(JsonInclude.Include.NON_NULL )
 public class QianHaiOrder extends Order {
 
     @JsonProperty("sign")

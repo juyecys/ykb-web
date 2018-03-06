@@ -59,10 +59,12 @@ public class QianhaiServiceimpl implements QianhaiService {
         logger.debug("update partner order: {}", qianHaiOrder);
         Order order = PartnerOrderUtils.transformPartnerOrder(qianHaiOrder);
         logger.debug("update order: {}", order);
-        orderService.update(order);
+        orderService.synchronousOrderStatus(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
         logger.debug("update questionnaireList: {}", questionnaireList);
-        questionnaireService.updateByList(questionnaireList);
+        if (questionnaireList != null) {
+            questionnaireService.updateByList(questionnaireList);
+        }
         createOrderRecord(order);
 
     }

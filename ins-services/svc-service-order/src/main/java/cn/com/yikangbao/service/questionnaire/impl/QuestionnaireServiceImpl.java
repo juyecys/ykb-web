@@ -32,6 +32,8 @@ public class QuestionnaireServiceImpl extends BaseServiceImpl<Questionnaire, Que
 
     @Override
     public void updateByList(List<Questionnaire> list) {
-        dao.updateByList(list);
+        for (Questionnaire one: list) {
+            update(one);
+        }
     }
 }

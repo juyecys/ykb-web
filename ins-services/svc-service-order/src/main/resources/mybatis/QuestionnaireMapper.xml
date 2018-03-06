@@ -52,7 +52,7 @@
 				updated_by = #{updatedBy},
 			</if>
 		</set>
-		WHERE id = #{id}
+		<include refid="sql_where" />
 	</update>
 
 	<sql id="sql_where">

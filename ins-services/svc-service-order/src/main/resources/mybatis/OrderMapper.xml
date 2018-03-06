@@ -18,8 +18,8 @@
 	<update id="update" parameterType="OrderM">
 		UPDATE ykb_order
 		<set>
-			<if test="channels != null">
-				channels = #{channels},
+			<if test="channel != null">
+				channel = #{channel},
 			</if>
 			<if test="updatedDate != null">
 				updated_date = #{updatedDate},
