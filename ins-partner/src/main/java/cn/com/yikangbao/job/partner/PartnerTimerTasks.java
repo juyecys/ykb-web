@@ -39,7 +39,7 @@ public class PartnerTimerTasks {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
-	@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "${partner.qianhai.order.synchronous.status}")
 	public void synchronousOrderStatus() {
 		List<OrderDTO> orders =  orderService.findNeedSysByStatus();
 		logger.info("need synchronous order: {}", orders);
@@ -53,7 +53,9 @@ public class PartnerTimerTasks {
 					String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
 					data.put("sign", sign);
 					String dataJson = mapper.writeValueAsString(data);
+					logger.debug("start to synchronous qianhai order status: {}", dataJson);
 					String resultJson = OkHttpUtils.postString().url(qianhaiOrderStatusUrl).content(dataJson).build().execute().body().string();
+					logger.debug("synchronous qianhai order status result: {}", resultJson);
 					HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
 					newOrder = PartnerConvertUtils.convertOrder(resultMap);
 					if (!order.getStatus().equals(newOrder.getStatus())) {
