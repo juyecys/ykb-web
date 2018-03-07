@@ -107,6 +107,12 @@ public class Order extends Base{
     private String orderNumber;
 
     /**
+     * 第三方订单id
+     */
+    @JsonProperty("partnerOrderId")
+    private String partnerOrderId;
+
+    /**
      * 用户id
      */
     @JsonProperty("userId")
@@ -413,6 +419,14 @@ public class Order extends Base{
         this.name = name;
     }
 
+    public String getPartnerOrderId() {
+        return partnerOrderId;
+    }
+
+    public void setPartnerOrderId(String partnerOrderId) {
+        this.partnerOrderId = partnerOrderId;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -431,6 +445,7 @@ public class Order extends Base{
                 ", insuranceAmount=" + insuranceAmount +
                 ", orderAmount=" + orderAmount +
                 ", orderNumber='" + orderNumber + '\'' +
+                ", partnerOrderId='" + partnerOrderId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", status='" + status + '\'' +
                 ", insuranceStartDate=" + insuranceStartDate +

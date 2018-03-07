@@ -7,12 +7,12 @@
 			ykb_order (id, created_by, created_date, updated_date, updated_by,
 			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
 			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
-			,user_id, status, insurance_start_date, insurance_end_date, name)
+			,user_id, status, insurance_start_date, insurance_end_date, name, partner_order_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
 	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}, #{name})
+	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}, #{name}, #{partnerOrderId})
 	</insert>
 
 	<update id="update" parameterType="OrderM">
@@ -105,7 +105,7 @@
 				reason = #{reason},
 			</if>
 		</set>
-		WHERE order_number = #{orderNumber}
+		WHERE partner_order_id = #{partnerOrderId}
 	</update>
 
 	<sql id="sql_where">

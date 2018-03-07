@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +67,7 @@ public class QianHaiApiController {
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
                 ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
-                ,"orderNumber","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
+                ,"partnerOrderId","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
 
         try {
@@ -96,7 +98,7 @@ public class QianHaiApiController {
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
                 ,"hospitalId","hospitalName","insuranceAmount","orderAmount","questionnaireList"
-                ,"orderNumber","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
+                ,"partnerOrderId","orderDate","userId","status","insuranceStartDate","insuranceEndDate"
         };
         updatePartnerOrder(qianHaiOrder, needParams);
 
@@ -107,7 +109,7 @@ public class QianHaiApiController {
     public ApiResult updateOrderStatus(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
         logger.info("receive qianhai order: {}", qianHaiOrder);
         String[] needParams = new String[]{
-                "sign","orderNumber","status","statusDate"
+                "sign","partnerOrderId","status","statusDate"
         };
         updatePartnerOrder(qianHaiOrder, needParams);
 
@@ -138,7 +140,12 @@ public class QianHaiApiController {
         //logger.info("hospital: {}", hospitalDTOList);
         return ApiResult.success(hospitalDTOList);
     }
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public void test(HttpServletRequest request, HttpServletResponse response) throws PartnerException {
 
+        logger.info("actionType: {}, userId:{}, reqTime:{}", request.getParameter("actionType"),request.getParameter("userId"),request.getParameter("reqTime"));
+
+    }
     private void updatePartnerOrder(QianHaiOrder qianHaiOrder, String[] needParams) throws PartnerException {
         if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);

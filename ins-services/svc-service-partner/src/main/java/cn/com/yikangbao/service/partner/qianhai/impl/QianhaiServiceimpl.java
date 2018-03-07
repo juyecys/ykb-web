@@ -13,6 +13,7 @@ import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
+import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
 import cn.com.yikangbao.utils.partner.PartnerSignUtils;
 import cn.com.yikangbao.utils.partner.QianHaiOrderUtils;
@@ -58,6 +59,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         order.setChannel(Order.ChannelEnum.QIAN_HAI.name());
         order.setName("试管婴儿保险");
+        order.setOrderNumber(StringUtil.numRandom(12));
         logger.debug("create order: {}", order);
         orderService.create(order);
         createOrderRecord(order);
