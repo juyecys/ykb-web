@@ -4,6 +4,7 @@ import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.hospital.HospitalDTO;
 import cn.com.yikangbao.entity.order.Order;
+import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiHospital;
@@ -56,7 +57,7 @@ public class QianHaiApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public ApiResult createOrder(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+    public ApiResult createOrder(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
 
         if (qianHaiOrder == null) {
@@ -92,7 +93,7 @@ public class QianHaiApiController {
     }
 
     @RequestMapping(value = "/order/update", method = RequestMethod.POST)
-    public ApiResult updateOrder(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+    public ApiResult updateOrder(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
@@ -106,7 +107,7 @@ public class QianHaiApiController {
     }
 
     @RequestMapping(value = "/order/status", method = RequestMethod.POST)
-    public ApiResult updateOrderStatus(@RequestBody QianHaiOrder qianHaiOrder) throws PartnerException {
+    public ApiResult updateOrderStatus(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","partnerOrderId","status","statusDate"
@@ -146,7 +147,7 @@ public class QianHaiApiController {
         logger.info("actionType: {}, userId:{}, reqTime:{}", request.getParameter("actionType"),request.getParameter("userId"),request.getParameter("reqTime"));
 
     }
-    private void updatePartnerOrder(QianHaiOrder qianHaiOrder, String[] needParams) throws PartnerException {
+    private void updatePartnerOrder(QianHaiOrder qianHaiOrder, String[] needParams) throws Exception {
         if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
         }
@@ -187,10 +188,14 @@ public class QianHaiApiController {
         logger.debug("start to synchronous qianhai order status: {}", url);
         String resultJson = OkHttpUtils.get().url(url).build().execute().body().string();
         logger.debug("synchronous qianhai order status result: {}", resultJson);
+
         HashMap resultMap = mapper.readValue(resultJson, HashMap.class);
-        Order newOrder = QianHaiOrderUtils.convertOrder(resultMap);
+        OrderDTO newOrder = QianHaiOrderUtils.convertOrder(resultMap);
+
         OrderRecord orderRecord = null;
         orderService.synchronousOrderStatus(newOrder);
+
+        newOrder = orderService.findOneByCondition(newOrder);
         orderRecord = new OrderRecord();
         orderRecord.setOrderNumber(newOrder.getOrderNumber());
         orderRecord.setStatus(QianHaiOrderUtils.transformQianHaiOrderStatus(newOrder.getStatus()));

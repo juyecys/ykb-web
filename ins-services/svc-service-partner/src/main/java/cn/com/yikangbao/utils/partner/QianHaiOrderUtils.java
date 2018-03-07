@@ -1,6 +1,7 @@
 package cn.com.yikangbao.utils.partner;
 
 import cn.com.yikangbao.entity.order.Order;
+import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 
 import java.util.HashMap;
@@ -9,8 +10,8 @@ import java.util.HashMap;
  * Created by jeysine on 2018/2/1.
  */
 public class QianHaiOrderUtils {
-    public static Order transformPartnerOrder(QianHaiOrder qianHaiOrder) {
-        Order order = new Order();
+    public static OrderDTO transformPartnerOrder(QianHaiOrder qianHaiOrder) {
+        OrderDTO order = new OrderDTO();
 
         order.setHospitalId(qianHaiOrder.getHospitalId());
         order.setHospitalName(qianHaiOrder.getHospitalName());
@@ -22,7 +23,7 @@ public class QianHaiOrderUtils {
         order.setInsuredName(qianHaiOrder.getInsuredName());
         order.setInsuredPhone(qianHaiOrder.getInsuredPhone());
         order.setOrderAmount(qianHaiOrder.getOrderAmount());
-        order.setOrderNumber(qianHaiOrder.getOrderNumber());
+        order.setPartnerOrderId(qianHaiOrder.getOrderNumber());
         order.setProposerCredentialsNum(qianHaiOrder.getProposerCredentialsNum());
         order.setProposerCredentialsType(qianHaiOrder.getProposerCredentialsType());
         order.setProposerName(qianHaiOrder.getProposerName());
@@ -34,10 +35,10 @@ public class QianHaiOrderUtils {
 
         return order;
     }
-    public static Order convertOrder(HashMap data) {
-        Order order = new Order();
+    public static OrderDTO convertOrder(HashMap data) {
+        OrderDTO order = new OrderDTO();
         order.setStatus((String) data.get("orderStatus"));
-        order.setOrderNumber((String) data.get("orderId"));
+        order.setPartnerOrderId((String) data.get("orderId"));
         return order;
     }
 

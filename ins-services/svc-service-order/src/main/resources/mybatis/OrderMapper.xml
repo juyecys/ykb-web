@@ -128,6 +128,9 @@
 			<if test="createdDateStart != null and createdDateEnd != null">
 				and o.created_date BETWEEN #{createdDateStart} and #{createdDateEnd}
 			</if>
+			<if test="partnerOrderId != null">
+				and o.partner_order_id = #{partnerOrderId}
+			</if>
 		</where>
 	</sql>
 

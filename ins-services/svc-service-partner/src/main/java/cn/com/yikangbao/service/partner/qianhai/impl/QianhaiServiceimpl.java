@@ -54,24 +54,24 @@ public class QianhaiServiceimpl implements QianhaiService {
     private Logger logger = LoggerFactory.getLogger(QianhaiServiceimpl.class);
 
     @Override
-    public void createOrderByPartner(QianHaiOrder qianHaiOrder) {
+    public void createOrderByPartner(QianHaiOrder qianHaiOrder) throws Exception {
         logger.debug("create partner order: {}", qianHaiOrder);
         Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         order.setChannel(Order.ChannelEnum.QIAN_HAI.name());
         order.setName("试管婴儿保险");
         order.setOrderNumber(StringUtil.numRandom(12));
         logger.debug("create order: {}", order);
-        orderService.create(order);
+        order = orderService.create(order);
         createOrderRecord(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
         logger.debug("create questionnaireList: {}", questionnaireList);
-        questionnaireService.createByList(questionnaireList);
+        questionnaireService.createByList(questionnaireList, order);
     }
 
     @Override
-    public void updateOrderByPartner(QianHaiOrder qianHaiOrder) {
+    public void updateOrderByPartner(QianHaiOrder qianHaiOrder) throws Exception {
         logger.debug("update partner order: {}", qianHaiOrder);
-        Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
+        OrderDTO order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         logger.debug("update order: {}", order);
         orderService.synchronousOrderStatus(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
@@ -87,7 +87,7 @@ public class QianhaiServiceimpl implements QianhaiService {
     public void synchronousOrderStatus() {
         List<OrderDTO> orders =  orderService.findNeedSysByStatus();
         logger.info("need synchronous order: {}", orders);
-        Order newOrder = null;
+        OrderDTO newOrder = null;
         OrderRecord orderRecord = null;
         HashMap<String, Object> data = new HashMap<>();
         if (!orders.isEmpty()) {
@@ -112,10 +112,7 @@ public class QianhaiServiceimpl implements QianhaiService {
                     }
                     if (newOrder.getStatus() != null && !order.getStatus().equals(newOrder.getStatus())) {
                         orderService.synchronousOrderStatus(newOrder);
-                        orderRecord = new OrderRecord();
-                        orderRecord.setOrderNumber(newOrder.getOrderNumber());
-                        orderRecord.setStatus(newOrder.getStatus());
-                        orderRecordService.createOrUpdate(orderRecord);
+                        createOrderRecord(newOrder);
                     }
                 } catch (Exception e) {
                     logger.error("", e);
@@ -127,11 +124,16 @@ public class QianhaiServiceimpl implements QianhaiService {
     }
 
 
-    private void createOrderRecord(Order order) {
+    private void createOrderRecord(Order order) throws Exception {
+        if (order.getOrderNumber() == null) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setPartnerOrderId(order.getPartnerOrderId());
+            order = orderService.findOneByCondition(orderDTO);
+        }
         OrderRecord orderRecord = new OrderRecord();
         orderRecord.setOrderNumber(order.getOrderNumber());
         orderRecord.setStatus(order.getStatus());
-        orderRecordService.create(orderRecord);
+        orderRecordService.createOrUpdate(orderRecord);
     }
 
 }

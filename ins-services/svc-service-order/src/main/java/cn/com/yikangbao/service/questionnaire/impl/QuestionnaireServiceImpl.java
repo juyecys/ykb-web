@@ -1,6 +1,7 @@
 package cn.com.yikangbao.service.questionnaire.impl;
 
 import cn.com.yikangbao.dao.questionnaire.QuestionnaireDAO;
+import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
 import cn.com.yikangbao.service.common.impl.BaseServiceImpl;
 import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
@@ -24,8 +25,9 @@ public class QuestionnaireServiceImpl extends BaseServiceImpl<Questionnaire, Que
     }
 
     @Override
-    public void createByList(List<Questionnaire> list) {
+    public void createByList(List<Questionnaire> list, Order order) {
         for (Questionnaire one: list) {
+            one.setOrderId(order.getId());
             create(one);
         }
     }
