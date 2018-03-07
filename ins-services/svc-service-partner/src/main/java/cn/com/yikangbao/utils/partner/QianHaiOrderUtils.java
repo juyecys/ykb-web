@@ -23,7 +23,7 @@ public class QianHaiOrderUtils {
         order.setInsuredName(qianHaiOrder.getInsuredName());
         order.setInsuredPhone(qianHaiOrder.getInsuredPhone());
         order.setOrderAmount(qianHaiOrder.getOrderAmount());
-        order.setPartnerOrderId(qianHaiOrder.getOrderNumber());
+        order.setPartnerOrderId(qianHaiOrder.getPartnerOrderId());
         order.setProposerCredentialsNum(qianHaiOrder.getProposerCredentialsNum());
         order.setProposerCredentialsType(qianHaiOrder.getProposerCredentialsType());
         order.setProposerName(qianHaiOrder.getProposerName());
