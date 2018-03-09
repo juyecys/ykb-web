@@ -1,12 +1,14 @@
 package cn.com.yikangbao.service.partner.qianhai.impl;
 
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
+import cn.com.yikangbao.entity.insure.Insure;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
+import cn.com.yikangbao.service.insure.InsureService;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
@@ -40,6 +42,9 @@ public class QianhaiServiceimpl implements QianhaiService {
     @Autowired
     private OrderRecordService orderRecordService;
 
+    @Autowired
+    private InsureService insureService;
+
     @Value("${qianhai.insure.url}")
     private String QIAN_HAI_INSURE_URL;
 
@@ -66,6 +71,12 @@ public class QianhaiServiceimpl implements QianhaiService {
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
         logger.debug("create questionnaireList: {}", questionnaireList);
         questionnaireService.createByList(questionnaireList, order);
+
+        Insure insure = new Insure();
+        insure.setUserId(order.getUserId());
+        insure = insureService.findOneByCondition(insure);
+        insure.setO
+        insureService.createOrUpdate(insure);
     }
 
     @Override

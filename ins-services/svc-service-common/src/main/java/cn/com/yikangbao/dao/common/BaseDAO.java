@@ -17,4 +17,5 @@ public interface BaseDAO<M,QM>{
 	List<QM> findByConditionPage(QM qm);
 
 	QM findOneByCondition(QM qm);
+
 }

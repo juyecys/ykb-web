@@ -206,27 +206,6 @@ public class Order extends Base{
         }
     }
 
-    public enum RelationEnum {
-        SELF("本人")
-        ,SPOUSE("配偶")
-        ,RELATIVE("亲属")
-        ,OTHER("其他");
-
-        private String description;
-
-        RelationEnum(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-    }
-
     public String getProposerName() {
         return proposerName;
     }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/1/16.
@@ -46,6 +47,7 @@ public class PublicAdminUserController {
         }
         UserDTO userDTO = new UserDTO();
         userDTO.setName(user.getName());
+        userDTO.setEnabled(true);
         user = userService.findOneByCondition(userDTO);
         if (user == null) {
             return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_NOT_FOUND, "不存在该用户"), HttpStatus.OK);
@@ -61,5 +63,11 @@ public class PublicAdminUserController {
             return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
         }
         return new ResponseEntity<>(ApiResult.error(ApiCodes.STATUS_WRONG_OLD_PASSWORD, "密码错误"), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public void test(@RequestBody List<String> openid) {
+
     }
 }

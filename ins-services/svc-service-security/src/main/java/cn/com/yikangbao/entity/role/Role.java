@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.role;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -14,12 +15,16 @@ public class Role extends Base implements Serializable {
 
     private static final long serialVersionUID = -1754515800616175611L;
 
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("description")
     private String description;
 
+    @JsonProperty("isActive")
     private Boolean isActive;
 
+    @JsonProperty("code")
     private String code;
 
     public static enum RoleCodeEnum {

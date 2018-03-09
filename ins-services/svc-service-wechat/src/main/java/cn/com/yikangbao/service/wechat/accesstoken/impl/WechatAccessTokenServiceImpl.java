@@ -41,7 +41,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		if (jedis == null) {
 			logger.error("Redis is not rechable");
 		}
-
+		logger.debug("start to get accessToken");
 		try {
 			do {
 				Long accessTokenExpired = jedis.ttl(WechatConfigParams.ACCESS_TOKEN_KEY);
@@ -94,15 +94,16 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 		Response response = null;
 		WechatAccessToken wechatAccessToken = null;
+		logger.debug("get access token from wechat start:{}", url);
 		try {
 			response = OkHttpUtils.get().url(url)
 					.build().execute();
 
 			String result = response.body().string();
 			wechatAccessToken = mapper.readValue(result, WechatAccessToken.class);
-			logger.debug("get wechat access token suucess:{}", wechatAccessToken);
+			logger.debug("get access token from wechat success:{}", wechatAccessToken);
 			if (wechatAccessToken.getAccessToken() == null) {
-				logger.error("get wechat access token error, errcode:{},errmsg:{}", wechatAccessToken.getErrcode(),wechatAccessToken.getErrmsg());
+				logger.error("get access token from wechat error, errcode:{},errmsg:{}", wechatAccessToken.getErrcode(),wechatAccessToken.getErrmsg());
 				return null;
 			}
 
@@ -157,20 +158,5 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 	}
 
 	public static void main(String[] args) {
-		/*String url = "https://api.weixin.qq.com/cgi-bin/token";
-		try {
-			Response response = OkHttpUtils.get().url(url)
-					.addParams("grant_type","client_credential")
-					.addParams("appid","wx51e37306f30d52a9")
-					.addParams("secret","07f0af046496ce6d6e5bc8f98ec75f65")
-					.build().execute();
-			WechatAccessToken wechatAccessToken = null;
-			wechatAccessToken = mapper.readValue(response.body().string(), WechatAccessToken.class);
-			System.out.println(wechatAccessToken);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		Long s = System.currentTimeMillis()/1000;
-		System.out.println(s);
 	}
 }

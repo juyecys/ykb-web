@@ -16,27 +16,36 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY )
 public class Insure extends Base {
-    @JsonProperty("insurance_amount")
+    /**
+     * 保障金额
+     */
+    @JsonProperty("insuranceAmount")
     private Long insuranceAmount;
 
     @JsonProperty("birthday")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date birthday;
 
-    @JsonProperty("hospital_name")
+    @JsonProperty("hospitalName")
     private String hospitalName;
 
-    @JsonProperty("hospital_id")
+    @JsonProperty("hospitalId")
     private String hospitalId;
 
     /**
      * 保费
      */
-    @JsonProperty("order_amount")
+    @JsonProperty("orderAmount")
     private Long orderAmount;
 
-    @JsonProperty("user_id")
+    @JsonProperty("userId")
     private String userId;
+
+    @JsonProperty("orderId")
+    private String orderId;
+
+    @JsonProperty("partnerOrderId")
+    private String partnerOrderId;
 
     public Long getInsuranceAmount() {
         return insuranceAmount;
@@ -86,6 +95,22 @@ public class Insure extends Base {
         this.userId = userId;
     }
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPartnerOrderId() {
+        return partnerOrderId;
+    }
+
+    public void setPartnerOrderId(String partnerOrderId) {
+        this.partnerOrderId = partnerOrderId;
+    }
+
     @Override
     public String toString() {
         return "Insure{" +
@@ -95,6 +120,9 @@ public class Insure extends Base {
                 ", hospitalId='" + hospitalId + '\'' +
                 ", orderAmount=" + orderAmount +
                 ", userId='" + userId + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", partnerOrderId='" + partnerOrderId + '\'' +
                 '}';
     }
+
 }

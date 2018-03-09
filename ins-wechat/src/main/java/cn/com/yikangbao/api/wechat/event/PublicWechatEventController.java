@@ -48,6 +48,7 @@ public class PublicWechatEventController {
         try {
             HashMap<String, Object> data = Dom4jUtils.readXml(inputStream);
             wechatEventService.processEvent(data);
+            logger.debug("微信事件处理结束");
             out.print("");
         } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error("read xml error: {}", e);

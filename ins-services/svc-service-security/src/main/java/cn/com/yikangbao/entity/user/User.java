@@ -1,6 +1,7 @@
 package cn.com.yikangbao.entity.user;
 
 import cn.com.yikangbao.entity.common.Base;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,28 +31,26 @@ public class User extends Base implements Serializable, UserDetails {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("is_active")
-    private Boolean isActive;
-
     @JsonProperty("type")
-    private String type;
+    private final String type = "ADMIN";
 
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("expire_date")
+    @JsonProperty("expireDate")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date expireDate;
 
     @JsonProperty("enabled")
     private Boolean enabled;
 
+    @JsonProperty("roleId")
+    private String roleId;
+
     List<GrantedAuthority> grantedAuthorities;
 
     public static enum TypeEnum {
         ADMIN, USER
-    }
-
-    public User() {
     }
 
     @Override
@@ -104,20 +103,9 @@ public class User extends Base implements Serializable, UserDetails {
         this.password = password;
     }
 
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDescription() {
@@ -148,16 +136,24 @@ public class User extends Base implements Serializable, UserDetails {
         this.grantedAuthorities = grantedAuthorities;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", isActive=" + isActive +
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", expireDate=" + expireDate +
                 ", enabled=" + enabled +
+                ", roleId='" + roleId + '\'' +
                 ", grantedAuthorities=" + grantedAuthorities +
                 '}';
     }

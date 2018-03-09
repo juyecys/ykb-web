@@ -6,11 +6,11 @@
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount
-			, user_id, birthday, user_id)
+			, user_id, birthday, order_id, partner_order_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{userId})
+	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId})
 	</insert>
 
 	<update id="update" parameterType="InsureM">
@@ -36,6 +36,12 @@
 			</if>
 			<if test="birthday != null">
 				birthday = #{birthday},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId},
+			</if>
+			<if test="partnerOrderId != null">
+				partner_order_id = #{partnerOrderId},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -68,6 +74,7 @@
 		FROM
 		<include refid="from_insure" />
 		<include refid="sql_where" />
+		ORDER BY created_date DESC
 		LIMIT 1
 	</select>
 

@@ -8,6 +8,8 @@ import cn.com.yikangbao.dao.resource.ResourceDAO;
 import cn.com.yikangbao.dao.role.RoleDAO;
 import cn.com.yikangbao.entity.resource.Resource;
 import cn.com.yikangbao.entity.role.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -19,9 +21,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
-//import org.springframework.security.web.util.AntUrlPathMatcher;
-//import org.springframework.security.web.util.UrlMatcher;
 
 
 /*
@@ -42,6 +41,8 @@ public class MyInvocationSecurityMetadataSourceService implements
 
     private ResourceDAO resourceDAO;
     private RoleDAO roleDAO;
+
+    private Logger logger = LoggerFactory.getLogger(MyInvocationSecurityMetadataSourceService.class);
 
 //    private RequestMatcher urlMatcher = new AntPathRequestMatcher();
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
@@ -90,8 +91,12 @@ public class MyInvocationSecurityMetadataSourceService implements
         Iterator<String> ite = resourceMap.keySet().iterator();
         while (ite.hasNext()) {
             String resURL = ite.next();
+            logger.debug("res url: {}", resURL);
+
             RequestMatcher requestMatcher = new AntPathRequestMatcher(resURL);
+
             if (requestMatcher.matches(request)) {
+                logger.debug("抓取到url");
                 return resourceMap.get(resURL);
             }
         }

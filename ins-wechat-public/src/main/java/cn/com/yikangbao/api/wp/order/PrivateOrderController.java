@@ -1,6 +1,7 @@
 package cn.com.yikangbao.api.wp.order;
 
 import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.service.order.OrderService;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class PrivateOrderController {
     private OrderService orderService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getOrders(OrderDTO orderDTO) {
+        orderDTO.setUserId(WechatContextHolder.getUserId().toString());
         List<OrderDTO> orders = orderService.findByCondition(orderDTO);
         return new ResponseEntity<>(ApiResult.success(orders), HttpStatus.OK);
     }

@@ -42,6 +42,11 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-channel</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-order</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ins-admin</finalName>

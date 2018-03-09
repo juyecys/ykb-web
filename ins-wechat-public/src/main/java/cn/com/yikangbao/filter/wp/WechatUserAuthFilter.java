@@ -40,6 +40,7 @@ public class WechatUserAuthFilter implements Filter {
         }
         WechatContextHolder.setOpenId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_OPENID));
         WechatContextHolder.setNickName((String) req.getSession().getAttribute(WechatPublicContants.SESSION_NICKNAME));
+        WechatContextHolder.setUserName((String) req.getSession().getAttribute(WechatPublicContants.SESSION_NICKNAME));
         WechatContextHolder.setUserId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_USERID));
         WechatContextHolder.setUnionId((String) req.getSession().getAttribute(WechatPublicContants.SESSION_UNIONID));
         logger.debug("verify wechat user auth success,openid:{},nickname:{},userId:{},unionId:{} ",WechatContextHolder.getOpenId(),

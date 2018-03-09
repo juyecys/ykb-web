@@ -10,14 +10,39 @@
 			, parent_menu_code)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{name}, #{code}, #{sequence}, #{isParentMenu}, #{resourceId}, #{resrouce}
+	  		, #{name}, #{code}, #{sequence}, #{isParentMenu}, #{resourceId}, #{resource}
 	  		, #{parentMenuCode})
 	</insert>
 
 	<update id="update" parameterType="MenuM">
-		UPDATE ykb_menu SET
-		updated_date = #{updatedDate} , updated_by = #{updatedBy}, name = #{name},
-		, sequence = #{sequence}, is_parent_menu =  #{isParentMenu}, resource_id =  #{resourceId}, resource =  #{resource}, parent_menu_code =  #{parentMenuCode}
+		UPDATE ykb_menu
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
+			<if test="isParentMenu != null">
+				is_parent_menu = #{isParentMenu},
+			</if>
+			<if test="resourceId != null">
+				resource_id = #{resourceId},
+			</if>
+			<if test="resource != null">
+				resource = #{resource},
+			</if>
+			<if test="parentMenuCode != null">
+				parent_menu_code = #{parentMenuCode},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by =  #{updatedBy},
+			</if>
+		</set>
+		WHERE id = #{id}
 	</update>
 
 

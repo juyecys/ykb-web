@@ -6,15 +6,15 @@
 
 	<http pattern="/ykb/mg/public/**" security="none" />
 
-	<http auto-config="false" pattern="/ykb/mg/private/**" entry-point-ref="restApiAuthEntryPoint"
+	<http auto-config="true" entry-point-ref="restApiAuthEntryPoint"
 		  use-expressions="true">
 		<form-login authentication-success-handler-ref="restApiAuthSuccessHandler"
 					authentication-failure-handler-ref="restApiAuthFailureHandler" />
-		<intercept-url pattern="/ykb/mg/private/resource/menus" access="isAuthenticated()" />
-		<intercept-url pattern="/ykb/mg/private/resource/**" access="permitAll()" />
+		<!--<intercept-url pattern="/ykb/mg/private/resource/menus" access="isAuthenticated()" />-->
+		<!--<intercept-url pattern="/ykb/mg/private/resource/**" access="permitAll()" />-->
 		<!-- 保证对/rest/ 后台接口的调用必须是已经验证的 -->
-		<intercept-url pattern="/ykb/mg/private/**" access="isAuthenticated()" />
 
+		<intercept-url pattern="/ykb/mg/private/**" access="isAuthenticated()" />
 		<remember-me remember-me-parameter="rememberMe" />
 		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 	</http>

@@ -23,9 +23,36 @@
 	</insert>
 
 	<update id="update" parameterType="RoleM">
-		UPDATE ykb_role SET
-		name = #{name}, description = #{description}, is_active = #{isActive}, code = #{code}
-		, updated_date = #{updatedDate}, updated_by =  #{updatedBy}
+		UPDATE ykb_role
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by =  #{updatedBy},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="isActive != null">
+				is_active = #{isActive},
+			</if>
+			<if test="code != null">
+				code = #{code},
+			</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="RoleM">
+		DELETE FROM ykb_role
 		where id = #{id}
 	</update>
 
@@ -52,6 +79,15 @@
 	<select id="findByCondition" resultMap="RoleResultMap">
 		SELECT  *
 		<include refid="from_role" />
+		<include refid="sql_where" />
 	</select>
+
+	<select id="findByConditionPage" resultMap="RoleResultMap">
+		SELECT  *
+		<include refid="from_role" />
+		<include refid="sql_where" />
+	</select>
+
+
 </mapper>
 

@@ -13,11 +13,21 @@ import java.io.Serializable;
 public class UserDTO extends User implements Serializable {
     private static final long serialVersionUID = 3930220600362884579L;
 
-    @JsonProperty("role_id")
+    @JsonProperty("roleId")
     private String roleId;
 
-    @JsonProperty("role_name")
+    @JsonProperty("roleName")
     private String roleName;
+
+    @JsonProperty("roleDescription")
+    private String roleDescription;
+
+    @JsonProperty("roleIsActive")
+    private Boolean roleIsActive;
+
+    @JsonProperty("roleCode")
+    private String roleCode;
+
 
     public String getRoleId() {
         return roleId;
@@ -35,11 +45,43 @@ public class UserDTO extends User implements Serializable {
         this.roleName = roleName;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
+
+    public Boolean getRoleIsActive() {
+        return roleIsActive;
+    }
+
+    public void setRoleIsActive(Boolean roleIsActive) {
+        this.roleIsActive = roleIsActive;
+    }
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
+
+
     @Override
     public String toString() {
-        return super.toString() + "UserDTO{" +
+        return "UserDTO{" +
                 "roleId='" + roleId + '\'' +
                 ", roleName='" + roleName + '\'' +
+                ", roleDescription='" + roleDescription + '\'' +
+                ", roleIsActive=" + roleIsActive +
+                ", roleCode='" + roleCode + '\'' +
                 '}';
     }
 }

@@ -30,18 +30,20 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Menu> implements Menu
     public Menu createOrUpdate(Menu menu) throws Exception {
         if (menu.getId() == null) {
             Resource resource = new Resource();
-            resource.setResource(menu.getResrouce());
+            resource.setResource(menu.getResource());
             resource.setType(Resource.TypeEnum.MENU.name());
             resource = resourceService.createOrUpdate(resource);
             menu.setResourceId(resource.getId());
-            return create(menu);
+            menu = create(menu);
+            return findOneByCondition(menu);
         } else {
             Resource resource = new Resource();
             resource.setId(menu.getResourceId());
-            resource.setResource(menu.getResrouce());
+            resource.setResource(menu.getResource());
             resource = resourceService.createOrUpdate(resource);
             resourceService.createOrUpdate(resource);
-            return update(menu);
+            menu = update(menu);
+            return findOneByCondition(menu);
         }
     }
 }

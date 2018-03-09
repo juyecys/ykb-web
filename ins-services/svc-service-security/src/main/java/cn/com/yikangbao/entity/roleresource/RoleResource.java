@@ -1,16 +1,24 @@
 package cn.com.yikangbao.entity.roleresource;
 
 import cn.com.yikangbao.entity.common.Base;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/1/18.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RoleResource extends Base implements Serializable {
     private static final long serialVersionUID = 3398623423650797577L;
 
+    @JsonProperty("roleId")
     private String roleId;
+
+    @JsonProperty("resourceId")
     private String resourceId;
 
     public String getRoleId() {

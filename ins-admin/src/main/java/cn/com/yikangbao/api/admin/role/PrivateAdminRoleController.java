@@ -7,10 +7,7 @@ import cn.com.yikangbao.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,16 +22,21 @@ public class PrivateAdminRoleController {
     private RoleService roleService;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> addRole(@RequestBody Role role) {
-        role.setCode(Role.RoleCodeEnum.ROLE_ADMIN.name());
-        roleService.create(role);
-        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
+    public ResponseEntity<ApiResult> createOrUpdateRole(@RequestBody Role role) throws Exception {
+        role = roleService.createOrUpdate(role);
+        return new ResponseEntity<>(ApiResult.success(role), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getPage(Role role) {
         Page<Role> page = roleService.findByConditionPage(role);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> createOrUpdateRole(@RequestParam("id") String id) throws Exception {
+        roleService.deleteById(id);
+        return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)

@@ -1,20 +1,17 @@
 package cn.com.yikangbao.service.user.impl;
 
 
-import cn.com.yikangbao.dao.userrole.UserRoleDAO;
+import cn.com.yikangbao.dao.user.UserDAO;
 import cn.com.yikangbao.entity.user.User;
 import cn.com.yikangbao.entity.user.UserDTO;
-import cn.com.yikangbao.entity.userrole.UserRole;
-import cn.com.yikangbao.entity.userrole.UserRoleDTO;
 import cn.com.yikangbao.service.common.impl.BaseServiceImpl;
+import cn.com.yikangbao.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import cn.com.yikangbao.dao.user.UserDAO;
-import cn.com.yikangbao.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +25,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO> implements U
     private UserDAO dao;
 
     @Autowired
-    private UserRoleDAO userRoleDAO;
-
-    @Autowired
     public void setDao(UserDAO dao) {
         this.dao = dao;
         super.setDAO(dao);
@@ -38,28 +32,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO> implements U
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = new User();
+        UserDTO user = new UserDTO();
         user.setName(username);
         user = dao.findOneByCondition(user);
 
-        UserRoleDTO userRoleDTO = new UserRoleDTO();
+       /* UserRoleDTO userRoleDTO = new UserRoleDTO();
         userRoleDTO.setUserName(username);
-        List<UserRoleDTO> userRoleList = userRoleDAO.findByCondition(userRoleDTO);
+        List<UserRoleDTO> userRoleList = userRoleDAO.findByCondition(userRoleDTO);*/
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 
-        for (UserRoleDTO userRole: userRoleList) {
-            list.add(new SimpleGrantedAuthority(userRole.getRoleCode()));
-        }
+
+        list.add(new SimpleGrantedAuthority(user.getRoleCode()));
+
         user.setGrantedAuthorities(list);
         return user;
     }
-    @Override
-    public User createOrUpdate(User entity) throws Exception {
-        if (entity.getId() == null) {
-            UserRole userRole = new UserRole();
-            //userRole.setRoleId(entity.getR);
-            return create(entity);
-        }
-        return update(entity);
-    }
+
 }

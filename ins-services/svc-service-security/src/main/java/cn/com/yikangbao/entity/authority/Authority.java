@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.authority;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -17,16 +18,21 @@ public class Authority extends Base implements Serializable{
 
     private static final long serialVersionUID = 1994186453740994244L;
 
+    @JsonProperty("sequence")
     private String resourceId;
 
+    @JsonProperty("roleId")
     private String roleId;
     /**
      * 是否为父级菜单
      */
+    @JsonProperty("isParentMenu")
     private Boolean isParentMenu;
 
+    @JsonProperty("menuCode")
     private String menuCode;
 
+    @JsonProperty("parentMenuCode")
     private String parentMenuCode;
 
     public String getRoleId() {

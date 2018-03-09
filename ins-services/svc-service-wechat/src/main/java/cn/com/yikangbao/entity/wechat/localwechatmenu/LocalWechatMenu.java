@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.wechat.localwechatmenu;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 /**
@@ -12,18 +13,27 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LocalWechatMenu extends Base {
+    @JsonProperty("name")
     private String name;
-
+    @JsonProperty("url")
     private String url;
-
+    @JsonProperty("type")
     private String type;
+    @JsonProperty("level")
     private Integer level;
+    @JsonProperty("sequence")
     private Integer sequence;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("content")
     private String content;
+    @JsonProperty("imgUrl")
     private String imgUrl;
+    @JsonProperty("parentId")
     private String parentId;
+    @JsonProperty("parentName")
     private String parentName;
+    @JsonProperty("key")
     private String key;
 
     public static enum WechatMenuTypeEnum {

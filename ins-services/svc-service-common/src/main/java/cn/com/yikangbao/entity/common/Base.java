@@ -27,6 +27,7 @@ public class Base implements Serializable {
      * 排序列表
      */
     private List<Order> orders;
+
     public String getId() {
         return id;
     }

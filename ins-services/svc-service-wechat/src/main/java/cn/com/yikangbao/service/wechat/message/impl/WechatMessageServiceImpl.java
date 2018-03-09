@@ -6,14 +6,18 @@ import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.message.WechatCustomMessage;
+import cn.com.yikangbao.entity.wechat.message.WechatTemplateMessage;
 import cn.com.yikangbao.entity.wechat.result.WechatCommonResult;
 import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
+import cn.com.yikangbao.untils.common.FileUtils;
 import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,5 +178,49 @@ public class WechatMessageServiceImpl implements WechatMessageService {
             list.add(article);
         }
         return list;
+    }
+
+    public static void main(String[] args) throws IOException {
+        //System.out.println(data);
+        String[] dataArr = FileUtils.readFileAsString("C:\\Users\\Administrator\\Desktop\\openIdList.json").split(",");
+        //System.out.println(dataArr.toString());
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=7_As0Xx_njdhgXoxk82w3iX3s4heAAlGoXMjqAE8YiCnPJ0SKWgjCc_0RoKCT_sB-L5D6uyqBk-0UMrrX46vUgfu8Cknr9xx9_1SFye3jTSBucBoDueEOk8pcE1cwV341tq_fwUqfg-ShYI2BoOQCaAAAWYK";
+        WechatTemplateMessage wechatTemplateMessage = new WechatTemplateMessage();
+        WechatTemplateMessage.Data data = wechatTemplateMessage.new Data();
+        WechatTemplateMessage.DataContent first = wechatTemplateMessage.new DataContent();
+        WechatTemplateMessage.DataContent keyword1 = wechatTemplateMessage.new DataContent();
+        WechatTemplateMessage.DataContent keyword2 = wechatTemplateMessage.new DataContent();
+        WechatTemplateMessage.DataContent keyword3 = wechatTemplateMessage.new DataContent();
+
+
+        first.setValue("橙医生联合了21名三甲医院名医开展心脑微课堂，准备好小板凳速度进场吧~\n");
+        keyword1.setValue("多学点心脑健康知识，让你多活10年");
+        keyword2.setValue("3月9日 18:00");
+        keyword3.setValue("橙医生心脑课堂");
+
+        data.setFirst(first);
+        data.setKeyword1(keyword1);
+        data.setKeyword2(keyword2);
+        data.setKeyword3(keyword3);
+        wechatTemplateMessage.setTemplateId("hjVDgLDjDYqZgywplHM8Bz1nl1YIxfWOlS3T0laaY8k");
+
+        wechatTemplateMessage.setData(data);
+        wechatTemplateMessage.setUrl("http://weike.fm/sXiKA3");
+
+        for (int i = 44661; i < dataArr.length ; i++) {
+            try {
+                String one = dataArr[i].replaceAll("\"", "");
+                wechatTemplateMessage.setTouser(one);
+                String dataJson = mapper.writeValueAsString(wechatTemplateMessage);
+                //System.out.println(dataJson);
+                String result = OkHttpUtils.postString().url(url)
+                        .content(dataJson)
+                        .build().execute().body().string();
+                System.out.println(result + ",count: "+ i + ",openid: " + one);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

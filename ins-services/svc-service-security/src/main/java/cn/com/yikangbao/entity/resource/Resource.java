@@ -3,6 +3,7 @@ package cn.com.yikangbao.entity.resource;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -16,9 +17,13 @@ import java.io.Serializable;
 public class Resource extends Base implements Serializable {
     private static final long serialVersionUID = 9107301064993142032L;
 
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("type")
     private String type;
+    @JsonProperty("resource")
     private String resource;
+    @JsonProperty("description")
     private String description;
 
     public static enum TypeEnum {
