@@ -28,6 +28,7 @@ public class QianHaiOrderUtils {
         order.setProposerCredentialsType(qianHaiOrder.getProposerCredentialsType());
         order.setProposerName(qianHaiOrder.getProposerName());
         order.setProposerPhone(qianHaiOrder.getProposerPhone());
+        order.setPolicyNumber(qianHaiOrder.getPolicyNumber());
         order.setRelation(qianHaiOrder.getRelation());
         order.setStatus(qianHaiOrder.getStatus());
         order.setUserId(qianHaiOrder.getUserId());
