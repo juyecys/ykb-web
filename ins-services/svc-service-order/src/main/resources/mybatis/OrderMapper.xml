@@ -193,6 +193,7 @@
 		FROM
 		<include refid="from_order" />
 		<include refid="sql_where" />
+		ORDER BY o.created_date DESC
 	</select>
 
 	<!--需要同步状态的订单-->

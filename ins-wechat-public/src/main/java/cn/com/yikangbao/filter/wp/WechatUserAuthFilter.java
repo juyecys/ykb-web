@@ -4,6 +4,7 @@ import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -46,6 +47,8 @@ public class WechatUserAuthFilter implements Filter {
         logger.debug("verify wechat user auth success,openid:{},nickname:{},userId:{},unionId:{} ",WechatContextHolder.getOpenId(),
                 WechatContextHolder.getNickName(), WechatContextHolder.getUserId(), WechatContextHolder.getUnionId());
         chain.doFilter(request, response);
+        WechatContextHolder.clear();
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     @Override
