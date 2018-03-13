@@ -131,6 +131,9 @@
 			<if test="partnerOrderId != null">
 				and o.partner_order_id = #{partnerOrderId}
 			</if>
+			<if test="userId != null">
+				and o.user_id = #{userId}
+			</if>
 		</where>
 	</sql>
 
