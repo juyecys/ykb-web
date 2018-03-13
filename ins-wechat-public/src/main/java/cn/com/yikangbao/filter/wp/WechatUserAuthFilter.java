@@ -48,7 +48,6 @@ public class WechatUserAuthFilter implements Filter {
                 WechatContextHolder.getNickName(), WechatContextHolder.getUserId(), WechatContextHolder.getUnionId());
         chain.doFilter(request, response);
         WechatContextHolder.clear();
-        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     @Override

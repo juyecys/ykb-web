@@ -42,5 +42,7 @@ public class AdminAuthEndpointFilter extends GenericFilterBean {
         }
         CommonContextHolder.setUserName(userName);
         chain.doFilter(request, response);
+        CommonContextHolder.clear();
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 }
