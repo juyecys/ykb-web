@@ -76,7 +76,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         insure.setUserId(order.getUserId());
         insure.setOrderId(order.getId());
         insure.setPartnerOrderId(order.getPartnerOrderId());
-        insureService.createOrUpdate(insure);
+        insureService.update(insure);
     }
 
     @Override
