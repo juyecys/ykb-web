@@ -26,7 +26,6 @@ public class PublicHospitalController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getHospital(HospitalDTO hospitalDTO) {
         List<HospitalDTO> hospitalList = hospitalService.findByCondition(hospitalDTO);
-        logger.info("{}", hospitalList);
         return new ResponseEntity<>(ApiResult.success(hospitalList), HttpStatus.OK);
     }
 }
