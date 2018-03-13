@@ -72,9 +72,9 @@
 			  class="cn.com.yikangbao.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
 			<property name="locations">
 				<list>
-					<value>file:${commonProperties}</value>
-					<value>file:${wpProperties}</value>
-					<value>file:${configPartnerProperties}</value>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:wechat-public-prod.properties</value>
+					<value>classpath*:config-partner-prod.properties</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
