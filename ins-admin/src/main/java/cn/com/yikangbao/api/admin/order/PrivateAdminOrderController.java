@@ -26,8 +26,8 @@ public class PrivateAdminOrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getPage(OrderDTO order) {
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> getPage(@RequestBody OrderDTO order) {
         Page<OrderDTO> page = orderService.findByConditionPage(order);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }

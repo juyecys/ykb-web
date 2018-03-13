@@ -26,6 +26,9 @@ public class Insure extends Base {
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date birthday;
 
+    @JsonProperty("age")
+    private Integer age;
+
     @JsonProperty("hospitalName")
     private String hospitalName;
 
@@ -41,11 +44,22 @@ public class Insure extends Base {
     @JsonProperty("userId")
     private String userId;
 
+    @JsonProperty("openId")
+    private String openId;
+
     @JsonProperty("orderId")
     private String orderId;
 
     @JsonProperty("partnerOrderId")
     private String partnerOrderId;
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public Long getInsuranceAmount() {
         return insuranceAmount;
@@ -111,11 +125,20 @@ public class Insure extends Base {
         this.partnerOrderId = partnerOrderId;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     @Override
     public String toString() {
         return "Insure{" +
                 "insuranceAmount=" + insuranceAmount +
                 ", birthday=" + birthday +
+                ", age=" + age +
                 ", hospitalName='" + hospitalName + '\'' +
                 ", hospitalId='" + hospitalId + '\'' +
                 ", orderAmount=" + orderAmount +

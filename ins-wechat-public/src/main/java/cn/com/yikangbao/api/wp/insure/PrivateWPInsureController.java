@@ -4,6 +4,7 @@ import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.config.common.WechatContextHolder;
 import cn.com.yikangbao.entity.insure.Insure;
 import cn.com.yikangbao.service.insure.InsureService;
+import cn.com.yikangbao.untils.common.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 /**
  * Created by jeysine on 2018/2/28.
@@ -29,6 +32,10 @@ public class PrivateWPInsureController {
     public ResponseEntity<ApiResult> createInsure(@RequestBody Insure insure) throws Exception {
         if (WechatContextHolder.getUserId() != null) {
             insure.setUserId(WechatContextHolder.getUserId().toString());
+            insure.setOpenId(WechatContextHolder.getOpenId());
+        }
+        if (Objects.nonNull(insure.getBirthday())) {
+            insure.setAge(DateUtils.getAgeByBirthday(insure.getBirthday()));
         }
         insure = insureService.createOrUpdate(insure);
         return new ResponseEntity<>(ApiResult.success(insure), HttpStatus.OK);

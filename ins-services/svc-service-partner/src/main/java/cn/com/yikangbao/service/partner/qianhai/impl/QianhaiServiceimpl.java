@@ -2,6 +2,7 @@ package cn.com.yikangbao.service.partner.qianhai.impl;
 
 import cn.com.yikangbao.config.partner.PartnerSecretKeyConfig;
 import cn.com.yikangbao.entity.insure.Insure;
+import cn.com.yikangbao.entity.insure.InsureDTO;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
@@ -14,6 +15,7 @@ import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
 import cn.com.yikangbao.untils.common.DateUtils;
+import cn.com.yikangbao.untils.common.IDCardUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.StringUtil;
 import cn.com.yikangbao.untils.common.okhttputil.OkHttpUtils;
@@ -65,6 +67,8 @@ public class QianhaiServiceimpl implements QianhaiService {
         order.setChannel(Order.ChannelEnum.QIAN_HAI.name());
         order.setName("试管婴儿保险");
         order.setOrderNumber(StringUtil.numRandom(12));
+        order.setProposerAge(IDCardUtils.getAgeByIdCard(order.getProposerCredentialsNum()));
+        order.setInsuredAge(IDCardUtils.getAgeByIdCard(order.getInsuredCredentialsNum()));
         logger.debug("create order: {}", order);
         order = orderService.create(order);
         createOrderRecord(order);
@@ -72,7 +76,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         logger.debug("create questionnaireList: {}", questionnaireList);
         questionnaireService.createByList(questionnaireList, order);
 
-        Insure insure = new Insure();
+        InsureDTO insure = new InsureDTO();
 
         insure.setUserId(order.getUserId());
         insure = insureService.findOneByCondition(insure);

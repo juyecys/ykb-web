@@ -6,11 +6,11 @@
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount
-			, user_id, birthday, order_id, partner_order_id)
+			, user_id, birthday, order_id, partner_order_id, age, open_id)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId})
+	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId}, #{age}, #{openId})
 	</insert>
 
 	<update id="update" parameterType="InsureM">
@@ -58,12 +58,20 @@
 	<sql id="from_insure">
 		ykb_insure i
 	</sql>
+	<sql id="join_wechat_user">
+		LEFT JOIN ykb_wechat_user wu on i.user_id = wu.id
+	</sql>
+	<sql id="join_hospital">
+		LEFT JOIN ykb_hospital h on i.hospital_id = h.id
+	</sql>
 
 	<select id="findByConditionPage" resultType="InsureM">
 		SELECT
-		i.*
+		i.*, wu.open_id, h.hospital_name
 		FROM
 		<include refid="from_insure" />
+		<include refid="join_wechat_user" />
+		<include refid="join_hospital" />
 		<include refid="sql_where" />
 	    ORDER BY i.created_date DESC
 	</select>

@@ -28,6 +28,9 @@ public class Order extends Base{
     @JsonProperty("proposerName")
     private String proposerName;
 
+    @JsonProperty("proposerAge")
+    private Integer proposerAge;
+
     /**
      * 投保人证件类型
      */
@@ -47,10 +50,16 @@ public class Order extends Base{
     private String proposerPhone;
 
     /**
-     * 被保人项目
+     * 被保人姓名
      */
     @JsonProperty("insuredName")
     private String insuredName;
+
+    /**
+     * 被保人年龄
+     */
+    @JsonProperty("insuredAge")
+    private Integer insuredAge;
 
     /**
      * 被保人证件类型
@@ -406,15 +415,34 @@ public class Order extends Base{
         this.partnerOrderId = partnerOrderId;
     }
 
+
+    public Integer getProposerAge() {
+        return proposerAge;
+    }
+
+    public void setProposerAge(Integer proposerAge) {
+        this.proposerAge = proposerAge;
+    }
+
+    public Integer getInsuredAge() {
+        return insuredAge;
+    }
+
+    public void setInsuredAge(Integer insuredAge) {
+        this.insuredAge = insuredAge;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "name='" + name + '\'' +
                 ", proposerName='" + proposerName + '\'' +
+                ", proposerAge='" + proposerAge + '\'' +
                 ", proposerCredentialsType='" + proposerCredentialsType + '\'' +
                 ", proposerCredentialsNum='" + proposerCredentialsNum + '\'' +
                 ", proposerPhone='" + proposerPhone + '\'' +
                 ", insuredName='" + insuredName + '\'' +
+                ", insuredAge='" + insuredAge + '\'' +
                 ", insuredCredentialsType='" + insuredCredentialsType + '\'' +
                 ", insuredCredentialsNum='" + insuredCredentialsNum + '\'' +
                 ", insuredPhone='" + insuredPhone + '\'' +

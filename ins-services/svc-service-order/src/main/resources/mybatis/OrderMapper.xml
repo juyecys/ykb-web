@@ -7,12 +7,13 @@
 			ykb_order (id, created_by, created_date, updated_date, updated_by,
 			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
 			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
-			,user_id, status, insurance_start_date, insurance_end_date, channel, order_date, name, partner_order_id)
+			,user_id, status, insurance_start_date, insurance_end_date, channel, order_date, name, partner_order_id, proposer_age, insured_age)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
 	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}, #{channel}, #{orderDate}, #{name}, #{partnerOrderId})
+	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}
+	  		, #{channel}, #{orderDate}, #{name}, #{partnerOrderId}, #{proposerAge}, #{insuredAge})
 	</insert>
 
 	<update id="update" parameterType="OrderM">
@@ -81,6 +82,12 @@
 			<if test="insuranceEndDate != null">
 				insurance_end_date = #{insuranceEndDate},
 			</if>
+			<if test="proposerAge != null">
+				proposer_age = #{proposerAge},
+			</if>
+			<if test="insuredAge != null">
+				insured_age = #{insuredAge},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -141,11 +148,16 @@
 		ykb_order o
 	</sql>
 
+	<sql id="join_wechat_user">
+		LEFT JOIN ykb_wechat_user wu on o.user_id = wu.id
+	</sql>
+
 	<select id="findByConditionPage" resultType="OrderQM">
 		SELECT
-		o.*
+		o.*, wu.nick_name
 		FROM
 		<include refid="from_order" />
+		<include refid="join_wechat_user" />
 		<include refid="sql_where" />
 	    ORDER BY o.created_date DESC
 	</select>
