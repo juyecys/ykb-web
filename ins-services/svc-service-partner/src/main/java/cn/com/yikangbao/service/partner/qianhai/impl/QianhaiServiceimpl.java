@@ -73,10 +73,14 @@ public class QianhaiServiceimpl implements QianhaiService {
         questionnaireService.createByList(questionnaireList, order);
 
         Insure insure = new Insure();
+
         insure.setUserId(order.getUserId());
-        insure.setOrderId(order.getId());
-        insure.setPartnerOrderId(order.getPartnerOrderId());
-        insureService.update(insure);
+        insure = insureService.findOneByCondition(insure);
+        if (insure.getOrderId() == null) {
+            insure.setOrderId(order.getId());
+            insure.setPartnerOrderId(order.getPartnerOrderId());
+            insureService.update(insure);
+        }
     }
 
     @Override
