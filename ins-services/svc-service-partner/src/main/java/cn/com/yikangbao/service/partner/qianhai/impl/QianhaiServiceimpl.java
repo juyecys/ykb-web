@@ -69,6 +69,8 @@ public class QianhaiServiceimpl implements QianhaiService {
         order.setOrderNumber(StringUtil.numRandom(12));
         order.setProposerAge(IDCardUtils.getAgeByIdCard(order.getProposerCredentialsNum()));
         order.setInsuredAge(IDCardUtils.getAgeByIdCard(order.getInsuredCredentialsNum()));
+        order.setProposerGender(IDCardUtils.getGenderByIdCard(order.getProposerCredentialsNum()));
+        order.setInsuredGender(IDCardUtils.getGenderByIdCard(order.getInsuredCredentialsNum()));
         logger.debug("create order: {}", order);
         order = orderService.create(order);
         createOrderRecord(order);
@@ -76,11 +78,13 @@ public class QianhaiServiceimpl implements QianhaiService {
         logger.debug("create questionnaireList: {}", questionnaireList);
         questionnaireService.createByList(questionnaireList, order);
 
-        InsureDTO insure = new InsureDTO();
+        InsureDTO insureDTO = new InsureDTO();
 
-        insure.setUserId(order.getUserId());
-        insure = insureService.findOneByCondition(insure);
-        if (insure.getOrderId() == null) {
+        insureDTO.setUserId(order.getUserId());
+        insureDTO = insureService.findOneByCondition(insureDTO);
+        if (insureDTO.getOrderId() == null) {
+            Insure insure = new Insure();
+            insure.setId(insureDTO.getId());
             insure.setOrderId(order.getId());
             insure.setPartnerOrderId(order.getPartnerOrderId());
             insureService.update(insure);

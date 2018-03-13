@@ -24,6 +24,12 @@ public class OrderDTO extends Order {
     @JsonProperty("nickName")
     private String nickName;
 
+    @JsonProperty("openId")
+    private String openId;
+
+    @JsonProperty("provinceName")
+    private String provinceName;
+
     public Date getCreatedDateStart() {
         return createdDateStart;
     }
@@ -48,12 +54,30 @@ public class OrderDTO extends Order {
         this.nickName = nickName;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
     @Override
     public String toString() {
         return "OrderDTO{" +
                 "createdDateStart=" + createdDateStart +
                 ", createdDateEnd=" + createdDateEnd +
                 ", nickName='" + nickName + '\'' +
+                ", openId='" + openId + '\'' +
+                ", provinceName='" + provinceName + '\'' +
                 '}';
     }
 }

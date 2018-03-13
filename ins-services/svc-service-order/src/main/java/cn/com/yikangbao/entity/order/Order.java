@@ -28,8 +28,17 @@ public class Order extends Base{
     @JsonProperty("proposerName")
     private String proposerName;
 
+    /**
+     * 投保人年龄
+     */
     @JsonProperty("proposerAge")
     private Integer proposerAge;
+
+    /**
+     * 投保人性别
+     */
+    @JsonProperty("proposerGender")
+    private String proposerGender;
 
     /**
      * 投保人证件类型
@@ -60,6 +69,12 @@ public class Order extends Base{
      */
     @JsonProperty("insuredAge")
     private Integer insuredAge;
+
+    /**
+     * 被保人性别
+     */
+    @JsonProperty("insuredGender")
+    private String insuredGender;
 
     /**
      * 被保人证件类型
@@ -172,6 +187,8 @@ public class Order extends Base{
     @JsonProperty("orderDate")
     private Date orderDate;
 
+    @JsonProperty("remark")
+    private String remark;
 
     public enum ChannelEnum {
         QIAN_HAI("前海");
@@ -432,17 +449,43 @@ public class Order extends Base{
         this.insuredAge = insuredAge;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getProposerGender() {
+        return proposerGender;
+    }
+
+    public void setProposerGender(String proposerGender) {
+        this.proposerGender = proposerGender;
+    }
+
+    public String getInsuredGender() {
+        return insuredGender;
+    }
+
+    public void setInsuredGender(String insuredGender) {
+        this.insuredGender = insuredGender;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "name='" + name + '\'' +
                 ", proposerName='" + proposerName + '\'' +
-                ", proposerAge='" + proposerAge + '\'' +
+                ", proposerAge=" + proposerAge +
+                ", proposerGender=" + proposerGender +
                 ", proposerCredentialsType='" + proposerCredentialsType + '\'' +
                 ", proposerCredentialsNum='" + proposerCredentialsNum + '\'' +
                 ", proposerPhone='" + proposerPhone + '\'' +
                 ", insuredName='" + insuredName + '\'' +
-                ", insuredAge='" + insuredAge + '\'' +
+                ", insuredAge=" + insuredAge +
+                ", insuredGender=" + insuredGender +
                 ", insuredCredentialsType='" + insuredCredentialsType + '\'' +
                 ", insuredCredentialsNum='" + insuredCredentialsNum + '\'' +
                 ", insuredPhone='" + insuredPhone + '\'' +
@@ -462,6 +505,7 @@ public class Order extends Base{
                 ", policyNumber='" + policyNumber + '\'' +
                 ", reason='" + reason + '\'' +
                 ", orderDate=" + orderDate +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

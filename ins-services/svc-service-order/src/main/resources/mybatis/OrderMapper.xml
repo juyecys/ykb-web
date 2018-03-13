@@ -7,13 +7,15 @@
 			ykb_order (id, created_by, created_date, updated_date, updated_by,
 			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
 			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
-			,user_id, status, insurance_start_date, insurance_end_date, channel, order_date, name, partner_order_id, proposer_age, insured_age)
+			,user_id, status, insurance_start_date, insurance_end_date, channel, order_date, name, partner_order_id, proposer_age, insured_age, remark
+			,proposer_gender, insured_gender)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
 	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
 	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}
-	  		, #{channel}, #{orderDate}, #{name}, #{partnerOrderId}, #{proposerAge}, #{insuredAge})
+	  		, #{channel}, #{orderDate}, #{name}, #{partnerOrderId}, #{proposerAge}, #{insuredAge}, #{remark}
+	  		, #{proposerGender}, #{insuredGender})
 	</insert>
 
 	<update id="update" parameterType="OrderM">
@@ -88,6 +90,15 @@
 			<if test="insuredAge != null">
 				insured_age = #{insuredAge},
 			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="proposerGender != null">
+				proposer_gender = #{proposerGender},
+			</if>
+			<if test="insuredGender != null">
+				insured_gender = #{insuredGender},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -152,12 +163,17 @@
 		LEFT JOIN ykb_wechat_user wu on o.user_id = wu.id
 	</sql>
 
+	<sql id="join_hospital">
+		LEFT JOIN ykb_hospital h on o.hospital_id = h.id
+	</sql>
+
 	<select id="findByConditionPage" resultType="OrderQM">
 		SELECT
-		o.*, wu.nick_name
+		o.*, wu.nick_name, wu.open_id, h.province_name
 		FROM
 		<include refid="from_order" />
 		<include refid="join_wechat_user" />
+		<include refid="join_hospital" />
 		<include refid="sql_where" />
 	    ORDER BY o.created_date DESC
 	</select>
