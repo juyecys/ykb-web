@@ -58,7 +58,7 @@ public class QianHaiApiController {
     private static final Logger logger = LoggerFactory.getLogger(QianHaiApiController.class);
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public ApiResult createOrder(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
-        logger.info("receive qianhai order: {}", qianHaiOrder);
+        logger.info("receive qianhai order create: {}", qianHaiOrder);
 
         if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
@@ -94,7 +94,7 @@ public class QianHaiApiController {
 
     @RequestMapping(value = "/order/update", method = RequestMethod.POST)
     public ApiResult updateOrder(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
-        logger.info("receive qianhai order: {}", qianHaiOrder);
+        logger.info("receive qianhai order update: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","proposerName","proposerCredentialsType","proposerCredentialsNum","proposerPhone"
                 ,"insuredName","insuredCredentialsType","insuredCredentialsNum","insuredPhone","relation"
@@ -108,7 +108,7 @@ public class QianHaiApiController {
 
     @RequestMapping(value = "/order/status", method = RequestMethod.POST)
     public ApiResult updateOrderStatus(@RequestBody QianHaiOrder qianHaiOrder) throws Exception {
-        logger.info("receive qianhai order: {}", qianHaiOrder);
+        logger.info("receive qianhai order status: {}", qianHaiOrder);
         String[] needParams = new String[]{
                 "sign","partnerOrderId","status","statusDate"
         };

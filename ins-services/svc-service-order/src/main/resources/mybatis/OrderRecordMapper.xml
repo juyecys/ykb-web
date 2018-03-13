@@ -13,14 +13,14 @@
 		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
 	</resultMap>
 
-	<insert id="create" parameterType="HospitalM">
+	<insert id="create" parameterType="OrderRecordM">
 		INSERT INTO
 			ykb_order_record (id, created_by, created_date, updated_date, updated_by, status, order_number)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{status}, #{orderNumber})
 	</insert>
 
-	<update id="update" parameterType="HospitalM">
+	<update id="update" parameterType="OrderRecordM">
 		UPDATE ykb_order_record
 		<set>
 			<if test="updatedDate != null">
@@ -39,7 +39,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<update id="deleteById" parameterType="HospitalM">
+	<update id="deleteById" parameterType="OrderRecordM">
 		DELETE FROM ykb_order_record WHERE id = #{id}
 	</update>
 
@@ -76,7 +76,7 @@
 		ykb_order_record or
 	</sql>
 
-	<select id="findByConditionPage" resultMap="OrderRecordResultMap">
+	<select id="findByConditionPage" resultType="OrderRecordM">
 		SELECT
 		or.*
 		FROM
@@ -85,7 +85,7 @@
 	    ORDER BY or.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultMap="OrderRecordResultMap">
+	<select id="findOneByCondition" resultType="OrderRecordM">
 		SELECT
 		or.*
 		FROM
@@ -94,7 +94,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultMap="OrderRecordResultMap">
+	<select id="findByCondition" resultType="OrderRecordM">
 		SELECT
 		or.*
 		FROM
