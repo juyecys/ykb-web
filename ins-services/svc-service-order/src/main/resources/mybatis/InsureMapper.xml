@@ -44,7 +44,7 @@
 				partner_order_id = #{partnerOrderId},
 			</if>
 		</set>
-		WHERE id = #{id}
+		WHERE user_id = #{userId}
 	</update>
 
 	<sql id="sql_where">

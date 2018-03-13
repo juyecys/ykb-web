@@ -74,8 +74,8 @@ public class QianhaiServiceimpl implements QianhaiService {
 
         Insure insure = new Insure();
         insure.setUserId(order.getUserId());
-        insure = insureService.findOneByCondition(insure);
-        insure.setO
+        insure.setOrderId(order.getId());
+        insure.setPartnerOrderId(order.getPartnerOrderId());
         insureService.createOrUpdate(insure);
     }
 
