@@ -65,7 +65,7 @@
 		LEFT JOIN ykb_hospital h on i.hospital_id = h.id
 	</sql>
 
-	<select id="findByConditionPage" resultType="InsureM">
+	<select id="findByConditionPage" resultType="InsureQM">
 		SELECT
 		i.*, wu.open_id, h.hospital_name
 		FROM
@@ -76,7 +76,7 @@
 	    ORDER BY i.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="InsureM">
+	<select id="findOneByCondition" resultType="InsureQM">
 		SELECT
 		i.*
 		FROM
@@ -86,7 +86,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="InsureM">
+	<select id="findByCondition" resultType="InsureQM">
 		SELECT
 		i.*
 		FROM
