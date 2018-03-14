@@ -30,6 +30,9 @@ public class OrderDTO extends Order {
     @JsonProperty("provinceName")
     private String provinceName;
 
+    @JsonProperty("provinceId")
+    private String provinceId;
+
     public Date getCreatedDateStart() {
         return createdDateStart;
     }
@@ -68,6 +71,14 @@ public class OrderDTO extends Order {
 
     public void setProvinceName(String provinceName) {
         this.provinceName = provinceName;
+    }
+
+    public String getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId;
     }
 
     @Override

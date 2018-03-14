@@ -90,6 +90,8 @@ public class PartnerSignUtils {
         hashMap.put("questionnaireList", questionnaireList);
 
         getSign(hashMap, key);
+
+        System.out.println(MD5Util.MD5Encode("13e7e20274c44eb08d5176d7746b68e3", "UTF-8").toLowerCase());
     }
 
     /*
