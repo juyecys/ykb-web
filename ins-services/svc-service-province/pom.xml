@@ -16,10 +16,5 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-common</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-province</artifactId>
-        </dependency>
     </dependencies>
 </project>
