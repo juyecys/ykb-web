@@ -33,6 +33,7 @@ public class QianHaiOrderUtils {
         order.setStatus(qianHaiOrder.getStatus());
         order.setUserId(qianHaiOrder.getUserId());
         order.setOrderDate(qianHaiOrder.getOrderDate());
+        order.setPolicyEffectiveDate(qianHaiOrder.getPolicyEffectiveDate());
 
         return order;
     }

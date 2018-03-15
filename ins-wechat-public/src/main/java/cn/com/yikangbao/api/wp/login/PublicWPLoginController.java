@@ -69,7 +69,6 @@ public class PublicWPLoginController {
                     } else {
                         logger.debug("user is not exist");
                     }
-
                 } else {
                     logger.error("failed to get wechat auth accessToken");
                 }

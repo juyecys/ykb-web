@@ -116,6 +116,9 @@
 			<if test="policyNumber != null">
 				policy_number = #{policyNumber},
 			</if>
+			<if test="policyEffectiveDate != null">
+				policy_effective_date = #{policyEffectiveDate},
+			</if>
 			<if test="status != null">
 				status = #{status},
 			</if>
@@ -146,11 +149,26 @@
 			<if test="createdDateStart != null and createdDateEnd != null">
 				and o.order_date BETWEEN #{createdDateStart} and #{createdDateEnd}
 			</if>
+			<if test="createdDateStart == null and createdDateEnd != null">
+				and o.order_date &lt;= #{createdDateEnd}
+			</if>
+			<if test="createdDateStart != null and createdDateEnd == null">
+				and o.order_date &gt;= #{createdDateStart}
+			</if>
 			<if test="partnerOrderId != null">
 				and o.partner_order_id = #{partnerOrderId}
 			</if>
 			<if test="userId != null">
 				and o.user_id = #{userId}
+			</if>
+			<if test="insuranceAmount != null">
+				and o.insurance_amount = #{insuranceAmount}
+			</if>
+			<if test="hospitalName != null">
+				and h.name LIKE '%${hospitalName}%'
+			</if>
+			<if test="provinceId != null">
+				and h.province_id = #{provinceId}
 			</if>
 		</where>
 	</sql>

@@ -22,6 +22,7 @@
         <module>svc-service-hospital</module>
         <module>svc-service-message</module>
         <module>svc-service-channel</module>
+        <module>svc-service-province</module>
     </modules>
 
     <!--<dependencies>

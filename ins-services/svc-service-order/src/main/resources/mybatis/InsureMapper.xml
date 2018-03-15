@@ -6,11 +6,11 @@
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount
-			, user_id, birthday, order_id, partner_order_id, age, open_id)
+			, user_id, birthday, order_id, partner_order_id, age, open_id, order_number)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId}, #{age}, #{openId})
+	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId}, #{age}, #{openId}, #{orderNumber})
 	</insert>
 
 	<update id="update" parameterType="InsureM">
@@ -43,6 +43,9 @@
 			<if test="partnerOrderId != null">
 				partner_order_id = #{partnerOrderId},
 			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -52,6 +55,28 @@
 			<if test="id != null">
 				and i.id = #{id}
 			</if>
+			<if test="createdDateStart != null and createdDateEnd != null">
+				and i.created_date BETWEEN #{createdDateStart} and #{createdDateEnd}
+			</if>
+			<if test="createdDateStart == null and createdDateEnd != null">
+				and i.created_date &lt;= #{createdDateEnd}
+			</if>
+			<if test="createdDateStart != null and createdDateEnd == null">
+				and i.created_date &gt;= #{createdDateStart}
+			</if>
+			<if test="hospitalName != null">
+				and h.name LIKE '%${hospitalName}%'
+			</if>
+			<if test="provinceId != null">
+				and h.province_id = #{provinceId}
+			</if>
+			<if test="existOrder != null">
+				and i.partner_order_id IS NOT NULL
+			</if>
+			<if test="insuranceAmount != null">
+				and i.insurance_amount = #{insuranceAmount}
+			</if>
+
 		</where>
 	</sql>
 
@@ -67,7 +92,7 @@
 
 	<select id="findByConditionPage" resultType="InsureQM">
 		SELECT
-		i.*, wu.open_id, h.hospital_name
+		i.*, wu.open_id, h.name "hospital_name", h.province_name, wu.nick_name
 		FROM
 		<include refid="from_insure" />
 		<include refid="join_wechat_user" />
