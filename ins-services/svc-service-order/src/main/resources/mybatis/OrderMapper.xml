@@ -102,9 +102,6 @@
 			<if test="policyEffectiveDate != null">
 				policy_effective_date = #{policyEffectiveDate},
 			</if>
-			<if test="status != null">
-				status = #{status},
-			</if>
 			<if test="reason != null">
 				reason = #{reason},
 			</if>
