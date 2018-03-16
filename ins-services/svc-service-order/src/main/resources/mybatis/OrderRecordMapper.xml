@@ -2,16 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.com.yikangbao.dao.orderrecord.OrderRecordDAO">
-	<resultMap id="OrderRecordResultMap" type="cn.com.yikangbao.entity.orderrecord.OrderRecord"
-		autoMapping="true">
-		<result column="id" jdbcType="VARCHAR" property="id" />
-		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
-		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
-		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
-		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
-		<result column="status" jdbcType="VARCHAR" property="status" />
-		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
-	</resultMap>
 
 	<insert id="create" parameterType="OrderRecordM">
 		INSERT INTO
@@ -30,7 +20,7 @@
 				updated_by = #{updatedBy},
 			</if>
 			<if test="status != null">
-				name = #{status},
+				status = #{status},
 			</if>
 			<if test="orderNumber != null">
 				order_number = #{orderNumber},
@@ -45,49 +35,28 @@
 
 	<sql id="sql_where">
 		<where>
-			<if test="name != null">
-				AND or.name LIKE '%${name}%'
-			</if>
-			<if test="address != null">
-				AND or.address LIKE '%${address}%'
-			</if>
-			<if test="phoneNumber != null">
-				AND or.phone_number = #{phoneNumber}
-			</if>
-			<if test="type != null">
-				AND or.type = #{type}
-			</if>
-			<if test="isActive != null">
-				AND or.is_active = #{isActive}
-			</if>
-			<if test="technique != null">
-				AND or.technique = #{technique}
-			</if>
-			<if test="level != null">
-				AND or.level = #{level}
-			</if>
-			<if test="provinceId != null">
-				AND or.province_id = #{provinceId}
+			<if test="orderNumber != null">
+				AND yor.order_number = #{orderNumber}
 			</if>
 		</where>
 	</sql>
 
 	<sql id="from_order_record">
-		ykb_order_record or
+		ykb_order_record yor
 	</sql>
 
 	<select id="findByConditionPage" resultType="OrderRecordM">
 		SELECT
-		or.*
+		yor.*
 		FROM
 		<include refid="from_order_record" />
 		<include refid="sql_where" />
-	    ORDER BY or.created_date DESC
+	    ORDER BY yor.created_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="OrderRecordM">
 		SELECT
-		or.*
+		yor.*
 		FROM
 		<include refid="from_order_record" />
 		<include refid="sql_where" />
@@ -96,11 +65,11 @@
 
 	<select id="findByCondition" resultType="OrderRecordM">
 		SELECT
-		or.*
+		yor.*
 		FROM
 		<include refid="from_order_record" />
 		<include refid="sql_where" />
-		ORDER BY or.created_date
+		ORDER BY yor.created_date
 	</select>
 </mapper>
 

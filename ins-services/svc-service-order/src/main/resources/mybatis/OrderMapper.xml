@@ -211,9 +211,11 @@
 
 	<select id="findOneByCondition" resultType="OrderQM">
 		SELECT
-		o.*
+		o.*, wu.nick_name, wu.open_id, h.province_name
 		FROM
 		<include refid="from_order" />
+		<include refid="join_wechat_user" />
+		<include refid="join_hospital" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>

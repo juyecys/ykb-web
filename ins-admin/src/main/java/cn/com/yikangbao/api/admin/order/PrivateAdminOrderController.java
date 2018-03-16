@@ -5,17 +5,17 @@ import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
+import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.service.order.OrderService;
+import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,6 +28,9 @@ public class PrivateAdminOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderRecordService orderRecordService;
 
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> getPage(@RequestBody OrderDTO order) {
@@ -45,5 +48,14 @@ public class PrivateAdminOrderController {
         orderDTO.setId(order.getId());
         order = orderService.findOneByCondition(orderDTO);
         return new ResponseEntity<>(ApiResult.success(order), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/record", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getRecord(OrderRecord orderRecord) {
+        if (Objects.isNull(orderRecord.getOrderNumber())) {
+            return new ResponseEntity<>(ApiResult.build(ApiCodes.STATUS_INVALID_PARAMETER, "订单号不能为空"), HttpStatus.OK);
+        }
+        List<OrderRecord> list = orderRecordService.findByCondition(orderRecord);
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
 }
