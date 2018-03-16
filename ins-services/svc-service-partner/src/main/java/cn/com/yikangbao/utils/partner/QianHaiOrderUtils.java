@@ -34,7 +34,7 @@ public class QianHaiOrderUtils {
         order.setUserId(qianHaiOrder.getUserId());
         order.setOrderDate(qianHaiOrder.getOrderDate());
         order.setPolicyEffectiveDate(qianHaiOrder.getPolicyEffectiveDate());
-
+        order.setReason(qianHaiOrder.getReason());
         return order;
     }
     public static OrderDTO convertOrder(HashMap data) {

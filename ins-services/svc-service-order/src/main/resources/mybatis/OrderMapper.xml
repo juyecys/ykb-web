@@ -72,9 +72,6 @@
 			<if test="orderNumber != null">
 				order_number = #{orderNumber},
 			</if>
-			<if test="userId != null">
-				user_id = #{userId},
-			</if>
 			<if test="status != null">
 				status = #{status},
 			</if>
@@ -99,8 +96,27 @@
 			<if test="insuredGender != null">
 				insured_gender = #{insuredGender},
 			</if>
+			<if test="policyNumber != null">
+				policy_number = #{policyNumber},
+			</if>
+			<if test="policyEffectiveDate != null">
+				policy_effective_date = #{policyEffectiveDate},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="reason != null">
+				reason = #{reason},
+			</if>
 		</set>
-		WHERE id = #{id}
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="partnerOrderId != null">
+				and partner_order_id = #{partnerOrderId}
+			</if>
+		</where>
 	</update>
 
 	<!--同步订单状态-->

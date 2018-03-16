@@ -1,5 +1,6 @@
 package cn.com.yikangbao.api.admin.order;
 
+import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.order.Order;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 /**
  * Created by jeysine on 2018/3/13.
@@ -34,6 +37,9 @@ public class PrivateAdminOrderController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> update(@RequestBody Order order) throws Exception {
+        if (Objects.isNull(order.getId())) {
+            return new ResponseEntity<>(ApiResult.build(ApiCodes.STATUS_INVALID_PARAMETER, "订单id不能为空"), HttpStatus.OK);
+        }
         order = orderService.createOrUpdate(order);
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(order.getId());

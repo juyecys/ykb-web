@@ -72,7 +72,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         order.setProposerGender(IDCardUtils.getGenderByIdCard(order.getProposerCredentialsNum()));
         order.setInsuredGender(IDCardUtils.getGenderByIdCard(order.getInsuredCredentialsNum()));
         logger.debug("create order: {}", order);
-        order = orderService.create(order);
+        order = orderService.createOrUpdate(order);
         createOrderRecord(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
         logger.debug("create questionnaireList: {}", questionnaireList);
@@ -97,7 +97,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         logger.debug("update partner order: {}", qianHaiOrder);
         OrderDTO order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         logger.debug("update order: {}", order);
-        orderService.synchronousOrderStatus(order);
+        orderService.createOrUpdate(order);
         List<Questionnaire> questionnaireList = qianHaiOrder.getQuestionnaireList();
         logger.debug("update questionnaireList: {}", questionnaireList);
         if (questionnaireList != null) {

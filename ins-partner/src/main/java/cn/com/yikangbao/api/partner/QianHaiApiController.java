@@ -113,7 +113,6 @@ public class QianHaiApiController {
                 "sign","partnerOrderId","status","statusDate"
         };
         updatePartnerOrder(qianHaiOrder, needParams);
-
         return ApiResult.success();
     }
     @RequestMapping(value = "/hospital", method = RequestMethod.GET)
@@ -141,12 +140,6 @@ public class QianHaiApiController {
         //logger.info("hospital: {}", hospitalDTOList);
         return ApiResult.success(hospitalDTOList);
     }
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public void test(HttpServletRequest request, HttpServletResponse response) throws PartnerException {
-
-        logger.info("actionType: {}, userId:{}, reqTime:{}", request.getParameter("actionType"),request.getParameter("userId"),request.getParameter("reqTime"));
-
-    }
     private void updatePartnerOrder(QianHaiOrder qianHaiOrder, String[] needParams) throws Exception {
         if (qianHaiOrder == null) {
             throw new PartnerException(PartnerException.PartnerErrorCode.ERROR_PARAMETER);
@@ -170,7 +163,9 @@ public class QianHaiApiController {
         qianhaiService.updateOrderByPartner(qianHaiOrder);
     }
 
-    @RequestMapping(value = "/order/getStatus", method = RequestMethod.GET)
+
+
+   /* @RequestMapping(value = "/order/getStatus", method = RequestMethod.GET)
     public ApiResult getOrderStatus(QianHaiOrder qianHaiOrder) throws Exception {
         logger.info("receive qianhai order: {}", qianHaiOrder);
 
@@ -202,7 +197,7 @@ public class QianHaiApiController {
         orderRecordService.createOrUpdate(orderRecord);
 
         return ApiResult.success(newOrder);
-    }
+    }*/
 
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         HashMap<String, Object> hashMap = new HashMap<>();

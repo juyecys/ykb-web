@@ -83,7 +83,7 @@ public class OrderDTO extends Order {
 
     @Override
     public String toString() {
-        return "OrderDTO{" +
+        return super.toString() + "OrderDTO{" +
                 "createdDateStart=" + createdDateStart +
                 ", createdDateEnd=" + createdDateEnd +
                 ", nickName='" + nickName + '\'' +
