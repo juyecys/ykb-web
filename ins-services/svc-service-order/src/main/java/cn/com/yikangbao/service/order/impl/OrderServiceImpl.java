@@ -34,11 +34,4 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
         dao.synchronousOrderStatus(order);
     }
 
-    @Override
-    public Order createOrUpdate(Order entity) throws Exception {
-        if (entity.getId() == null && entity.getPartnerOrderId() == null) {
-            return create(entity);
-        }
-        return update(entity);
-    }
 }
