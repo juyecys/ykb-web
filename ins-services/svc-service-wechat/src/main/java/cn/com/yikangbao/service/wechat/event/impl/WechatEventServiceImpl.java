@@ -9,20 +9,28 @@ import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatScanEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
+import cn.com.yikangbao.entity.wechat.user.WechatUser;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.event.EventService;
 import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
+import cn.com.yikangbao.service.wechat.user.WechatUserService;
+import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
+import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
 import cn.com.yikangbao.untils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -42,6 +50,15 @@ public class WechatEventServiceImpl implements WechatEventService {
 
     @Autowired
     private ChannelService channelService;
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    private LocalWechatUserService localWechatUserService;
+
+    @Autowired
+    private WechatUserService wechatUserService;
 
     private Logger logger = LoggerFactory.getLogger(WechatEventServiceImpl.class);
 
@@ -65,41 +82,37 @@ public class WechatEventServiceImpl implements WechatEventService {
     }
 
     @Override
-    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException {
-        logger.debug("发布关注事件 subscribeEvent: {}",subscribeEvent);
+    public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws Exception {
+        logger.debug("处理关注事件 subscribeEvent: {}",subscribeEvent);
 
-        Event event = new Event();
+        /*Event event = new Event();
         event.addProperty("openId", subscribeEvent.getFromUserName());
         event.addProperty("createTime", subscribeEvent.getCreateTime());
         if (!StringUtil.isEmpty(subscribeEvent.getEventKey())) {
             event.addProperty("eventKey", subscribeEvent.getEventKey());
         }
         event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE);
-        eventService.publish(event);
+        eventService.publish(event);*/
 
         String eventKey = subscribeEvent.getEventKey();
         if (!StringUtil.isEmpty(eventKey)) {
             eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
         }
+        Date subscribeTime = DateUtils.toDate(subscribeEvent.getCreateTime().longValue());
 
-        if (!StringUtil.isEmpty(eventKey)) {
-            ChannelDTO channel = new ChannelDTO();
-            channel.setScene(eventKey);
-            channel = channelService.findOneByCondition(channel);
-            if (channel == null) {
-                logger.error("not find this channel qrcode, scene: {}", eventKey);
-                return;
-            }
+        createOrUpdateWechatUser(subscribeEvent.getFromUserName(), subscribeTime, eventKey);
 
-            if (channel.getSendSubscribeMessage()) {
-                wechatMessageService.pushSubscribeMessage(subscribeEvent.getFromUserName());
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    handleSubscribeMessage(subscribeEvent.getFromUserName(), subscribeEvent.getEventKey());
+                } catch (Exception e) {
+                    logger.error("error: {}",e);
+                }
+
             }
-            if (channel.getSendChannelMessage()) {
-                wechatMessageService.pushChannelsMessage(subscribeEvent.getFromUserName(), eventKey);
-            }
-        } else {
-            wechatMessageService.pushSubscribeMessage(subscribeEvent.getFromUserName());
-        }
+        });
     }
 
     @Override
@@ -135,6 +148,59 @@ public class WechatEventServiceImpl implements WechatEventService {
             }
         } catch (IOException e) {
             logger.error("error: {}",e);
+        }
+    }
+
+    private LocalWechatUser createOrUpdateWechatUser(String openId, Date createdTime, String qrCodeScene) throws Exception {
+        LocalWechatUserDTO user = new LocalWechatUserDTO();
+        user.setOpenId(openId);
+        LocalWechatUserDTO old = localWechatUserService.findOneByCondition(user);
+        WechatUser wechatUser = wechatUserService.getWechatUserInfo(openId, null);
+        if (old == null) {
+            old = new LocalWechatUserDTO();
+            old.setUnionId(wechatUser.getUnionId());
+            old.setOpenId(wechatUser.getOpenId());
+            old.setCreatedDate(createdTime);
+            old.setCreatedBy(wechatUser.getNickname());
+        } else {
+            old.setUpdatedDate(new Date());
+            old.setUpdatedBy(wechatUser.getNickname());
+        }
+        old.setCity(wechatUser.getCity());
+        old.setCountry(wechatUser.getCountry());
+        old.setHeadImgUrl(wechatUser.getHeadImgUrl());
+        old.setNickName(wechatUser.getNickname());
+        old.setProvince(wechatUser.getProvince());
+        old.setRemark(wechatUser.getRemark());
+        old.setGender(wechatUser.getSex());
+        old.setSubscribe(wechatUser.getSubscribe());
+        old.setQrCodeScene(qrCodeScene);
+        old.setSubscribeTime(createdTime);
+        localWechatUserService.createOrUpdate(old);
+        return old;
+    }
+
+    private void handleSubscribeMessage(String openId, String eventKey) throws IOException {
+        if (!StringUtil.isEmpty(eventKey)) {
+            eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
+        }
+
+        if (!StringUtil.isEmpty(eventKey)) {
+            ChannelDTO channel = new ChannelDTO();
+            channel.setScene(eventKey);
+            channel = channelService.findOneByCondition(channel);
+            if (channel == null) {
+                logger.error("not find this channel qrcode, scene: {}", eventKey);
+                return;
+            }
+            if (channel.getSendSubscribeMessage()) {
+                wechatMessageService.pushSubscribeMessage(openId);
+            }
+            if (channel.getSendChannelMessage()) {
+                wechatMessageService.pushChannelsMessage(openId, eventKey);
+            }
+        } else {
+            wechatMessageService.pushSubscribeMessage(openId);
         }
     }
 
