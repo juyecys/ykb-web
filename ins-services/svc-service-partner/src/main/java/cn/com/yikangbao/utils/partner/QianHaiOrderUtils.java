@@ -44,13 +44,17 @@ public class QianHaiOrderUtils {
         return order;
     }
 
-    public static String transformQianHaiOrderStatus(String qianHaiStatus) {
+    public static String transformQianHaiOrderStatus(String qianHaiStatus) throws Exception {
         String status = null;
         switch (qianHaiStatus) {
             case "1": status = Order.OrderStatusEnum.WAIT_CONFIRM.name(); break;
+            case "2": status = Order.OrderStatusEnum.WAIT_AUDIT.name(); break;
             case "3": status = Order.OrderStatusEnum.WAIT_PAIED.name(); break;
             case "4": status = Order.OrderStatusEnum.PAIED.name(); break;
+            case "5": status = Order.OrderStatusEnum.AUDIT_NOT_THROUGH.name(); break;
+            case "6": status = Order.OrderStatusEnum.OVERTIME_PAIED.name(); break;
             case "7": status = Order.OrderStatusEnum.UNDERWRITE.name(); break;
+            default: throw new Exception("no exist status");
         }
         return status;
     }

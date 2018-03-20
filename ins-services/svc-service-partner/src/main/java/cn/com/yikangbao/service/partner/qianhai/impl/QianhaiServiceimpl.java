@@ -132,10 +132,11 @@ public class QianhaiServiceimpl implements QianhaiService {
                     newOrder = QianHaiOrderUtils.convertOrder(resultMap);
                     if (newOrder.getStatus() != null) {
                         newOrder.setStatus(QianHaiOrderUtils.transformQianHaiOrderStatus(newOrder.getStatus()));
-                    }
-                    if (newOrder.getStatus() != null && !order.getStatus().equals(newOrder.getStatus())) {
-                        orderService.synchronousOrderStatus(newOrder);
-                        createOrderRecord(newOrder);
+
+                        if (!order.getStatus().equals(newOrder.getStatus())) {
+                            orderService.synchronousOrderStatus(newOrder);
+                            createOrderRecord(newOrder);
+                        }
                     }
                 } catch (Exception e) {
                     logger.error("", e);

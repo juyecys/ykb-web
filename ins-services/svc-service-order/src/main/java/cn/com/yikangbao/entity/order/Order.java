@@ -210,6 +210,7 @@ public class Order extends Base{
 
     public enum OrderStatusEnum {
         WAIT_CONFIRM("待确认")
+        ,WAIT_AUDIT("待审核")
         ,WAIT_PAIED("审核通过,待付款")
         ,AUDIT_NOT_THROUGH("审核不通过")
         ,PAIED("已支付")
