@@ -124,7 +124,7 @@ public class QianhaiServiceimpl implements QianhaiService {
                     data.put("sign", sign);
                     String url = qianhaiOrderStatusUrl.replace("ACTION_TYPE", req.getActionType())
                             .replace("SIGN", sign).replace("ORDER_ID", req.getOrderId())
-                            .replace("REQTIME", req.getReqTime());
+                            .replace("REQTIME", req.getReqTime()).replace("USER_ID", req.getUserId());
                     logger.debug("start to synchronous qianhai order status: {}", url);
                     String resultJson = OkHttpUtils.get().url(url).build().execute().body().string();
                     logger.debug("synchronous qianhai order status result: {}", resultJson);
