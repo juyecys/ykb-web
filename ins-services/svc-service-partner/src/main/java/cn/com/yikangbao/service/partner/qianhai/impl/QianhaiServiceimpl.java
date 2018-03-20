@@ -110,15 +110,15 @@ public class QianhaiServiceimpl implements QianhaiService {
     @Override
     public void synchronousOrderStatus(List<OrderDTO> orders) {
         logger.info("need synchronous order: {}", orders);
-        OrderDTO newOrder = null;
-        OrderRecord orderRecord = null;
-        HashMap<String, Object> data = new HashMap<>();
+        OrderDTO newOrder;
+        HashMap<String, Object> data;
         if (!orders.isEmpty()) {
             QianHaiGetOrderStatusReq req = new QianHaiGetOrderStatusReq();
             for (OrderDTO order: orders) {
                 try {
                     req.setOrderId(order.getPartnerOrderId());
                     req.setReqTime(DateUtils.format(new Date(), "yyyyMMddHHmmss"));
+                    req.setUserId(order.getUserId());
                     data = MapUtils.getMap(req, QianHaiGetOrderStatusReq.class);
                     String sign = PartnerSignUtils.getSign(data, PartnerSecretKeyConfig.getQianhaiSecretKeyFor());
                     data.put("sign", sign);

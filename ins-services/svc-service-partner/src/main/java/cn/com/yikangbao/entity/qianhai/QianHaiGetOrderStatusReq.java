@@ -6,6 +6,7 @@ package cn.com.yikangbao.entity.qianhai;
 public class QianHaiGetOrderStatusReq {
     private String orderId;
     private String reqTime;
+    private String userId;
     private final String actionType = QianHaiActionType.ORDER_STATUS.getValue();
 
     public String getOrderId() {
@@ -28,11 +29,20 @@ public class QianHaiGetOrderStatusReq {
         return actionType;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "QianHaiGetOrderStatusReq{" +
                 "orderId='" + orderId + '\'' +
                 ", reqTime='" + reqTime + '\'' +
+                ", userId='" + userId + '\'' +
                 ", actionType='" + actionType + '\'' +
                 '}';
     }
