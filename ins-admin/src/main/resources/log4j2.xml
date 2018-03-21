@@ -50,6 +50,8 @@
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <logger name="org.springframework.web" level="ERROR" />
         <logger name="org.springframework" level="ERROR"/>
+        <logger name="org.springframework.data.mongodb" level="DEBUG"/>
+        <logger name="org.apache.http.impl.conn.Wire.wire" level="INFO"/>
         <logger name="org.mybatis" level="DEBUG"/>
         <logger name="org.apache.ibatis.io.ResolverUtil" level="INFO"/>
         <logger name="org.mybatis.spring" level="INFO"/>
