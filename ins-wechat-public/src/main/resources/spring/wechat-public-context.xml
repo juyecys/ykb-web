@@ -100,10 +100,16 @@
 			<property name="order" value="1" />
 		</bean>
 	</beans>
+
 	<beans>
 		<bean id="partnerSecretKeyConfig" class="cn.com.yikangbao.config.partner.PartnerSecretKeyConfig">
 			<property name="qianhaiSecretKey" value="${partner.qianhai.secretkey}" />
 			<property name="qianhaiSecretKeyFor" value="${partner.qianhai.secretkey.for}" />
+		</bean>
+
+		<bean id="wechatConfigSecret" class="cn.com.yikangbao.config.wechat.WechatConfigSecret">
+			<property name="wechatAppid" value="${wechat.yikangbao.appid}" />
+			<property name="wechatSecret" value="${wechat.yikangbao.appsecret}" />
 		</bean>
 	</beans>
 </beans:beans>
