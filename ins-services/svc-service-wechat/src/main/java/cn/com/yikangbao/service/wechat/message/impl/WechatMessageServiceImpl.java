@@ -180,6 +180,17 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         return list;
     }
 
+    @Override
+    public WechatCommonResult pushTemplateMessage(WechatTemplateMessage templateMessage) throws IOException {
+        WechatAccessToken accessToken = wechatAccessTokenService.getAccessToken();
+        String url = WechatConfigParams.WECHAT_SEND_TEMPLATE_MESSAGE.replace("ACCESS_TOKEN", accessToken.getAccessToken());
+        String messageJson = mapper.writeValueAsString(templateMessage);
+        logger.debug("send message to wechat user: {}", messageJson);
+        String result = OkHttpUtils.postString().url(url).content(messageJson).build().execute().body().string();
+        logger.debug("send message towechat user result: {}", result);
+        return mapper.readValue(result,WechatCommonResult.class);
+    }
+
     public static void main(String[] args) throws IOException {
         //System.out.println(data);
         String[] dataArr = FileUtils.readFileAsString("C:\\Users\\Administrator\\Desktop\\openIdList.json").split(",");

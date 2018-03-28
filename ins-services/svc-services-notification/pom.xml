@@ -9,13 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>svc-service-order</artifactId>
+    <artifactId>svc-services-notification</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
-            <artifactId>svc-service-common</artifactId>
+            <artifactId>svc-service-wechat</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-message</artifactId>
+        </dependency>
     </dependencies>
 </project>

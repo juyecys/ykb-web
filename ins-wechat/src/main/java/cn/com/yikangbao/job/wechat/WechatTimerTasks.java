@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-@Component("partnerTimerTasks")
-@DistributedExclusiveTask("wechat-timertasks")
+@Component("adminTimerTasks")
+@DistributedExclusiveTask("wechat-timer-tasks")
 public class WechatTimerTasks {
     @Autowired
     private WechatUserService wechatUserService;

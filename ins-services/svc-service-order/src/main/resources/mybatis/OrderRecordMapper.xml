@@ -45,7 +45,7 @@
 		ykb_order_record yor
 	</sql>
 
-	<select id="findByConditionPage" resultType="OrderRecordM">
+	<select id="findByConditionPage" resultType="OrderRecordQM">
 		SELECT
 		yor.*
 		FROM
@@ -54,7 +54,7 @@
 	    ORDER BY yor.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="OrderRecordM">
+	<select id="findOneByCondition" resultType="OrderRecordQM">
 		SELECT
 		yor.*
 		FROM
@@ -63,13 +63,37 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="OrderRecordM">
+	<select id="findByCondition" resultType="OrderRecordQM">
 		SELECT
 		yor.*
 		FROM
 		<include refid="from_order_record" />
 		<include refid="sql_where" />
 		ORDER BY yor.created_date
+	</select>
+
+	<sql id="join_wechat_user">
+		LEFT JOIN ykb_wechat_user wu on o.user_id = wu.id
+	</sql>
+
+	<sql id="join_order">
+		LEFT JOIN ykb_order o on yor.order_number = o.order_number
+	</sql>
+	<!--
+	（2）若前海返回保单号的时间为早上0:00:00-早上7:59:59，则在当天早上8:00:00，发送消息给用户；
+	（3）若前海返回保单号的时间为晚上23:00:00-晚上23:59:59，则在第二天早上8:00:00，发送消息给用户
+	-->
+	<select id="findNeedNotifyOrder" resultType="OrderRecordQM">
+		SELECT
+		o.order_number, wu.open_id, yor.status
+		FROM
+		<include refid="from_order_record" />
+		<include refid="join_order" />
+		<include refid="join_wechat_user" />
+		WHERE
+		yor.status = 'UNDERWRITE'
+		AND yor.created_date &gt;= #{createdStart}
+		AND yor.created_date &lt; #{craetedEnd}
 	</select>
 </mapper>
 

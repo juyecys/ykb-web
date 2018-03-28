@@ -20,6 +20,11 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-partner</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-wechat</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ins-partner</finalName>

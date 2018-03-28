@@ -55,9 +55,6 @@ public class PrivateAdminWechatController {
     @Autowired
     private LocalWechatUserService localWechatUserService;
 
-    @Autowired
-    private WechatMaterialService wechatMaterialServiceRPC;
-
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
     @RequestMapping(value = "/menu", method = RequestMethod.POST)
@@ -176,15 +173,6 @@ public class PrivateAdminWechatController {
         Page<LocalWechatUserDTO> page = localWechatUserService.findByConditionPage(localWechatUserDTO);
         logger.info("qrcode user : {}", page);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/material", method = RequestMethod.POST,  produces = "application/json")
-    public ResponseEntity<ApiResult> test(@RequestParam("file") MultipartFile file, @RequestParam String type) throws IOException {
-
-        WechatMaterial wechatMaterial = wechatMaterialServiceRPC.createForeverMaterial(file, type);
-        logger.info("wechat material: {}", wechatMaterial);
-
-        return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);
     }
 
 

@@ -44,8 +44,7 @@ public class PublicWechatMaterialController {
     private static Logger logger = LoggerFactory.getLogger(PublicWechatMaterialController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST,  produces = "application/json")
-    public ResponseEntity<ApiResult> test(@RequestParam("file") MultipartFile file, @RequestParam String type) throws IOException {
-
+    public ResponseEntity<ApiResult> test(@RequestParam("file") MultipartFile file, @RequestParam("type") String type) throws IOException {
         WechatMaterial wechatMaterial = wechatMaterialService.createForeverMaterial(file, type);
         logger.info("wechat material: {}", wechatMaterial);
         return new ResponseEntity<>(ApiResult.success(wechatMaterial), HttpStatus.OK);

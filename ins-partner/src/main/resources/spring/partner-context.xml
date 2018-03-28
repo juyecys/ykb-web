@@ -27,6 +27,7 @@
 	<import resource="partner-context-database.xml" />
 	<import resource="partner-context-redis.xml" />
 	<import resource="partner-context-jackson.xml" />
+	<import resource="partner-context-dubbo.xml" />
 
 	<beans profile="dev">
 		<bean id="placeholderProperties"

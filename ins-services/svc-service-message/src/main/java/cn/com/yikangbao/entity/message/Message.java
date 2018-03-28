@@ -1,6 +1,5 @@
 package cn.com.yikangbao.entity.message;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
 @Document(collection="ykb_message")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Message implements Serializable{
+public class Message extends BaseMessage implements Serializable{
     private static final long serialVersionUID = -8818767389760162084L;
     @Id
     private String id;
@@ -32,6 +30,9 @@ public class Message implements Serializable{
 
     @JsonProperty("media_id")
     private String mediaId;
+
+    @JsonProperty("media_url")
+    private String mediaUrl;
 
     @JsonProperty("thumb_media_id")
     private String thumbMediaId;
@@ -65,88 +66,8 @@ public class Message implements Serializable{
     @JsonProperty("article_list")
     private List<Article> articleList;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("created_date")
-    private Date createdDate;
-
-    @JsonProperty("created_by")
-    private String createdBy;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @JsonProperty("updated_date")
-    private Date updatedDate;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
-
-    public enum TypeEnum {
-        CHANNEL,
-        SUBSCRIBE
-    }
-
-    public enum MsgTypeEnum {
-        IMAGE("image"),
-        VOICE("voice"),
-        VIDEO("video"),
-        TEXT("text"),
-        MUSIC("music"),
-        ARTICLE_LIST("article_list"),
-        ARTICLE("article"),
-        MPNEWS("mpnews"),
-        WXCARD("wxcard");
-
-        private String value;
-
-        MsgTypeEnum(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public static MsgTypeEnum getEnumByValue(String value) {
-            for (MsgTypeEnum e: MsgTypeEnum.values()) {
-                if (e.getValue().equals(value)) {
-                    return e;
-                }
-            }
-            return null;
-        }
-    }
-
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+    @JsonProperty("templateMessage")
+    private TemplateMessage templateMessage;
 
     public String getId() {
         return id;
@@ -163,7 +84,6 @@ public class Message implements Serializable{
     public void setMsgType(String msgType) {
         this.msgType = msgType;
     }
-
 
     public Integer getSequence() {
         return sequence;
@@ -274,6 +194,22 @@ public class Message implements Serializable{
         this.qrCodeScene = qrCodeScene;
     }
 
+    public TemplateMessage getTemplateMessage() {
+        return templateMessage;
+    }
+
+    public void setTemplateMessage(TemplateMessage templateMessage) {
+        this.templateMessage = templateMessage;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -281,6 +217,7 @@ public class Message implements Serializable{
                 ", msgType='" + msgType + '\'' +
                 ", content='" + content + '\'' +
                 ", mediaId='" + mediaId + '\'' +
+                ", mediaUrl='" + mediaUrl + '\'' +
                 ", thumbMediaId='" + thumbMediaId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -292,6 +229,7 @@ public class Message implements Serializable{
                 ", type='" + type + '\'' +
                 ", qrCodeScene='" + qrCodeScene + '\'' +
                 ", articleList=" + articleList +
+                ", templateMessage=" + templateMessage +
                 '}';
     }
 }

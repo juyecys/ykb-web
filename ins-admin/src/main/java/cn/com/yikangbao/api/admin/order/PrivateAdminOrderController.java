@@ -6,6 +6,7 @@ import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.order.Order;
 import cn.com.yikangbao.entity.order.OrderDTO;
 import cn.com.yikangbao.entity.orderrecord.OrderRecord;
+import cn.com.yikangbao.entity.orderrecord.OrderRecordDTO;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import org.slf4j.Logger;
@@ -51,11 +52,11 @@ public class PrivateAdminOrderController {
     }
 
     @RequestMapping(value = "/record", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getRecord(OrderRecord orderRecord) {
+    public ResponseEntity<ApiResult> getRecord(OrderRecordDTO orderRecord) {
         if (Objects.isNull(orderRecord.getOrderNumber())) {
             return new ResponseEntity<>(ApiResult.build(ApiCodes.STATUS_INVALID_PARAMETER, "订单号不能为空"), HttpStatus.OK);
         }
-        List<OrderRecord> list = orderRecordService.findByCondition(orderRecord);
+        List<OrderRecordDTO> list = orderRecordService.findByCondition(orderRecord);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
 }
