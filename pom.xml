@@ -97,6 +97,7 @@
         <module>ins-wechat</module>
         <module>ins-wechat-public</module>
         <module>ins-partner</module>
+        <module>ins-notification</module>
     </modules>
 
     <dependencyManagement>
