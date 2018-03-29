@@ -40,6 +40,12 @@ public class WechatTemplateMessage {
         @JsonProperty("keyword3")
         private DataContent keyword3;
 
+        @JsonProperty("keyword4")
+        private DataContent keyword4;
+
+        @JsonProperty("keyword5")
+        private DataContent keyword5;
+
         @JsonProperty("remark")
         private DataContent remark;
 
@@ -81,6 +87,22 @@ public class WechatTemplateMessage {
 
         public void setRemark(DataContent remark) {
             this.remark = remark;
+        }
+
+        public DataContent getKeyword4() {
+            return keyword4;
+        }
+
+        public void setKeyword4(DataContent keyword4) {
+            this.keyword4 = keyword4;
+        }
+
+        public DataContent getKeyword5() {
+            return keyword5;
+        }
+
+        public void setKeyword5(DataContent keyword5) {
+            this.keyword5 = keyword5;
         }
     }
 

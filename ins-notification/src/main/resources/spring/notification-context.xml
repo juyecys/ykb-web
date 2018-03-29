@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<task:annotation-driven/>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<context:component-scan base-package="cn.com.yikangbao" />
+
+	<import resource="notification-context-redis.xml"/>
+	<import resource="notification-context-mybatis.xml"/>
+	<import resource="notification-context-dubbo.xml"/>
+	<import resource="notification-context-mongo.xml"/>
+
+	<!-- spring thread pool executor -->
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="${threadPool.corePoolSize}" />
+		<!-- 允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="${threadPool.keepAliveSeconds}" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="${threadPool.maxPoolSize}" />
+		<!-- 缓存队列 -->
+		<property name="queueCapacity" value="${threadPool.queueCapacity}" />
+		<!-- 对拒绝task的处理策略 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
+	<beans profile="dev">
+		<bean id="placeholderProperties"
+			  class="cn.com.yikangbao.EnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-dev.properties</value>
+					<value>classpath*:notification-dev.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false"/>
+			<property name="ignoreUnresolvablePlaceholders" value="false"/>
+			<property name="order" value="1"/>
+		</bean>
+	</beans>
+
+	<beans profile="test">
+		<bean id="placeholderProperties"
+			  class="cn.com.yikangbao.EnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-test.properties</value>
+					<value>classpath*:notification-test.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false"/>
+			<property name="ignoreUnresolvablePlaceholders" value="false"/>
+			<property name="order" value="1"/>
+		</bean>
+	</beans>
+
+
+	<beans profile="prod">
+		<bean id="placeholderProperties"
+			  class="cn.com.yikangbao.EnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:notification-prod.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false"/>
+			<property name="ignoreUnresolvablePlaceholders" value="false"/>
+			<property name="order" value="1"/>
+		</bean>
+	</beans>
+</beans>

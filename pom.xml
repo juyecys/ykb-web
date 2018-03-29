@@ -603,6 +603,12 @@
                 <artifactId>svc-service-province</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.com.yikangbao</groupId>
+                <artifactId>svc-services-notification</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -6,6 +6,7 @@ import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.message.MessageDTO;
 import cn.com.yikangbao.service.channel.ChannelService;
 import cn.com.yikangbao.service.message.MessageService;
+import cn.com.yikangbao.service.notification.WechatNotificationService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,9 @@ public class PrivateAdminMessageController {
     @Autowired
     private WechatMessageService wechatMessageServiceRPC;
 
+    @Autowired
+    private WechatNotificationService wechatNotificationServiceRPC;
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> createMessage(@RequestBody Message message) {
         message = messageService.createOrUpdate(message);
@@ -62,14 +66,14 @@ public class PrivateAdminMessageController {
             channel.setScene(message.getQrCodeScene());
             channel = channelService.findOneByCondition(channel);
             if (channel.getSendChannelMessage()) {
-                wechatMessageServiceRPC.pushChannelsMessage(message.getOpenId(), message.getQrCodeScene());
+                wechatNotificationServiceRPC.pushChannelsMessage(message.getOpenId(), message.getQrCodeScene());
             }
             if (channel.getSendSubscribeMessage()) {
-                wechatMessageServiceRPC.pushSubscribeMessage(message.getOpenId());
+                wechatNotificationServiceRPC.pushSubscribeMessage(message.getOpenId());
             }
 
         } else if(Message.TypeEnum.SUBSCRIBE.name().equals(message.getType())){
-            wechatMessageServiceRPC.pushSubscribeMessage(message.getOpenId());
+            wechatNotificationServiceRPC.pushSubscribeMessage(message.getOpenId());
         }
         return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
     }

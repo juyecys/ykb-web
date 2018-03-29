@@ -24,6 +24,11 @@ public interface WechatNotificationService {
 
     WechatCommonResult pushTemplateMessage(WechatTemplateMessage wechatTemplateMessage) throws IOException;
 
+    WechatCommonResult pushTemplateMessageByMessage(String openId, Message message) throws IOException;
+
     void pushMessageListByMessage(String openId, List<Message> message) throws IOException;
 
+    void pushSubscribeMessage(String openid) throws IOException;
+
+    void pushChannelsMessage(String openId, String qrCodeScene) throws IOException;
 }

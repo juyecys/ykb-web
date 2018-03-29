@@ -52,6 +52,11 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-province</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-services-notification</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ins-admin</finalName>

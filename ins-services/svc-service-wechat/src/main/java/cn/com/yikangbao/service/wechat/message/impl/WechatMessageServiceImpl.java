@@ -187,7 +187,7 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         String messageJson = mapper.writeValueAsString(templateMessage);
         logger.debug("send message to wechat user: {}", messageJson);
         String result = OkHttpUtils.postString().url(url).content(messageJson).build().execute().body().string();
-        logger.debug("send message towechat user result: {}", result);
+        logger.debug("send message to wechat user result: {}", result);
         return mapper.readValue(result,WechatCommonResult.class);
     }
 

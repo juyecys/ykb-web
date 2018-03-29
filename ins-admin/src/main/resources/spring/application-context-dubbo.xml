@@ -24,4 +24,7 @@
 	<dubbo:reference id="wechatMenuServiceRPC"
 					 interface="cn.com.yikangbao.service.wechat.menu.WechatMenuService" timeout="3000"/>
 
+	<dubbo:reference id="wechatNotificationServiceRPC"
+					 interface="cn.com.yikangbao.service.notification.WechatNotificationService" timeout="3000" retries="0" async="true"/>
+
 </beans>
