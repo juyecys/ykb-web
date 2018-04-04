@@ -12,7 +12,7 @@
 
 	<!-- 使用multicast广播注册中心暴露服务地址 -->
 	<dubbo:registry address="${dubbo.registry.address}" />
-	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
+	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
 	<dubbo:reference id="wechatMessageServiceRPC"

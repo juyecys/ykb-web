@@ -17,7 +17,7 @@
 
 	<!-- zookeeper地址 -->
 	<dubbo:registry address="${dubbo.registry.address}" />
-	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
+	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service
