@@ -2,6 +2,8 @@ package cn.com.yikangbao.api.wp.login;
 
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
 import cn.com.yikangbao.entity.wechat.auth.WechatAuthAccessToken;
+import cn.com.yikangbao.entity.wechat.user.WechatUser;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.wechat.auth.WechatAuthService;
 import cn.com.yikangbao.service.wechat.user.WechatUserService;
@@ -32,6 +34,8 @@ public class PublicWPLoginController {
     @Autowired
     private WechatAuthService wechatAuthServiceRPC;
 
+    @Autowired
+    private WechatUserService wechatUserService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void login(HttpServletRequest request, HttpServletResponse response) {
@@ -61,21 +65,33 @@ public class PublicWPLoginController {
                     user = localWechatUserService.findOneByCondition(user);
                     if (user != null) {
                         logger.debug("user login success: {}", user.toString());
-                        request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
-                        request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
 
-                        request.getSession().setAttribute(WechatPublicContants.SESSION_USERID, user.getId());
-                        request.getSession().setAttribute(WechatPublicContants.SESSION_UNIONID, user.getUnionId());
                     } else {
-                        logger.debug("user is not exist");
+                        WechatUser wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
+                        logger.debug("user is not exist, add to database: {}", wechatUser);
+                        user = new LocalWechatUserDTO();
+                        user.setOpenId(wechatUser.getOpenId());
+                        user.setCity(wechatUser.getCity());
+                        user.setGender(wechatUser.getSex());
+                        user.setNickName(wechatUser.getNickname());
+                        user.setProvince(wechatUser.getProvince());
+                        user.setUnionId(wechatUser.getUnionId());
+                        user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+                        localWechatUserService.createOrUpdate(user);
                     }
+
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
+
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_USERID, user.getId());
+                    request.getSession().setAttribute(WechatPublicContants.SESSION_UNIONID, user.getUnionId());
                 } else {
                     logger.error("failed to get wechat auth accessToken");
                 }
 
             }
             response.sendRedirect(nextYkbUrl.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.debug("error: {}", e);
         }
     }

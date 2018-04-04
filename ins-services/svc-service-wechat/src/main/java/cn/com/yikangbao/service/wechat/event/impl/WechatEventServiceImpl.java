@@ -176,6 +176,7 @@ public class WechatEventServiceImpl implements WechatEventService {
         old.setSubscribe(wechatUser.getSubscribe());
         old.setQrCodeScene(qrCodeScene);
         old.setSubscribeTime(createdTime);
+        old.setSource(LocalWechatUser.SourceEnum.YI_KANG_BAO.name());
         localWechatUserService.createOrUpdate(old);
         return old;
     }

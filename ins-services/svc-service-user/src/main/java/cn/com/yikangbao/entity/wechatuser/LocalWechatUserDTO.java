@@ -16,6 +16,9 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class LocalWechatUserDTO extends LocalWechatUser{
 
+    /**
+     * 二维码渠道
+     */
     @JsonProperty("channels")
     private String channels;
 

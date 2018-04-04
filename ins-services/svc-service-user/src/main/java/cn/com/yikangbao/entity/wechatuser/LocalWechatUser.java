@@ -61,6 +61,16 @@ public class LocalWechatUser extends Base{
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date subscribeTime;
 
+    /**
+     * 用户来源渠道
+     */
+    @JsonProperty("source")
+    private String source;
+
+    public static enum SourceEnum {
+        YI_KANG_BAO
+    }
+
     public String getNickName() {
         return nickName;
     }
@@ -165,6 +175,14 @@ public class LocalWechatUser extends Base{
         this.subscribeTime = subscribeTime;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     @Override
     public String toString() {
         return "LocalWechatUser{" +
@@ -180,6 +198,8 @@ public class LocalWechatUser extends Base{
                 ", headImgUrl='" + headImgUrl + '\'' +
                 ", unionId='" + unionId + '\'' +
                 ", remark='" + remark + '\'' +
+                ", subscribeTime=" + subscribeTime +
+                ", source='" + source + '\'' +
                 '}';
     }
 }
