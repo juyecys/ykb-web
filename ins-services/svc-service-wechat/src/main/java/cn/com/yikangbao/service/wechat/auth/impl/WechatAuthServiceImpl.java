@@ -36,7 +36,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
     public WechatAuthAccessToken getAuthAccessTokenByCode(String code) throws IOException {
         String url = WechatConfigParams.WECHAT_GET_AUTH_ACCESSTOKEN_URL.replace("APPID", WechatConfigSecret.getWechatAppid())
                 .replace("SECRET", WechatConfigSecret.getWechatSecret())
-                .replace("APPSECRET", WechatConfigSecret.getWechatSecret()).replace("CODE", code);
+                .replace("CODE", code);
         return getAuthAccessToken(url);
     }
 

@@ -41,13 +41,13 @@ public class PublicWPLoginController {
     public void login(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
-
+        String source = request.getParameter("source");
         if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
             // 其它的参数应该作为目标url的参数
             Enumeration<String> parameters = request.getParameterNames();
             while (parameters.hasMoreElements()) {
                 String paramName = (String) parameters.nextElement();
-                if (!paramName.equals("code") && !paramName.equals("ykb_url")) {
+                if (!paramName.equals("code") && !paramName.equals("ykb_url") && !paramName.equals("source")) {
                     String[] values = request.getParameterValues(paramName);
                     nextYkbUrl.append("&").append(paramName).append("=").append(values[0]);
                 }
@@ -77,6 +77,7 @@ public class PublicWPLoginController {
                         user.setProvince(wechatUser.getProvince());
                         user.setUnionId(wechatUser.getUnionId());
                         user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+                        user.setSource(source);
                         localWechatUserService.createOrUpdate(user);
                     }
 
