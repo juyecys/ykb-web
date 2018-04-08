@@ -16,7 +16,7 @@
 	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" accesslog="${service.accesslog.location}" />
 
 	<!-- zookeeper地址 -->
-	<dubbo:registry address="${dubbo.registry.address}" />
+	<dubbo:registry address="${dubbo.registry.address}" file="${catalina.home}/dubbo-registry/dubbo-registry.properties"/>
 	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
 	<!-- 声明需要暴露的服务接口 -->
