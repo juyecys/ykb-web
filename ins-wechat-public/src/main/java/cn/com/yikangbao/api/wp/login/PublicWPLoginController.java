@@ -42,7 +42,7 @@ public class PublicWPLoginController {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
         String source = request.getParameter("source");
-        if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
+        /*if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
             // 其它的参数应该作为目标url的参数
             Enumeration<String> parameters = request.getParameterNames();
             while (parameters.hasMoreElements()) {
@@ -53,7 +53,7 @@ public class PublicWPLoginController {
                     nextYkbUrl.append("&").append(paramName).append("=").append(values[0]);
                 }
             }
-        }
+        }*/
         logger.debug("AuthWechat get wechat ykb_url {}", nextYkbUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
         try {
