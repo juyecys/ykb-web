@@ -44,17 +44,22 @@ public class PublicWPLoginController {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
         String source = request.getParameter("source");
-        if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
-            // 其它的参数应该作为目标url的参数
-            Enumeration<String> parameters = request.getParameterNames();
-            while (parameters.hasMoreElements()) {
-                String paramName = (String) parameters.nextElement();
-                if (filterRequestParams(paramName)) {
-                    String[] values = request.getParameterValues(paramName);
-                    nextYkbUrl.append("&").append(paramName).append("=").append(values[0]);
+
+        // 其它的参数应该作为目标url的参数
+        Enumeration<String> parameters = request.getParameterNames();
+        String paramJoinTag = "?";
+        while (parameters.hasMoreElements()) {
+            String paramName = (String) parameters.nextElement();
+            if (filterRequestParams(paramName)) {
+                if (!"&".equals(paramJoinTag) && nextYkbUrl.toString().indexOf('?', 1) > -1) {
+                    paramJoinTag = "&";
                 }
+
+                String[] values = request.getParameterValues(paramName);
+                nextYkbUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
             }
         }
+
         logger.debug("AuthWechat get wechat ykb_url {}", nextYkbUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
         try {
@@ -122,6 +127,5 @@ public class PublicWPLoginController {
             request.getSession().removeAttribute(item);
             logger.debug("remove session success: {}", item);
         }
-
     }
 }
