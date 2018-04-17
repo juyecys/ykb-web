@@ -190,6 +190,10 @@ public class Order extends Base{
     @JsonProperty("remark")
     private String remark;
 
+    /*订单来源*/
+    @JsonProperty("source")
+    private String source;
+
     public enum ChannelEnum {
         QIAN_HAI("前海");
 
@@ -231,6 +235,14 @@ public class Order extends Base{
         public void setDescription(String description) {
             this.description = description;
         }
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getProposerName() {
@@ -275,6 +287,43 @@ public class Order extends Base{
 
     public String getInsuredCredentialsType() {
         return insuredCredentialsType;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "name='" + name + '\'' +
+                ", proposerName='" + proposerName + '\'' +
+                ", proposerAge=" + proposerAge +
+                ", proposerGender='" + proposerGender + '\'' +
+                ", proposerCredentialsType='" + proposerCredentialsType + '\'' +
+                ", proposerCredentialsNum='" + proposerCredentialsNum + '\'' +
+                ", proposerPhone='" + proposerPhone + '\'' +
+                ", insuredName='" + insuredName + '\'' +
+                ", insuredAge=" + insuredAge +
+                ", insuredGender='" + insuredGender + '\'' +
+                ", insuredCredentialsType='" + insuredCredentialsType + '\'' +
+                ", insuredCredentialsNum='" + insuredCredentialsNum + '\'' +
+                ", insuredPhone='" + insuredPhone + '\'' +
+                ", relation='" + relation + '\'' +
+                ", hospitalId='" + hospitalId + '\'' +
+                ", hospitalName='" + hospitalName + '\'' +
+                ", insuranceAmount=" + insuranceAmount +
+                ", orderAmount=" + orderAmount +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", partnerOrderId='" + partnerOrderId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", status='" + status + '\'' +
+                ", insuranceStartDate=" + insuranceStartDate +
+                ", channel='" + channel + '\'' +
+                ", insuranceEndDate=" + insuranceEndDate +
+                ", policyEffectiveDate=" + policyEffectiveDate +
+                ", policyNumber='" + policyNumber + '\'' +
+                ", reason='" + reason + '\'' +
+                ", orderDate=" + orderDate +
+                ", remark='" + remark + '\'' +
+                ", source='" + source + '\'' +
+                '}';
     }
 
     public void setInsuredCredentialsType(String insuredCredentialsType) {
@@ -474,39 +523,4 @@ public class Order extends Base{
         this.insuredGender = insuredGender;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "name='" + name + '\'' +
-                ", proposerName='" + proposerName + '\'' +
-                ", proposerAge=" + proposerAge +
-                ", proposerGender=" + proposerGender +
-                ", proposerCredentialsType='" + proposerCredentialsType + '\'' +
-                ", proposerCredentialsNum='" + proposerCredentialsNum + '\'' +
-                ", proposerPhone='" + proposerPhone + '\'' +
-                ", insuredName='" + insuredName + '\'' +
-                ", insuredAge=" + insuredAge +
-                ", insuredGender=" + insuredGender +
-                ", insuredCredentialsType='" + insuredCredentialsType + '\'' +
-                ", insuredCredentialsNum='" + insuredCredentialsNum + '\'' +
-                ", insuredPhone='" + insuredPhone + '\'' +
-                ", relation='" + relation + '\'' +
-                ", hospitalId='" + hospitalId + '\'' +
-                ", hospitalName='" + hospitalName + '\'' +
-                ", insuranceAmount=" + insuranceAmount +
-                ", orderAmount=" + orderAmount +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", partnerOrderId='" + partnerOrderId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", status='" + status + '\'' +
-                ", insuranceStartDate=" + insuranceStartDate +
-                ", channel='" + channel + '\'' +
-                ", insuranceEndDate=" + insuranceEndDate +
-                ", policyEffectiveDate=" + policyEffectiveDate +
-                ", policyNumber='" + policyNumber + '\'' +
-                ", reason='" + reason + '\'' +
-                ", orderDate=" + orderDate +
-                ", remark='" + remark + '\'' +
-                '}';
-    }
 }

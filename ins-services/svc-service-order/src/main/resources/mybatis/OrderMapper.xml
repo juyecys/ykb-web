@@ -8,14 +8,14 @@
 			proposer_name, proposer_credentials_type, proposer_credentials_num, proposer_phone, insured_name, insured_credentials_type
 			,insured_credentials_num, insured_phone, relation, hospital_id, hospital_name, insurance_amount, order_amount, order_number
 			,user_id, status, insurance_start_date, insurance_end_date, channel, order_date, name, partner_order_id, proposer_age, insured_age, remark
-			,proposer_gender, insured_gender)
+			,proposer_gender, insured_gender, source)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{proposerName}, #{proposerCredentialsType}, #{proposerCredentialsNum}, #{proposerPhone}, #{insuredName}
 	  		, #{insuredCredentialsType}, #{insuredCredentialsNum}, #{insuredPhone}, #{relation}, #{hospitalId}, #{hospitalName}
 	  		, #{insuranceAmount}, #{orderAmount}, #{orderNumber}, #{userId}, #{status}, #{insuranceStartDate}, #{insuranceEndDate}
 	  		, #{channel}, #{orderDate}, #{name}, #{partnerOrderId}, #{proposerAge}, #{insuredAge}, #{remark}
-	  		, #{proposerGender}, #{insuredGender})
+	  		, #{proposerGender}, #{insuredGender}, #{source})
 	</insert>
 
 	<update id="update" parameterType="OrderM">
@@ -105,6 +105,9 @@
 			<if test="reason != null">
 				reason = #{reason},
 			</if>
+			<if test="source != null">
+				source = #{source},
+			</if>
 		</set>
 		<where>
 			<if test="id != null">
@@ -176,6 +179,9 @@
 			</if>
 			<if test="insuranceAmount != null">
 				and o.insurance_amount = #{insuranceAmount}
+			</if>
+			<if test="source != null">
+				and o.source = #{source}
 			</if>
 			<if test="hospitalName != null">
 				and h.name LIKE '%${hospitalName}%'

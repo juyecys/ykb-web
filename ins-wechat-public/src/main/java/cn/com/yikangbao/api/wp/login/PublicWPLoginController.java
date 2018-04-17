@@ -1,6 +1,7 @@
 package cn.com.yikangbao.api.wp.login;
 
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
+import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.auth.WechatAuthAccessToken;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
@@ -8,6 +9,7 @@ import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.wechat.auth.WechatAuthService;
 import cn.com.yikangbao.service.wechat.user.WechatUserService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
+import cn.com.yikangbao.untils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,28 +62,7 @@ public class PublicWPLoginController {
             if (openid == null) {
                 wechatAuthAccessToken = wechatAuthServiceRPC.getAuthAccessTokenByCode(code);
                 if (wechatAuthAccessToken.getOpenId() != null) {
-                    LocalWechatUserDTO user = new LocalWechatUserDTO();
-                    user.setOpenId(wechatAuthAccessToken.getOpenId());
-                    user = localWechatUserService.findOneByCondition(user);
-                    if (user != null) {
-                        logger.debug("user login success: {}", user.toString());
-
-                    } else {
-                        WechatUser wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
-                        logger.debug("user is not exist, add to database: {}", wechatUser);
-                        user = new LocalWechatUserDTO();
-                        user.setOpenId(wechatUser.getOpenId());
-                        user.setCity(wechatUser.getCity());
-                        user.setGender(wechatUser.getSex());
-                        user.setNickName(wechatUser.getNickname());
-                        user.setProvince(wechatUser.getProvince());
-                        user.setUnionId(wechatUser.getUnionId());
-                        user.setHeadImgUrl(wechatUser.getHeadImgUrl());
-                        user.setSource(source);
-                        user.setSubscribe(0);
-                        localWechatUserService.createOrUpdate(user);
-                    }
-
+                    LocalWechatUserDTO user = createOrUpdateUser(wechatAuthAccessToken, source);
                     request.getSession().setAttribute(WechatPublicContants.SESSION_OPENID, user.getOpenId());
                     request.getSession().setAttribute(WechatPublicContants.SESSION_NICKNAME, user.getNickName());
 
@@ -90,7 +71,6 @@ public class PublicWPLoginController {
                 } else {
                     logger.error("failed to get wechat auth accessToken");
                 }
-
             }
             response.sendRedirect(nextYkbUrl.toString());
         } catch (Exception e) {
@@ -101,5 +81,36 @@ public class PublicWPLoginController {
     private boolean filterRequestParams(String paramName) {
         return !paramName.equals("code") && !paramName.equals("ykb_url") && !paramName.equals("state")
                 && !paramName.equals("connect_redirect") && !paramName.equals("scope") && !paramName.equals("response_type");
+    }
+
+    private LocalWechatUserDTO createOrUpdateUser(WechatAuthAccessToken wechatAuthAccessToken, String source) throws Exception {
+        LocalWechatUserDTO user = new LocalWechatUserDTO();
+        user.setOpenId(wechatAuthAccessToken.getOpenId());
+        user = localWechatUserService.findOneByCondition(user);
+        if (user != null) {
+            logger.debug("user login success: {}", user.toString());
+            if (StringUtil.isEmpty(source)) {
+                return user;
+            }
+            user.setSource(source);
+        } else {
+            WechatUser wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
+            logger.debug("user is not exist, add to database: {}", wechatUser);
+            user = new LocalWechatUserDTO();
+            user.setOpenId(wechatUser.getOpenId());
+            user.setCity(wechatUser.getCity());
+            user.setGender(wechatUser.getSex());
+            user.setNickName(wechatUser.getNickname());
+            user.setProvince(wechatUser.getProvince());
+            user.setUnionId(wechatUser.getUnionId());
+            user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+            if (StringUtil.isEmpty(source)) {
+                source = LocalWechatUser.SourceEnum.YI_KANG_BAO.name();
+            }
+            user.setSource(source);
+            user.setSubscribe(0);
+        }
+        localWechatUserService.createOrUpdate(user);
+        return user;
     }
 }

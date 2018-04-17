@@ -162,6 +162,7 @@ public class WechatEventServiceImpl implements WechatEventService {
             old.setOpenId(wechatUser.getOpenId());
             old.setCreatedDate(createdTime);
             old.setCreatedBy(wechatUser.getNickname());
+            old.setSource(LocalWechatUser.SourceEnum.YI_KANG_BAO.name());
         } else {
             old.setUpdatedDate(new Date());
             old.setUpdatedBy(wechatUser.getNickname());

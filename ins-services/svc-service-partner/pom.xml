@@ -16,7 +16,10 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-order</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-user</artifactId>
+        </dependency>
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-hospital</artifactId>

@@ -9,11 +9,13 @@ import cn.com.yikangbao.entity.orderrecord.OrderRecord;
 import cn.com.yikangbao.entity.qianhai.QianHaiGetOrderStatusReq;
 import cn.com.yikangbao.entity.qianhai.QianHaiOrder;
 import cn.com.yikangbao.entity.questionnaire.Questionnaire;
+import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.service.insure.InsureService;
 import cn.com.yikangbao.service.order.OrderService;
 import cn.com.yikangbao.service.orderrecord.OrderRecordService;
 import cn.com.yikangbao.service.partner.qianhai.QianhaiService;
 import cn.com.yikangbao.service.questionnaire.QuestionnaireService;
+import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
 import cn.com.yikangbao.untils.common.DateUtils;
 import cn.com.yikangbao.untils.common.IDCardUtils;
 import cn.com.yikangbao.untils.common.MapUtils;
@@ -45,6 +47,9 @@ public class QianhaiServiceimpl implements QianhaiService {
     private OrderRecordService orderRecordService;
 
     @Autowired
+    private LocalWechatUserService localWechatUserService;
+
+    @Autowired
     private InsureService insureService;
 
     @Value("${qianhai.insure.url}")
@@ -63,6 +68,10 @@ public class QianhaiServiceimpl implements QianhaiService {
     @Override
     public void createOrderByPartner(QianHaiOrder qianHaiOrder) throws Exception {
         logger.debug("create partner order: {}", qianHaiOrder);
+        LocalWechatUserDTO user = new LocalWechatUserDTO();
+        user.setId(qianHaiOrder.getUserId());
+        user = localWechatUserService.findOneByCondition(user);
+
         Order order = QianHaiOrderUtils.transformPartnerOrder(qianHaiOrder);
         order.setChannel(Order.ChannelEnum.QIAN_HAI.name());
         order.setName("试管婴儿保险");
@@ -71,6 +80,7 @@ public class QianhaiServiceimpl implements QianhaiService {
         order.setInsuredAge(IDCardUtils.getAgeByIdCard(order.getInsuredCredentialsNum()));
         order.setProposerGender(IDCardUtils.getGenderByIdCard(order.getProposerCredentialsNum()));
         order.setInsuredGender(IDCardUtils.getGenderByIdCard(order.getInsuredCredentialsNum()));
+        order.setSource(user.getSource());
         logger.debug("create order: {}", order);
         order = orderService.createOrUpdate(order);
         createOrderRecord(order);
