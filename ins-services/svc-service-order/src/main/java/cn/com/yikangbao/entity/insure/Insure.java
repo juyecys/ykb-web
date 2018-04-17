@@ -56,6 +56,10 @@ public class Insure extends Base {
     @JsonProperty("orderNumber")
     private String orderNumber;
 
+    /*订单来源*/
+    @JsonProperty("source")
+    private String source;
+
     public Integer getAge() {
         return age;
     }
@@ -142,6 +146,14 @@ public class Insure extends Base {
 
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override

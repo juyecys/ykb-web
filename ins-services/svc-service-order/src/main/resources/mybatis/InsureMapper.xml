@@ -6,11 +6,11 @@
 		INSERT INTO
 			ykb_insure (id, created_by, created_date, updated_date, updated_by
 			, hospital_id, hospital_name, insurance_amount, order_amount
-			, user_id, birthday, order_id, partner_order_id, age, open_id, order_number)
+			, user_id, birthday, order_id, partner_order_id, age, open_id, order_number, source)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{hospitalId}, #{hospitalName}
-	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId}, #{age}, #{openId}, #{orderNumber})
+	  		, #{insuranceAmount}, #{orderAmount}, #{userId}, #{birthday}, #{orderId}, #{partnerOrderId}, #{age}, #{openId}, #{orderNumber}, #{source})
 	</insert>
 
 	<update id="update" parameterType="InsureM">
@@ -46,6 +46,9 @@
 			<if test="orderNumber != null">
 				order_number = #{orderNumber},
 			</if>
+			<if test="source != null">
+				source = #{source},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -76,7 +79,9 @@
 			<if test="insuranceAmount != null">
 				and i.insurance_amount = #{insuranceAmount}
 			</if>
-
+			<if test="source != null">
+				and i.source = #{source}
+			</if>
 		</where>
 	</sql>
 
