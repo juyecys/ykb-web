@@ -104,6 +104,7 @@ public class PublicWPLoginController {
             user.setProvince(wechatUser.getProvince());
             user.setUnionId(wechatUser.getUnionId());
             user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+            user.setCountry(wechatUser.getCountry());
             if (StringUtil.isEmpty(source)) {
                 source = LocalWechatUser.SourceEnum.YI_KANG_BAO.name();
             }
@@ -112,5 +113,15 @@ public class PublicWPLoginController {
         }
         localWechatUserService.createOrUpdate(user);
         return user;
+    }
+
+    @RequestMapping(value = "/delSession", method = RequestMethod.GET)
+    public void deleteSession(HttpServletRequest request, HttpServletResponse response) {
+        for (Enumeration items = request.getSession().getAttributeNames(); items.hasMoreElements(); ) {
+            String item = (String) items.nextElement();
+            request.getSession().removeAttribute(item);
+            logger.debug("remove session success: {}", item);
+        }
+
     }
 }
