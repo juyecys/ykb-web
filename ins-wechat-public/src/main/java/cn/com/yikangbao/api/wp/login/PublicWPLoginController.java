@@ -46,6 +46,10 @@ public class PublicWPLoginController {
         String source = request.getParameter("source");
         logger.debug("source: {}", source);
         // 其它的参数应该作为目标url的参数
+
+        // 避免vue框架处理url, 把#/加到url末尾
+        nextYkbUrl.append("#/");
+
         Enumeration<String> parameters = request.getParameterNames();
         String paramJoinTag = "?";
         while (parameters.hasMoreElements()) {
