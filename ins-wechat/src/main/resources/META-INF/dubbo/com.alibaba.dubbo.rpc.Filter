@@ -1,0 +1,2 @@
+setTraceIdPreRpcFilter=cn.com.yikangbao.filter.SetTraceIdPreRpcFilter
+setLogMdcPreServiceFilter=cn.com.yikangbao.filter.SetLogMdcPreServiceFilter
