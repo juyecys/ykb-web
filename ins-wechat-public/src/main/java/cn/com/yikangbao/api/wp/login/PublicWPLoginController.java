@@ -44,7 +44,7 @@ public class PublicWPLoginController {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
         String source = request.getParameter("source");
-
+        logger.debug("source: {}", source);
         // 其它的参数应该作为目标url的参数
         Enumeration<String> parameters = request.getParameterNames();
         String paramJoinTag = "?";
@@ -57,6 +57,7 @@ public class PublicWPLoginController {
 
                 String[] values = request.getParameterValues(paramName);
                 nextYkbUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
+                logger.debug("nextYkbUrl: {}", nextYkbUrl.toString());
             }
         }
 
@@ -110,12 +111,14 @@ public class PublicWPLoginController {
             user.setUnionId(wechatUser.getUnionId());
             user.setHeadImgUrl(wechatUser.getHeadImgUrl());
             user.setCountry(wechatUser.getCountry());
+
             if (StringUtil.isEmpty(source)) {
                 source = LocalWechatUser.SourceEnum.YI_KANG_BAO.name();
             }
             user.setSource(source);
             user.setSubscribe(0);
         }
+        logger.debug("add to database: {}", user);
         localWechatUserService.createOrUpdate(user);
         return user;
     }
