@@ -26,7 +26,7 @@ public class AdminExceptionAdvice {
     @ResponseBody
     public ResponseEntity<ApiResult> handleException(Exception e) {
         logger.error("system error: {}", e);
-        return new ResponseEntity<>(new ApiResult(AdminException.AdminErrorCode.ERROR.getCode(), AdminException.AdminErrorCode.ERROR.getDesc())
+        return new ResponseEntity<>(new ApiResult(AdminException.AdminErrorCode.ERROR.getCode(), e.getMessage())
                 , HttpStatus.OK);
     }
 }

@@ -59,6 +59,7 @@
         <logger name="org.I0Itec.zkclient" level="INFO" />
         <logger name="cn.com.yikangbao.service.event.EventServiceImpl" level="INFO" />
         <logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="INFO" />
+        <logger name="com.alibaba.dubbo" level="WARN" />
         <root level="all">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileDebug"/>

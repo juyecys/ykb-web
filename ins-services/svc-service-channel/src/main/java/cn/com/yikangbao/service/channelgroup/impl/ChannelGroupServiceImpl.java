@@ -26,6 +26,12 @@ public class ChannelGroupServiceImpl extends BaseServiceImpl<ChannelGroup, Chann
     @Override
     public ChannelGroup createOrUpdate(ChannelGroup entity) throws Exception {
         if (entity.getId() == null) {
+            ChannelGroupDTO channelGroup = new ChannelGroupDTO();
+            channelGroup.setName(entity.getName());
+            channelGroup = findOneByCondition(channelGroup);
+            if (channelGroup == null) {
+                throw new Exception("分组名不能重复");
+            }
             entity.setScene(StringUtil.numRandom(6));
             return create(entity);
         }

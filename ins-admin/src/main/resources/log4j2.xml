@@ -36,14 +36,6 @@
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
            <!-- <DefaultRolloverStrategy max="20"/>-->
         </RollingFile>
-        <!--<RollingFile name="RollingFileError" fileName="/data/jlog/ykb/admin/admin-error-%d{yyyy-MM-dd}.log"
-                     filePattern="/data/jlog/ykb/admin/%d{yyyy-MM}/admin-error.%d{yyyy-MM-dd}.log">
-            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
-            </Policies>
-        </RollingFile>-->
     </appenders>
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>

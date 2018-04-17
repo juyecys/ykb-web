@@ -42,18 +42,17 @@ public class PublicWPLoginController {
         String code = request.getParameter("code");
         StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
         String source = request.getParameter("source");
-        /*if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
+        if (nextYkbUrl.toString().indexOf('?', 1) > -1) {
             // 其它的参数应该作为目标url的参数
             Enumeration<String> parameters = request.getParameterNames();
             while (parameters.hasMoreElements()) {
                 String paramName = (String) parameters.nextElement();
-                if (!paramName.equals("code") && !paramName.equals("ykb_url") && !paramName.equals("state")
-                       && !paramName.equals("connect_redirect") && !paramName.equals("scope") && !paramName.equals("response_type")) {
+                if (filterRequestParams(paramName)) {
                     String[] values = request.getParameterValues(paramName);
                     nextYkbUrl.append("&").append(paramName).append("=").append(values[0]);
                 }
             }
-        }*/
+        }
         logger.debug("AuthWechat get wechat ykb_url {}", nextYkbUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
         try {
@@ -79,6 +78,7 @@ public class PublicWPLoginController {
                         user.setUnionId(wechatUser.getUnionId());
                         user.setHeadImgUrl(wechatUser.getHeadImgUrl());
                         user.setSource(source);
+                        user.setSubscribe(0);
                         localWechatUserService.createOrUpdate(user);
                     }
 
@@ -96,5 +96,10 @@ public class PublicWPLoginController {
         } catch (Exception e) {
             logger.debug("error: {}", e);
         }
+    }
+
+    private boolean filterRequestParams(String paramName) {
+        return !paramName.equals("code") && !paramName.equals("ykb_url") && !paramName.equals("state")
+                && !paramName.equals("connect_redirect") && !paramName.equals("scope") && !paramName.equals("response_type");
     }
 }
