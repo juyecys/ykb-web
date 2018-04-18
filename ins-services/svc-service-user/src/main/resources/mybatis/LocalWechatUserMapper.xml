@@ -221,7 +221,6 @@
 	<select id="getAllSource" resultType="java.lang.String">
 		SELECT
 		source
-		FROM
 		<include refid="from_wechat_user" />
 		GROUP BY source
 	</select>
