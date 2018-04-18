@@ -244,5 +244,13 @@
 		WHERE
 		o.status in ('WAIT_CONFIRM','WAIT_PAIED','PAIED')
 	</select>
+
+	<select id="getAllSource" resultType="java.lang.String">
+		SELECT
+		o.source
+		FROM
+		<include refid="from_order" />
+		GROUP BY source
+	</select>
 </mapper>
 

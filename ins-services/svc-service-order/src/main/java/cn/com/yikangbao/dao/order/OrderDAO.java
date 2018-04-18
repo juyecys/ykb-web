@@ -13,5 +13,8 @@ import java.util.List;
 @Component
 public interface OrderDAO extends BaseDAO<Order, Order> {
     List<OrderDTO> findNeedSysByStatus();
+
     void synchronousOrderStatus(Order order);
+
+    List<String> getAllSource();
 }

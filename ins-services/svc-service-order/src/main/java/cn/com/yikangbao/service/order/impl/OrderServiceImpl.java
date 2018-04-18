@@ -34,4 +34,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
         dao.synchronousOrderStatus(order);
     }
 
+    @Override
+    public List<String> getAllSource() {
+        return dao.getAllSource();
+    }
+
 }

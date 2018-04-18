@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by jeysine on 2018/3/13.
  */
@@ -27,4 +29,9 @@ public class PrivateAdminInsureController {
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/source", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAllSource() {
+        List<String> list = insureService.getAllSource();
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
+    }
 }

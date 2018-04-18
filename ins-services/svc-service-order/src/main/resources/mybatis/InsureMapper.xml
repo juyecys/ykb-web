@@ -124,5 +124,12 @@
 		<include refid="sql_where" />
 	</select>
 
+	<select id="getAllSource" resultType="java.lang.String">
+		SELECT
+		i.source
+		FROM
+		<include refid="from_insure" />
+		GROUP BY source
+	</select>
 </mapper>
 

@@ -8,6 +8,8 @@ import cn.com.yikangbao.service.insure.InsureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by jeysine on 2018/2/26.
  */
@@ -20,5 +22,10 @@ public class InsureServiceImpl extends BaseServiceImpl<Insure, InsureDTO> implem
     public void setDao(InsureDAO dao) {
         this.dao = dao;
         super.setDAO(dao);
+    }
+
+    @Override
+    public List<String> getAllSource() {
+        return dao.getAllSource();
     }
 }

@@ -14,6 +14,10 @@ import java.util.List;
 @Component
 public interface LocalWechatUserDAO extends BaseDAO<LocalWechatUser, LocalWechatUserDTO> {
     List<LocalWechatUserDTO> findByUnsynchronous();
+
     void synchronousUser(LocalWechatUser wechatUser);
+
     Integer countUsers(LocalWechatUser wechatUser);
+
+    List<String> getAllSource();
 }

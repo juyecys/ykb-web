@@ -58,4 +58,10 @@ public class PrivateAdminOrderController {
         List<OrderRecord> list = orderRecordService.findByCondition(orderRecord);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/source", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAllSource() {
+        List<String> list = orderService.getAllSource();
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
+    }
 }

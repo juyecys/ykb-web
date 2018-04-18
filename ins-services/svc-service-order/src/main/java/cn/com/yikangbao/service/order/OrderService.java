@@ -11,5 +11,8 @@ import java.util.List;
  */
 public interface OrderService extends BaseService<Order, OrderDTO>{
     List<OrderDTO> findNeedSysByStatus();
+
     void synchronousOrderStatus(Order order);
+
+    List<String> getAllSource();
 }
