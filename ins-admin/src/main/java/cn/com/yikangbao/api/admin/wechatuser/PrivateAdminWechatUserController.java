@@ -38,6 +38,7 @@ public class PrivateAdminWechatUserController {
             ,@RequestParam(value = "province", required = false) String province
             ,@RequestParam(value = "city", required = false) String city
             ,@RequestParam(value = "openId", required = false) String openId
+            ,@RequestParam(value = "source", required = false) String source
             ,@RequestParam(value = "pageSize", required = false) Integer pageSize
             ,@RequestParam(value = "nowPage", required = false) Integer nowPage) {
         LocalWechatUserDTO wechatUser = new LocalWechatUserDTO();
@@ -46,6 +47,7 @@ public class PrivateAdminWechatUserController {
         wechatUser.setProvince(province);
         wechatUser.setCity(city);
         wechatUser.setOpenId(openId);
+        wechatUser.setSource(source);
         wechatUser.setPage(new Page());
         wechatUser.getPage().setNowPage(nowPage == null? 1: nowPage);
         wechatUser.getPage().setPageSize(pageSize == null? 10: pageSize);
