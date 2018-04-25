@@ -182,7 +182,7 @@
 		<include refid="from_wechat_channel" />
 		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where_wu" />
-	    ORDER BY wu.subscribe_time DESC
+	    ORDER BY wu.updated_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="LocalWechatUserQM">
