@@ -35,8 +35,7 @@ public class PrivateAdminBdChannelController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody BdChannel bdChannel) {
 
-        String PREFIX = "https://www.baidu.com/s?wd=";
-        String url = PREFIX + bdChannel.getChannelsCode();
+        String url = bdChannel.getQrCodeUrl();
 
         String savePath = "bdchannel_qrcode";
         if (!savePath.endsWith("/")) {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.userview.UserViewDAO">
+
+
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wc.id = #{id}
+			</if>
+			<if test="channels != null">
+				and wc.channels LIKE '%${channels}%'
+			</if>
+
+		</where>
+	</sql>
+
+	<sql id="bd_channel">
+		user_view wc
+	</sql>
+
+	<select id="findByConditionPage" resultType="UserViewQM">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+	    ORDER BY wc.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="BdChannelQM">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="UserViewQM">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+		ORDER BY wc.created_date DESC
+	</select>
+</mapper>
+

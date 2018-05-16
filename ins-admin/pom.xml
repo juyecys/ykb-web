@@ -56,6 +56,13 @@
 
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-user-view</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-order</artifactId>
         </dependency>
 

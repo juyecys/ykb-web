@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.com.yikangbao.dao.channel.BdChannelDAO">
-	<resultMap id="WechaQRCodeResultMap" type="cn.com.yikangbao.entity.channel.BdChannelDTO"
+	<resultMap id="WechaQRCodeResultMap1" type="cn.com.yikangbao.entity.channel.BdChannelDTO"
 		autoMapping="true">
 		<result column="id" jdbcType="VARCHAR" property="id" />
 		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
@@ -61,6 +61,12 @@
 			</if>
 			<if test="channels != null">
 				and wc.channels LIKE '%${channels}%'
+			</if>
+			<if test="channelsCode != null">
+				and wc.channels LIKE '%${channels_code}%'
+			</if>
+			<if test="bd != null">
+				and wc.channels LIKE '%${bd}%'
 			</if>
 
 		</where>
