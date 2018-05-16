@@ -46,8 +46,8 @@ public class PrivateAdminBdChannelController {
 
         try {
             aliyunContentStorageService.store(savePath, QRCodeUtil.EncodeUrlToInputStream(url), "image/jpg");
-
-            bdChannel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(savePath));
+            if(bdChannel.getId()==null)
+                bdChannel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(savePath));
             bdChannel = bdChannelService.createOrUpdate(bdChannel);
 
 

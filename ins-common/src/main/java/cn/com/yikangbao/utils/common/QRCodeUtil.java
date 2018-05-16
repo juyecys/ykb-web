@@ -42,8 +42,8 @@ public class QRCodeUtil {
 
     public static InputStream EncodeUrlToInputStream(String url) throws WriterException, IOException {
 
-        int width = 200; // 图像宽度
-        int height = 200; // 图像高度
+        int width = 1024; // 图像宽度
+        int height = 1024; // 图像高度
         String format = "png";// 图像类型
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
