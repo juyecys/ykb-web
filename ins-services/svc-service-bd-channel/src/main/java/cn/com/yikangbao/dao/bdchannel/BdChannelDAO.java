@@ -1,8 +1,8 @@
-package cn.com.yikangbao.dao.channel;
+package cn.com.yikangbao.dao.bdchannel;
 
 import cn.com.yikangbao.dao.common.BaseDAO;
-import cn.com.yikangbao.entity.channel.BdChannel;
-import cn.com.yikangbao.entity.channel.BdChannelDTO;
+import cn.com.yikangbao.entity.bdchannel.BdChannel;
+import cn.com.yikangbao.entity.bdchannel.BdChannelDTO;
 import org.springframework.stereotype.Component;
 
 /**

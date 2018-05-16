@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>svc-service-user</module>
+        <module>svc-service-user-view</module>
         <module>svc-service-common</module>
         <module>svc-service-security</module>
         <module>svc-service-wechat</module>

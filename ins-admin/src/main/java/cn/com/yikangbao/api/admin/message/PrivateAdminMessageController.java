@@ -1,10 +1,10 @@
 package cn.com.yikangbao.api.admin.message;
 
 import cn.com.yikangbao.api.common.ApiResult;
-import cn.com.yikangbao.entity.channel.ChannelDTO;
+import cn.com.yikangbao.entity.bdchannel.ChannelDTO;
 import cn.com.yikangbao.entity.message.Message;
 import cn.com.yikangbao.entity.message.MessageDTO;
-import cn.com.yikangbao.service.channel.ChannelService;
+import cn.com.yikangbao.service.bdchannel.ChannelService;
 import cn.com.yikangbao.service.message.MessageService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import org.slf4j.Logger;

@@ -3,8 +3,8 @@ package cn.com.yikangbao.api.admin.wechat;
 import cn.com.yikangbao.api.common.ApiCodes;
 import cn.com.yikangbao.api.common.ApiResult;
 import cn.com.yikangbao.constants.AliyunOssPath;
-import cn.com.yikangbao.entity.channel.Channel;
-import cn.com.yikangbao.entity.channel.ChannelDTO;
+import cn.com.yikangbao.entity.bdchannel.Channel;
+import cn.com.yikangbao.entity.bdchannel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.material.WechatMaterial;
@@ -13,7 +13,7 @@ import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCodeResult;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
-import cn.com.yikangbao.service.channel.ChannelService;
+import cn.com.yikangbao.service.bdchannel.ChannelService;
 import cn.com.yikangbao.service.wechat.localMenu.LocalWechatMenuService;
 import cn.com.yikangbao.service.wechat.material.WechatMaterialService;
 import cn.com.yikangbao.service.wechat.menu.WechatMenuService;
@@ -167,7 +167,7 @@ public class PrivateAdminWechatController {
             one.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(one.getQrCodeUrl()));
         }
 
-        logger.info("channel : {}", channel);
+        logger.info("bdchannel : {}", channel);
         return new ResponseEntity<>(ApiResult.success(channelDTOS), HttpStatus.OK);
     }
 

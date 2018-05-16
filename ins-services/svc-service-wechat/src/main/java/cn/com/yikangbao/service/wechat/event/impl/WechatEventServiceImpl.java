@@ -2,7 +2,7 @@ package cn.com.yikangbao.service.wechat.event.impl;
 
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
-import cn.com.yikangbao.entity.channel.ChannelDTO;
+import cn.com.yikangbao.entity.bdchannel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatBaseEvent;
 import cn.com.yikangbao.entity.wechat.event.WechatMenuClickEvent;
@@ -12,7 +12,7 @@ import cn.com.yikangbao.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
-import cn.com.yikangbao.service.channel.ChannelService;
+import cn.com.yikangbao.service.bdchannel.ChannelService;
 import cn.com.yikangbao.service.event.EventService;
 import cn.com.yikangbao.service.event.EventServiceException;
 import cn.com.yikangbao.service.wechat.event.WechatEventService;
@@ -138,10 +138,10 @@ public class WechatEventServiceImpl implements WechatEventService {
         channel = channelService.findOneByCondition(channel);
 
         if (channel == null) {
-            logger.error("not find this channel qrcode, scene: {}", eventKey);
+            logger.error("not find this bdchannel qrcode, scene: {}", eventKey);
             return;
         }
-        logger.debug("find channel: {}", channel);
+        logger.debug("find bdchannel: {}", channel);
         try {
             if (channel.getSendChannelMessage()) {
                 wechatMessageService.pushChannelsMessage(scanEvent.getFromUserName(), eventKey);
@@ -192,7 +192,7 @@ public class WechatEventServiceImpl implements WechatEventService {
             channel.setScene(eventKey);
             channel = channelService.findOneByCondition(channel);
             if (channel == null) {
-                logger.error("not find this channel qrcode, scene: {}", eventKey);
+                logger.error("not find this bdchannel qrcode, scene: {}", eventKey);
                 return;
             }
             if (channel.getSendSubscribeMessage()) {

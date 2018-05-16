@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>    
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.com.yikangbao.dao.userview.UserViewDAO">
+<mapper namespace="cn.com.yikangbao.dao.userview.BdChannelUserDAO">
 
 	<sql id="sql_where">
 		<where>
@@ -15,33 +15,33 @@
 		</where>
 	</sql>
 
-	<sql id="from_user_view">
-		ykb_user_view wc
+	<sql id="from_bd_channel_user">
+		ykb_bd_channel_user wc
 	</sql>
 
-	<select id="findByConditionPage" resultType="UserViewQM">
+	<select id="findByConditionPage" resultType="BdChannelUserQM">
 		SELECT
 		wc.*
 		FROM
-		<include refid="from_user_view" />
+		<include refid="from_bd_channel_user" />
 		<include refid="sql_where" />
 	    ORDER BY wc.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="UserViewQM">
+	<select id="findOneByCondition" resultType="BdChannelUserQM">
 		SELECT
 		wc.*
 		FROM
-		<include refid="from_user_view" />
+		<include refid="from_bd_channel_user" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="UserViewQM">
+	<select id="findByCondition" resultType="BdChannelUserQM">
 		SELECT
 		wc.*
 		FROM
-		<include refid="from_user_view" />
+		<include refid="from_bd_channel_user" />
 		<include refid="sql_where" />
 		ORDER BY wc.created_date DESC
 	</select>

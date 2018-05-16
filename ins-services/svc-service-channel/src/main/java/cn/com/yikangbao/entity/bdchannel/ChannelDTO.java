@@ -1,4 +1,4 @@
-package cn.com.yikangbao.entity.channel;
+package cn.com.yikangbao.entity.bdchannel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

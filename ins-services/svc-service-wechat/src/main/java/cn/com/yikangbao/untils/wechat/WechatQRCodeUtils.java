@@ -1,6 +1,6 @@
 package cn.com.yikangbao.untils.wechat;
 
-import cn.com.yikangbao.entity.channel.Channel;
+import cn.com.yikangbao.entity.bdchannel.Channel;
 import cn.com.yikangbao.entity.wechat.qrcode.WechatQRCode;
 
 

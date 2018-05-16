@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
  * Created by jeysine on 2018/2/21.
  */
 @Component
-public interface BdChannelUser extends BaseDAO<BdChannelUser, BdChannelUserDTO> {
+public interface BdChannelUserDao extends BaseDAO<BdChannelUserDao, BdChannelUserDTO> {
 }

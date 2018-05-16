@@ -1,11 +1,11 @@
 package cn.com.yikangbao.api.admin.bdChannel;
 
 import cn.com.yikangbao.api.common.ApiResult;
-import cn.com.yikangbao.entity.channel.BdChannel;
-import cn.com.yikangbao.entity.channel.BdChannelDTO;
+import cn.com.yikangbao.entity.bdchannel.BdChannel;
+import cn.com.yikangbao.entity.bdchannel.BdChannelDTO;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.service.aliyun.oss.AliyunContentStorageService;
-import cn.com.yikangbao.service.channel.BdChannelService;
+import cn.com.yikangbao.service.bdchannel.BdChannelService;
 import cn.com.yikangbao.untils.common.AliyunContentStorageUtils;
 import cn.com.yikangbao.utils.common.QRCodeUtil;
 import org.slf4j.Logger;

@@ -155,7 +155,7 @@ public class Order extends Base{
     @JsonProperty("insuranceStartDate")
     private Date insuranceStartDate;
 
-    @JsonProperty("channel")
+    @JsonProperty("bdchannel")
     private String channel;
     /**
      * 保障期限结束时间
@@ -315,7 +315,7 @@ public class Order extends Base{
                 ", userId='" + userId + '\'' +
                 ", status='" + status + '\'' +
                 ", insuranceStartDate=" + insuranceStartDate +
-                ", channel='" + channel + '\'' +
+                ", bdchannel='" + channel + '\'' +
                 ", insuranceEndDate=" + insuranceEndDate +
                 ", policyEffectiveDate=" + policyEffectiveDate +
                 ", policyNumber='" + policyNumber + '\'' +

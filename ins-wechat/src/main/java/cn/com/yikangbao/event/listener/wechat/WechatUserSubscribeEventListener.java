@@ -2,14 +2,13 @@ package cn.com.yikangbao.event.listener.wechat;
 
 import cn.com.yikangbao.contants.wechat.WechatConfigParams;
 import cn.com.yikangbao.contants.wechat.WechatEventConstant;
-import cn.com.yikangbao.entity.channel.ChannelDTO;
 import cn.com.yikangbao.entity.common.Event;
 import cn.com.yikangbao.entity.wechat.event.WechatSubscribeEvent;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.yikangbao.listener.EventListener;
-import cn.com.yikangbao.service.channel.ChannelService;
+import cn.com.yikangbao.service.bdchannel.ChannelService;
 import cn.com.yikangbao.service.wechat.message.WechatMessageService;
 import cn.com.yikangbao.service.wechat.user.WechatUserService;
 import cn.com.yikangbao.service.wechatuser.LocalWechatUserService;
@@ -21,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
