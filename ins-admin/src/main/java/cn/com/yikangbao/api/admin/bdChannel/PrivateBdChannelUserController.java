@@ -40,7 +40,7 @@ public class PrivateBdChannelUserController {
 
         BdChannelUser user = bdChannelUserService.createOrUpdate(bdChannelUser);
 
-        return new ResponseEntity<>(ApiResult.success(bdChannelUser), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResult.success(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

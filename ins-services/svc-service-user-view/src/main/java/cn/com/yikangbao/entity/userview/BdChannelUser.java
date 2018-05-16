@@ -34,6 +34,15 @@ public class BdChannelUser extends Base {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date birthDay;
 
+    @JsonProperty("nick_name")
+    private String nickName;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("gender")
+    private Integer gender;
+
     public String getBdChannelId() {
         return bdChannelId;
     }
