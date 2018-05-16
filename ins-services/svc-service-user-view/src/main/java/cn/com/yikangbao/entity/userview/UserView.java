@@ -23,9 +23,8 @@ public class UserView extends Base {
     @JsonProperty("name")
     private String name;
 
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date birthDay;
+    private Date birthday;
 
     private Integer gender;
 
@@ -42,12 +41,95 @@ public class UserView extends Base {
 
     private String bd;
 
+    private String id;
+
+    private String bdChannelId;
+
+    private String weixinId;
+
+
+    private String updateBy;
+
+    private String createBy;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createDate;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date updateDate;
+
     public String getBd() {
         return bd;
     }
 
     public void setBd(String bd) {
         this.bd = bd;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getBdChannelId() {
+        return bdChannelId;
+    }
+
+    public void setBdChannelId(String bdChannelId) {
+        this.bdChannelId = bdChannelId;
+    }
+
+    public String getWeixinId() {
+        return weixinId;
+    }
+
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getNickName() {
@@ -74,13 +156,6 @@ public class UserView extends Base {
         this.name = name;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
 
     public Integer getGender() {
         return gender;
@@ -137,7 +212,7 @@ public class UserView extends Base {
                 "nickName='" + nickName + '\'' +
                 ", headImgUrl='" + headImgUrl + '\'' +
                 ", name='" + name + '\'' +
-                ", birthDay=" + birthDay +
+                ", birthDay=" + birthday +
                 ", gender=" + gender +
                 ", mobile=" + mobile +
                 ", channels='" + channels + '\'' +
