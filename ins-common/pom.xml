@@ -130,27 +130,8 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>ins</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.com.yikangbao</groupId>
-            <artifactId>ins</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.3.0</version>
-        </dependency>
+
         <!-- project end -->
     </dependencies>
 
