@@ -597,6 +597,9 @@
                 <artifactId>svc-service-channel</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+
         </dependencies>
     </dependencyManagement>
 </project>

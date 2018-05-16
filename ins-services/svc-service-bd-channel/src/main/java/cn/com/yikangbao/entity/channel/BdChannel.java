@@ -28,4 +28,45 @@ public class BdChannel extends Base {
     @JsonProperty("bd")
     private String bd;
 
+    public String getChannels() {
+        return channels;
+    }
+
+    public void setChannels(String channels) {
+        this.channels = channels;
+    }
+
+    public String getChannelsCode() {
+        return channelsCode;
+    }
+
+    public void setChannelsCode(String channelsCode) {
+        this.channelsCode = channelsCode;
+    }
+
+    public String getQrCodeUrl() {
+        return qrCodeUrl;
+    }
+
+    public void setQrCodeUrl(String qrCodeUrl) {
+        this.qrCodeUrl = qrCodeUrl;
+    }
+
+    public String getBd() {
+        return bd;
+    }
+
+    public void setBd(String bd) {
+        this.bd = bd;
+    }
+
+    @Override
+    public String toString() {
+        return "BdChannel{" +
+                "channels='" + channels + '\'' +
+                ", channelsCode='" + channelsCode + '\'' +
+                ", qrCodeUrl='" + qrCodeUrl + '\'' +
+                ", bd='" + bd + '\'' +
+                '}';
+    }
 }

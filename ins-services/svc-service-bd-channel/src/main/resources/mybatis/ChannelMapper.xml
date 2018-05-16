@@ -25,7 +25,7 @@
 	</insert>
 
 	<update id="update" parameterType="BdChannelM">
-		UPDATE ykb_wechat_channel
+		UPDATE ykb_bd_channel
 		<set>
 			<if test="channels != null">
 				channels = #{channels},
@@ -37,10 +37,10 @@
 				updated_by = #{updatedBy},
 			</if>
 
-			<if test="channels_code != null">
-				send_channel_message = #{channelsCode},
+			<if test="channelsCode != null">
+				channels_code = #{channelsCode},
 			</if>
-			<if test="qr_code_url != null">
+			<if test="qrCodeUrl != null">
                 qr_code_url = #{qrCodeUrl},
 			</if>
 			<if test="bd != null">
