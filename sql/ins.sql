@@ -1602,3 +1602,26 @@ ALTER TABLE "public"."ykb_wechat_qr_code" ADD PRIMARY KEY ("id");
 -- Primary Key structure for table ykb_wechat_user
 -- ----------------------------
 ALTER TABLE "public"."ykb_wechat_user" ADD PRIMARY KEY ("id");
+
+
+
+
+
+-- ----------------------------
+-- Table structure for ykb_wechat_qr_code
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."ykb_bd_channel";
+CREATE TABLE "public"."ykb_bd_channel" (
+"id" varchar(100) COLLATE "default" NOT NULL,
+"created_date" timestamp(6),
+"created_by" varchar(100) COLLATE "default",
+"updated_date" timestamp(6),
+"updated_by" varchar(100) COLLATE "default",
+"channels" varchar(255) COLLATE "default",
+"channels_code" varchar(255) COLLATE "default",
+"qr_code_url" varchar(255) COLLATE "default",
+"bd" varchar(255) COLLATE "default"
+)
+WITH (OIDS=FALSE)
+
+;
