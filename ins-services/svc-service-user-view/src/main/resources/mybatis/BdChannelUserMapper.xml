@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.com.yikangbao.dao.userview.BdChannelUserDAO">
 
-	<insert id="create" parameterType="BdChannelM">
+	<insert id="create" parameterType="BdChannelUserM">
 		INSERT INTO
 			ykb_bd_channel (id, created_by, created_date, updated_date, updated_by,
 			bd_channel_id, mobile, weixin_id, order_no, remark,birthday,nick_name,name,gender)
@@ -12,7 +12,7 @@
 	  		, #{bdChannelId},#{mobile}, #{weixinId}, #{orderNo}, #{remark}, #{birthday}, #{nickName}, #{name}, #{gender})
 	</insert>
 
-	<update id="update" parameterType="BdChannelM">
+	<update id="update" parameterType="BdChannelUserM">
 		UPDATE ykb_bd_channel
 		<set>
 			<if test="bdChannelId != null">
