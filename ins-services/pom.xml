@@ -23,6 +23,7 @@
         <module>svc-service-message</module>
         <module>svc-service-channel</module>
         <module>svc-service-province</module>
+        <module>svc-service-bd-channel</module>
     </modules>
 
     <!--<dependencies>
