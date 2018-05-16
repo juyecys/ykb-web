@@ -3,6 +3,58 @@
 
 <mapper namespace="cn.com.yikangbao.dao.userview.BdChannelUserDAO">
 
+	<insert id="create" parameterType="BdChannelM">
+		INSERT INTO
+			ykb_bd_channel (id, created_by, created_date, updated_date, updated_by,
+			bd_channel_id, mobile, weixin_id, order_no, remark,birthday,nick_name,name,gender)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{bdChannelId},#{mobile}, #{weixinId}, #{orderNo}, #{remark}, #{birthday}, #{nickName}, #{name}, #{gender})
+	</insert>
+
+	<update id="update" parameterType="BdChannelM">
+		UPDATE ykb_bd_channel
+		<set>
+			<if test="bdChannelId != null">
+				bd_channel_id = #{bdChannelId},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+
+			<if test="mobile != null">
+				mobile = #{mobile},
+			</if>
+			<if test="weixinId != null">
+				weixin_id = #{weixinId},
+			</if>
+			<if test="orderNo != null">
+				order_no = #{orderNo},
+			</if>
+
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday},
+			</if>
+			<if test="nickName != null">
+				nick_name = #{nickName},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
@@ -10,6 +62,18 @@
 			</if>
 			<if test="channels != null">
 				and wc.channels LIKE '%${channels}%'
+			</if>
+			<if test="bd != null">
+				and wc.bd LIKE '%${bd}%'
+			</if>
+			<if test="nickName != null">
+				and wc.nick_name LIKE '%${nickName}%'
+			</if>
+			<if test="name != null">
+				and wc.name LIKE '%${name}%'
+			</if>
+			<if test="mobile != null">
+				and wc.mobile LIKE '%${mobile}%'
 			</if>
 
 		</where>

@@ -40,6 +40,16 @@ public class UserView extends Base {
 
     private String remark;
 
+    private String bd;
+
+    public String getBd() {
+        return bd;
+    }
+
+    public void setBd(String bd) {
+        this.bd = bd;
+    }
+
     public String getNickName() {
         return nickName;
     }

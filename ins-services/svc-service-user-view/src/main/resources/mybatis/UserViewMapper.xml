@@ -11,6 +11,18 @@
 			<if test="channels != null">
 				and wc.channels LIKE '%${channels}%'
 			</if>
+			<if test="bd != null">
+				and wc.bd LIKE '%${bd}%'
+			</if>
+			<if test="nickName != null">
+				and wc.nick_name LIKE '%${nickName}%'
+			</if>
+			<if test="name != null">
+				and wc.name LIKE '%${name}%'
+			</if>
+			<if test="mobile != null">
+				and wc.mobile LIKE '%${mobile}%'
+			</if>
 
 		</where>
 	</sql>
