@@ -18,10 +18,10 @@
 	<insert id="create" parameterType="BdChannelM">
 		INSERT INTO
 			ykb_bd_channel (id, created_by, created_date, updated_date, updated_by,
-			channels, channels_code, qr_code_url, bd)
+			channels, channels_code, qr_code_url, bd, remark)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{channels},#{channelsCode}, #{qrCodeUrl}, #{bd})
+	  		, #{channels},#{channelsCode}, #{qrCodeUrl}, #{bd}, #{remark})
 	</insert>
 
 	<update id="update" parameterType="BdChannelM">
@@ -45,6 +45,10 @@
 			</if>
 			<if test="bd != null">
 				bd = #{bd},
+			</if>
+
+			<if test="remark != null">
+				remark = #{remark},
 			</if>
 		</set>
 		WHERE id = #{id}

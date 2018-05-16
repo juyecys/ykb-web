@@ -28,6 +28,18 @@ public class BdChannel extends Base {
     @JsonProperty("bd")
     private String bd;
 
+
+    @JsonProperty("remark")
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getChannels() {
         return channels;
     }
@@ -67,6 +79,7 @@ public class BdChannel extends Base {
                 ", channelsCode='" + channelsCode + '\'' +
                 ", qrCodeUrl='" + qrCodeUrl + '\'' +
                 ", bd='" + bd + '\'' +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }
