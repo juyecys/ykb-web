@@ -14,13 +14,11 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BdChannelUser extends Base {
 
-    @JsonProperty("bd_channel_id")
     private String bdChannelId;
 
     @JsonProperty("mobile")
     private String mobile;
 
-    @JsonProperty("weixin_id")
     private String weixinId;
 
 
