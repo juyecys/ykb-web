@@ -104,7 +104,7 @@ public class PrivateBdChannelUserController {
         String channel = bdChannel == null ? "" : bdChannel.getChannels();
         String head = "试管婴儿保险分销--投保意向";
         String content = "<p>微信昵称：" + nickName + "<p/>" +
-                "<img src=" + headImg + "/>" +
+                "<img src=\"" + headImg + "\"/>" +
                 "<p>出生日期：" + sdf.format(birthday) + "</p>" +
                 "<p>性别：" + realGender + "</p>" +
                 "<p>手机号：" + mobile + "</p>" +
