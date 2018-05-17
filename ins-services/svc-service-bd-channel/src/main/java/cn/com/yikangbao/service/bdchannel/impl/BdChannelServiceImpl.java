@@ -18,4 +18,10 @@ public class BdChannelServiceImpl extends BaseServiceImpl<BdChannel, BdChannelDT
         this.dao = dao;
         super.setDAO(dao);
     }
+
+
+    @Override
+    public String getIdByCode(String channelsCode) {
+        return dao.getIdByCode(channelsCode);
+    }
 }

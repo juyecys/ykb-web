@@ -73,6 +73,14 @@
 	    ORDER BY wc.created_date DESC
 	</select>
 
+	<select id="getIdByCode" resultType="String">
+		SELECT
+		wc.id
+		FROM
+		ykb_bd_channel wc
+		where channels_code=#{channelsCode}
+	</select>
+
 	<select id="findOneByCondition" resultType="BdChannelQM">
 		SELECT
 		wc.*

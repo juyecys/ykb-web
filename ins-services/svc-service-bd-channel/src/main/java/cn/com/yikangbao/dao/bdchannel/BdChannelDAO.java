@@ -10,4 +10,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface BdChannelDAO extends BaseDAO<BdChannel, BdChannelDTO> {
+
+    String getIdByCode(String channelsCode);
 }

@@ -33,6 +33,25 @@
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-activity</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-user-view</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-user-view</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.com.yikangbao</groupId>
+            <artifactId>svc-service-bd-channel</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>cn.com.yikangbao</groupId>
             <artifactId>svc-service-activity</artifactId>
