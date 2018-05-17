@@ -10,4 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface BdChannelUserDAO extends BaseDAO<BdChannelUser, BdChannelUserDTO> {
+
+    Integer exists(String phone);
+
+    Integer existsUserId(String userId);
 }

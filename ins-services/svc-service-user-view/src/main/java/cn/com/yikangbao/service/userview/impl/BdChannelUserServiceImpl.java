@@ -18,4 +18,14 @@ public class BdChannelUserServiceImpl extends BaseServiceImpl<BdChannelUser, BdC
         this.dao = dao;
         super.setDAO(dao);
     }
+
+    @Override
+    public Integer exists(String phone) {
+        return dao.exists(phone);
+    }
+
+    @Override
+    public Integer existsUserId(String userId) {
+        return dao.existsUserId(userId);
+    }
 }

@@ -61,6 +61,15 @@ public class PrivateBdChannelUserController {
         String nick_name = WechatContextHolder.getNickName();
         user.setWeixinId(weixinId);
         user.setNickName(nick_name);
+
+        if (bdChannelUserService.exists(user.getMobile()) > 0) {
+            return new ResponseEntity<>(ApiResult.error(4001, "手機號重複"), HttpStatus.OK);
+        }
+
+        if (weixinId != null && weixinId.length() > 0 && bdChannelUserService.existsUserId(weixinId) > 0) {
+            return new ResponseEntity<>(ApiResult.error(4001, "手機號重複"), HttpStatus.OK);
+        }
+
         bdChannelUserService.createOrUpdate(user);
 
         //发送email
@@ -85,7 +94,7 @@ public class PrivateBdChannelUserController {
         int gender = user.getGender();
         String realGender = gender == 0 ? "保密" : gender == 1 ? "男" : "女";
         String mobile = user.getMobile();
-        String channel = bdChannel == null ? "" : bdChannel.getChannelsCode();
+        String channel = bdChannel == null ? "" : bdChannel.getChannels();
         String head = "试管婴儿保险分销--投保意向";
         String content = "<p>微信昵称：" + nickName + "<p/>" +
                 "<img src=" + headImg + "/>" +

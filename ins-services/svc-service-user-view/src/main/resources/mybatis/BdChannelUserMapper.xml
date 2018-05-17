@@ -109,6 +109,22 @@
 		<include refid="sql_where" />
 		ORDER BY wc.created_date DESC
 	</select>
+
+	<select id="exists" resultType="Integer">
+		SELECT
+		count(1) as cnt
+		FROM
+		<include refid="from_bd_channel_user" />
+		WHERE mobile=#{mobile} and (now() - created_date) &lt;= interval '10 minute'
+	</select>
+
+	<select id="existsUserId" resultType="Integer">
+		SELECT
+		count(1) as cnt
+		FROM
+		<include refid="from_bd_channel_user" />
+		WHERE weixin_id=#{userId} and (now() - created_date) &lt;= interval '10 minute'
+	</select>
 </mapper>
 
 

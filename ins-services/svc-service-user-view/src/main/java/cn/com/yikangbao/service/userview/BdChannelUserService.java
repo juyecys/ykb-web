@@ -5,4 +5,7 @@ import cn.com.yikangbao.entity.userview.BdChannelUserDTO;
 import cn.com.yikangbao.service.common.BaseService;
 
 public interface BdChannelUserService extends BaseService<BdChannelUser, BdChannelUserDTO> {
+    Integer exists(String phone);
+
+    Integer existsUserId(String userId);
 }
