@@ -1,6 +1,7 @@
 package cn.com.yikangbao.api.admin.bdChannel;
 
 import cn.com.yikangbao.api.common.ApiResult;
+import cn.com.yikangbao.entity.bdchannel.BdChannel;
 import cn.com.yikangbao.entity.common.Page;
 import cn.com.yikangbao.entity.userview.BdChannelUser;
 import cn.com.yikangbao.entity.userview.UserViewDTO;
@@ -36,9 +37,15 @@ public class PrivateBdChannelUserController {
     private static final Logger logger = LoggerFactory.getLogger(PrivateBdChannelUserController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody BdChannelUser bdChannelUser) throws Exception {
+    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody BdChannelUser user) throws Exception {
 
-        BdChannelUser user = bdChannelUserService.createOrUpdate(bdChannelUser);
+        BdChannel bdChannel = bdChannelService.getBdChannelByCode(user.getBdChannelId());
+
+        if (bdChannel != null) {
+            user.setBdChannelId(bdChannelService.getIdByCode(bdChannel.getId()));
+        }
+
+        bdChannelUserService.createOrUpdate(user);
 
         return new ResponseEntity<>(ApiResult.success(user), HttpStatus.OK);
     }
