@@ -61,12 +61,19 @@ public class PrivateBdChannelUserController {
         String nick_name = WechatContextHolder.getNickName();
         user.setWeixinId(weixinId);
         user.setNickName(nick_name);
+        logger.info("weixin:" + weixinId);
+        logger.info("nick_name:" + nick_name);
+        logger.info("getMobile:" + user.getMobile());
+
 
         if (bdChannelUserService.exists(user.getMobile()) > 0) {
+            logger.info("bdChannelUserService.exists(user.getMobile()");
             return new ResponseEntity<>(new ApiResult(4001, "十分钟内不能重复提交", "手機號重複"), HttpStatus.OK);
         }
 
+
         if (weixinId != null && weixinId.length() > 0 && bdChannelUserService.existsUserId(weixinId) > 0) {
+            logger.info("bdChannelUserService.existsUserId(weixinId) ");
             return new ResponseEntity<>(new ApiResult(4001, "十分钟内不能重复提交", "手機號重複"), HttpStatus.OK);
         }
 
