@@ -19,4 +19,8 @@ public class ActivityServiceImpl extends BaseServiceImpl<Activity, ActivityDTO> 
         this.dao = dao;
         super.setDAO(dao);
     }
+
+    public Activity selectByName(String name){
+        return dao.selectByName(name);
+    }
 }

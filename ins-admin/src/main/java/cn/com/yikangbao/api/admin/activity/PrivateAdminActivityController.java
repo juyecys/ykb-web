@@ -30,7 +30,10 @@ public class PrivateAdminActivityController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody Activity activity) throws Exception {
+        Activity temp = activityService.selectByName(activity.getName());
 
+        if (temp != null)
+            activity.setId(temp.getId());
         activityService.createOrUpdate(activity);
         return new ResponseEntity<>(ApiResult.success(activity), HttpStatus.OK);
     }

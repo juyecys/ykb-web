@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface ActivityDAO extends BaseDAO<Activity, ActivityDTO> {
+    Activity selectByName(String name);
 }

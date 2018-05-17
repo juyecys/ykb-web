@@ -68,6 +68,14 @@
 		ykb_activity wc
 	</sql>
 
+	<select id="selectByName" resultType="Activity">
+		SELECT
+		wc.*
+		FROM
+		ykb_activity wc
+		where name= #{name}
+	</select>
+
 	<select id="findByConditionPage" resultType="ActivityDTO">
 		SELECT
 		wc.*
