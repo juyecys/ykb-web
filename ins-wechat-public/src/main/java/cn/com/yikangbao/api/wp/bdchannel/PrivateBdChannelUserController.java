@@ -53,7 +53,9 @@ public class PrivateBdChannelUserController {
 
         BdChannel bdChannel = bdChannelService.getBdChannelByCode(user.getBdChannelId());
 
-        user.setBdChannelId(bdChannelService.getIdByCode(bdChannel.getId()));
+        if (bdChannel != null) {
+            user.setBdChannelId(bdChannelService.getIdByCode(bdChannel.getId()));
+        }
 
         String weixinId = WechatContextHolder.getOpenId();
         String nick_name = WechatContextHolder.getNickName();
@@ -83,7 +85,7 @@ public class PrivateBdChannelUserController {
         int gender = user.getGender();
         String realGender = gender == 0 ? "保密" : gender == 1 ? "男" : "女";
         String mobile = user.getMobile();
-        String channel = bdChannel.getChannelsCode();
+        String channel = bdChannel == null ? "" : bdChannel.getChannelsCode();
         String head = "试管婴儿保险分销--投保意向";
         String content = "<p>微信昵称：" + nickName + "<p/>" +
                 "<img src=" + headImg + "/>" +
