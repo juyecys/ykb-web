@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.yikangbao.dao.activity.ActivityDAO">
+
+	<insert id="create" parameterType="Activity">
+		INSERT INTO
+			ykb_activity (id, created_by, created_date, updated_date, updated_by,
+			name, banners, imgs, kefu, email,ex)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{name},#{banners}, #{imgs}, #{kefu}, #{email},#{ex})
+	</insert>
+
+	<update id="update" parameterType="Activity">
+		UPDATE ykb_activity
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+
+			<if test="banners != null">
+				banners = #{banners},
+			</if>
+			<if test="imgs != null">
+				imgs = #{imgs},
+			</if>
+			<if test="kefu != null">
+				kefu = #{kefu},
+			</if>
+
+			<if test="email != null">
+				email = #{email},
+			</if>
+
+			<if test="ex != null">
+				ex = #{ex},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wc.id = #{id}
+			</if>
+			<if test="name != null">
+				and wc.name LIKE '%${name}%'
+			</if>
+			<if test="banners != null">
+				and wc.banners LIKE '%${banners}%'
+			</if>
+			<if test="email != null">
+				and wc.email LIKE '%${email}%'
+			</if>
+
+		</where>
+	</sql>
+
+	<sql id="from_bd_channel">
+		ykb_activity wc
+	</sql>
+
+	<select id="findByConditionPage" resultType="ActivityDTO">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+	    ORDER BY wc.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="ActivityDTO">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="ActivityDTO">
+		SELECT
+		wc.*
+		FROM
+		<include refid="from_bd_channel" />
+		<include refid="sql_where" />
+		ORDER BY wc.created_date DESC
+	</select>
+</mapper>
+

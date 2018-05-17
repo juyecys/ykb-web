@@ -3,83 +3,81 @@ package cn.com.yikangbao.entity.activity;
 import cn.com.yikangbao.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.ibatis.type.Alias;
 
-@Alias("BdChannelM")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Activity extends Base {
-    /**
-     * 推广渠道
-     */
-    @JsonProperty("channels")
-    private String channels;
 
-    @JsonProperty("channels_code")
-    private String channelsCode;
-    /**
-     * 二维码地址
-     */
-    @JsonProperty("qr_code_url")
-    private String qrCodeUrl;
+    private String name;
 
+    private String banners;
 
-    @JsonProperty("bd")
-    private String bd;
+    private String imgs;
 
+    private String kefu;
 
-    @JsonProperty("remark")
-    private String remark;
+    private String email;
 
-    public String getRemark() {
-        return remark;
+    private String ex;
+
+    public String getName() {
+        return name;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getChannels() {
-        return channels;
+    public String getBanners() {
+        return banners;
     }
 
-    public void setChannels(String channels) {
-        this.channels = channels;
+    public void setBanners(String banners) {
+        this.banners = banners;
     }
 
-    public String getChannelsCode() {
-        return channelsCode;
+    public String getImgs() {
+        return imgs;
     }
 
-    public void setChannelsCode(String channelsCode) {
-        this.channelsCode = channelsCode;
+    public void setImgs(String imgs) {
+        this.imgs = imgs;
     }
 
-    public String getQrCodeUrl() {
-        return qrCodeUrl;
+    public String getKefu() {
+        return kefu;
     }
 
-    public void setQrCodeUrl(String qrCodeUrl) {
-        this.qrCodeUrl = qrCodeUrl;
+    public void setKefu(String kefu) {
+        this.kefu = kefu;
     }
 
-    public String getBd() {
-        return bd;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBd(String bd) {
-        this.bd = bd;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getEx() {
+        return ex;
+    }
+
+    public void setEx(String ex) {
+        this.ex = ex;
+    }
+
 
     @Override
     public String toString() {
-        return "BdChannel{" +
-                "channels='" + channels + '\'' +
-                ", channelsCode='" + channelsCode + '\'' +
-                ", qrCodeUrl='" + qrCodeUrl + '\'' +
-                ", bd='" + bd + '\'' +
-                ", remark='" + remark + '\'' +
+        return "Activity{" +
+                "name='" + name + '\'' +
+                ", banners='" + banners + '\'' +
+                ", imgs='" + imgs + '\'' +
+                ", kefu='" + kefu + '\'' +
+                ", email='" + email + '\'' +
+                ", ex='" + ex + '\'' +
                 '}';
     }
 }
