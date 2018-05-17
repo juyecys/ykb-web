@@ -1,7 +1,6 @@
 package cn.com.yikangbao.api.wp.login;
 
 import cn.com.yikangbao.contants.wp.WechatPublicContants;
-import cn.com.yikangbao.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.yikangbao.entity.wechat.auth.WechatAuthAccessToken;
 import cn.com.yikangbao.entity.wechat.user.WechatUser;
 import cn.com.yikangbao.entity.wechatuser.LocalWechatUser;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Enumeration;
 
 /**
@@ -48,7 +46,17 @@ public class PublicWPLoginController {
         // 其它的参数应该作为目标url的参数
 
         // 避免vue框架处理url, 把#/加到url末尾
-        nextYkbUrl.append("#/");
+        String[] arr = nextYkbUrl.toString().split("ssss");
+
+
+        if (arr.length > 2) {
+            nextYkbUrl = new StringBuilder();
+            nextYkbUrl.append(arr[0]).append("#/").append(arr[1]).append("/").append(arr[2]);
+            logger.info("nextYkbUrl: {}", nextYkbUrl.toString());
+        } else {
+            nextYkbUrl.append("#/");
+        }
+
 
         Enumeration<String> parameters = request.getParameterNames();
         String paramJoinTag = "?";
