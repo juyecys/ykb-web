@@ -63,11 +63,11 @@ public class PrivateBdChannelUserController {
         user.setNickName(nick_name);
 
         if (bdChannelUserService.exists(user.getMobile()) > 0) {
-            return new ResponseEntity<>(ApiResult.error(4001, "手機號重複"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResult(4001, "十分钟内不能重复提交", "手機號重複"), HttpStatus.OK);
         }
 
         if (weixinId != null && weixinId.length() > 0 && bdChannelUserService.existsUserId(weixinId) > 0) {
-            return new ResponseEntity<>(ApiResult.error(4001, "手機號重複"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResult(4001, "十分钟内不能重复提交", "手機號重複"), HttpStatus.OK);
         }
 
         bdChannelUserService.createOrUpdate(user);
