@@ -24,4 +24,11 @@ public class BdChannelServiceImpl extends BaseServiceImpl<BdChannel, BdChannelDT
     public String getIdByCode(String channelsCode) {
         return dao.getIdByCode(channelsCode);
     }
+
+    @Override
+    public BdChannel getBdChannelByCode(String channelsCode) {
+        return dao.getBdChannelByCode(channelsCode);
+    }
+
+
 }

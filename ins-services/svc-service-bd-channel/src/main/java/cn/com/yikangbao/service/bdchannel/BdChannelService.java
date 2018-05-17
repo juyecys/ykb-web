@@ -7,4 +7,6 @@ import cn.com.yikangbao.service.common.BaseService;
 public interface BdChannelService extends BaseService<BdChannel, BdChannelDTO> {
 
     public String getIdByCode(String channelsCode);
+
+    public BdChannel getBdChannelByCode(String channelsCode);
 }

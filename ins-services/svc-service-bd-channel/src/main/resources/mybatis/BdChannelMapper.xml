@@ -81,6 +81,14 @@
 		where channels_code=#{channelsCode}
 	</select>
 
+	<select id="getBdChannelByCode" resultType="BdChannelM">
+		SELECT
+		wc.*
+		FROM
+		ykb_bd_channel wc
+		where channels_code=#{channelsCode}
+	</select>
+
 	<select id="findOneByCondition" resultType="BdChannelQM">
 		SELECT
 		wc.*
