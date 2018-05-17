@@ -18,7 +18,7 @@ public class BdChannelUser extends Base {
     private String bdChannelId;
 
     @JsonProperty("mobile")
-    private Integer mobile;
+    private String mobile;
 
     @JsonProperty("weixin_id")
     private String weixinId;
@@ -51,11 +51,11 @@ public class BdChannelUser extends Base {
         this.bdChannelId = bdChannelId;
     }
 
-    public Integer getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(Integer mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 

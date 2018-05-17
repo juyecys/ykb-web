@@ -28,7 +28,7 @@ public class UserView extends Base {
 
     private Integer gender;
 
-    private Integer mobile;
+    private String mobile;
 
     private String channels;
 
@@ -165,11 +165,11 @@ public class UserView extends Base {
         this.gender = gender;
     }
 
-    public Integer getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(Integer mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 

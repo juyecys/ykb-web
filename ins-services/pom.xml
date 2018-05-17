@@ -25,6 +25,7 @@
         <module>svc-service-channel</module>
         <module>svc-service-province</module>
         <module>svc-service-bd-channel</module>
+        <module>svc-service-activity</module>
     </modules>
 
     <!--<dependencies>
