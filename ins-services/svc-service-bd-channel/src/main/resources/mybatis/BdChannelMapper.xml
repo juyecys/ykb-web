@@ -79,6 +79,7 @@
 		FROM
 		ykb_bd_channel wc
 		where channels_code=#{channelsCode}
+		LIMIT 1
 	</select>
 
 	<select id="getBdChannelByCode" resultType="BdChannelM">
@@ -87,6 +88,7 @@
 		FROM
 		ykb_bd_channel wc
 		where channels_code=#{channelsCode}
+		LIMIT 1
 	</select>
 
 	<select id="findOneByCondition" resultType="BdChannelQM">
