@@ -5,7 +5,7 @@
 
 	<insert id="create" parameterType="BdChannelUserM">
 		INSERT INTO
-			ykb_bd_channel (id, created_by, created_date, updated_date, updated_by,
+			ykb_bd_channel_user (id, created_by, created_date, updated_date, updated_by,
 			bd_channel_id, mobile, weixin_id, order_no, remark,birthday,nick_name,name,gender)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
@@ -13,7 +13,7 @@
 	</insert>
 
 	<update id="update" parameterType="BdChannelUserM">
-		UPDATE ykb_bd_channel
+		UPDATE ykb_bd_channel_user
 		<set>
 			<if test="bdChannelId != null">
 				bd_channel_id = #{bdChannelId},

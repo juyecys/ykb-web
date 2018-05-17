@@ -18,7 +18,7 @@ public class BdChannelUser extends Base {
     private String bdChannelId;
 
     @JsonProperty("mobile")
-    private String mobile;
+    private Integer mobile;
 
     @JsonProperty("weixin_id")
     private String weixinId;
@@ -32,7 +32,7 @@ public class BdChannelUser extends Base {
     private String remark;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date birthDay;
+    private Date birthday;
 
     @JsonProperty("nick_name")
     private String nickName;
@@ -51,11 +51,11 @@ public class BdChannelUser extends Base {
         this.bdChannelId = bdChannelId;
     }
 
-    public String getMobile() {
+    public Integer getMobile() {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile(Integer mobile) {
         this.mobile = mobile;
     }
 
@@ -83,12 +83,12 @@ public class BdChannelUser extends Base {
         this.remark = remark;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
 
@@ -100,7 +100,7 @@ public class BdChannelUser extends Base {
                 ", weixinId='" + weixinId + '\'' +
                 ", orderNo='" + orderNo + '\'' +
                 ", remark='" + remark + '\'' +
-                ", birthDay=" + birthDay +
+                ", birthDay=" + birthday +
                 '}';
     }
 }
