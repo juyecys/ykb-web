@@ -51,10 +51,10 @@
 				and wc.channels LIKE '%${channels}%'
 			</if>
 			<if test="channelsCode != null">
-				and wc.channels LIKE '%${channels_code}%'
+				and wc.channnels_code LIKE '%${channelsCode}%'
 			</if>
 			<if test="bd != null">
-				and wc.channels LIKE '%${bd}%'
+				and wc.bd LIKE '%${bd}%'
 			</if>
 
 		</where>
