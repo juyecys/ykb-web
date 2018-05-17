@@ -57,7 +57,7 @@ public class PrivateBdChannelUserController {
             user.setBdChannelId(bdChannelService.getIdByCode(bdChannel.getId()));
         }
 
-        String weixinId = WechatContextHolder.getOpenId();
+        String weixinId = WechatContextHolder.getUserId() == null ? null : WechatContextHolder.getUserId().toString();
         String nick_name = WechatContextHolder.getNickName();
         user.setWeixinId(weixinId);
         user.setNickName(nick_name);
