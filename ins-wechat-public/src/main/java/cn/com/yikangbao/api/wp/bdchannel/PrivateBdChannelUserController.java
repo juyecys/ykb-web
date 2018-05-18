@@ -102,6 +102,7 @@ public class PrivateBdChannelUserController {
         String realGender = gender == 0 ? "保密" : gender == 1 ? "男" : "女";
         String mobile = user.getMobile();
         String channel = bdChannel == null ? "" : bdChannel.getChannels();
+        String bd = bdChannel == null ? "" : bdChannel.getBd();
         String head = "试管婴儿保险分销--投保意向";
         String content = "<p>微信昵称：" + nickName + "<p/>" +
                 "<img src=\"" + headImg + "\"/>" +
@@ -109,6 +110,7 @@ public class PrivateBdChannelUserController {
                 "<p>性别：" + realGender + "</p>" +
                 "<p>手机号：" + mobile + "</p>" +
                 "<p>渠道：" + channel + "</p>" +
+                "<p>BD：" + bd + "</p>" +
                 "<p>提交资料时间：" + sdf.format(time) + "</p>";
 
         util.doSendHtmlEmail(head, content, receiveList);
