@@ -54,7 +54,7 @@ public class PrivateBdChannelUserController {
         BdChannel bdChannel = bdChannelService.getBdChannelByCode(user.getBdChannelId());
 
         if (bdChannel != null) {
-            user.setBdChannelId(bdChannelService.getIdByCode(bdChannel.getId()));
+            user.setBdChannelId(bdChannel.getId());
         } else {
             user.setBdChannelId("");
         }
