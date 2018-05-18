@@ -33,7 +33,7 @@ public class PrivateAdminBdChannelController {
     private static final Logger logger = LoggerFactory.getLogger(PrivateAdminBdChannelController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody BdChannel bdChannel) {
+    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody BdChannel bdChannel) throws Exception {
 
         String url = bdChannel.getQrCodeUrl();
 
@@ -43,16 +43,19 @@ public class PrivateAdminBdChannelController {
         }
         savePath = savePath + bdChannel.getChannelsCode() + "_" + System.currentTimeMillis() + ".jpg";
 
-        try {
+        if(bdChannel.getId()==null || bdChannel.getId().length() == 0) {
+            if (bdChannelService.getBdChannelByCode(bdChannel.getChannelsCode()) != null) {
+                return new ResponseEntity<>(new ApiResult(6001, "已经存在相同的编码了！", bdChannel), HttpStatus.OK);
+            }
+
             aliyunContentStorageService.store(savePath, QRCodeUtil.EncodeUrlToInputStream(url), "image/jpg");
-            if(bdChannel.getId()==null)
-                bdChannel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(savePath));
-            bdChannel = bdChannelService.createOrUpdate(bdChannel);
-
-
-        } catch (Exception e) {
-            logger.debug("error: {}", e);
+            bdChannel.setQrCodeUrl(AliyunContentStorageUtils.getFullAccessUrlForKey(savePath));
+        } else {
+            bdChannel.setChannelsCode(null);
+            bdChannel.setQrCodeUrl(null);
         }
+        bdChannel = bdChannelService.createOrUpdate(bdChannel);
+
         return new ResponseEntity<>(ApiResult.success(bdChannel), HttpStatus.OK);
     }
 
