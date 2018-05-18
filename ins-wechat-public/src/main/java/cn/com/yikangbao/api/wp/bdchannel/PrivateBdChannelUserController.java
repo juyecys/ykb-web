@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -98,7 +99,7 @@ public class PrivateBdChannelUserController {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:SS");
         Date time = user.getUpdatedDate();
-        SendmailUtil util = new SendmailUtil();
+
         Date birthday = user.getBirthday();
         int gender = user.getGender();
         String realGender = gender == 0 ? "保密" : gender == 1 ? "男" : "女";
@@ -116,7 +117,15 @@ public class PrivateBdChannelUserController {
                 "<p>BD：" + bd + "</p>" +
                 "<p>提交资料时间：" + sdf.format(time) + "</p>";
 
-        util.doSendHtmlEmail(head, content, receiveList);
+        new Thread(() -> {
+            try {
+                SendmailUtil util = new SendmailUtil();
+                util.doSendHtmlEmail(head, content, receiveList);
+            } catch (MessagingException e) {
+                logger.info("", e);
+            }
+
+        }).run();
         return new ResponseEntity<>(ApiResult.success(user), HttpStatus.OK);
     }
 
