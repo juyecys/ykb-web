@@ -97,7 +97,7 @@ public class PrivateBdChannelUserController {
             }
 
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:SS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
         Date time = user.getUpdatedDate();
 
         Date birthday = user.getBirthday();
