@@ -98,6 +98,7 @@ public class PrivateBdChannelUserController {
 
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         Date time = user.getUpdatedDate();
 
         Date birthday = user.getBirthday();
@@ -115,7 +116,7 @@ public class PrivateBdChannelUserController {
                 "<p>手机号：" + mobile + "</p>" +
                 "<p>渠道：" + channel + "</p>" +
                 "<p>BD：" + bd + "</p>" +
-                "<p>提交资料时间：" + sdf.format(time) + "</p>";
+                "<p>提交资料时间：" + sdf1.format(time) + "</p>";
 
         new Thread(() -> {
             try {
